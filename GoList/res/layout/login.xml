@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@layout/gradient1"
+    tools:context=".Login" >
+
+    <LinearLayout
+        android:id="@+id/ll5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="#20000000"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="0.97"
+            android:text="Login"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_margin="10dip"
+            android:textSize="37sp" />
+
+    </LinearLayout>
+    
+    <EditText
+        android:id="@+id/editText1"
+        android:maxLength="50"
+        android:textCursorDrawable="@drawable/cursor"
+        android:layout_margin="15dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/editTextLoginStyle"
+        android:background="#FFFFFF"
+        android:hint="Name"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editText2"
+        android:maxLength="20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textCursorDrawable="@drawable/cursor"
+        android:layout_margin="15dip"
+        style="@style/editTextLoginStyle"
+        android:background="#FFFFFF"
+        android:hint="Passwort"
+        android:inputType="textPassword" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_margin="5dip"
+        android:textColor="#FFFFFF"
+        android:text="Anmeldedaten speichern" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        style="@style/btnStyleOrange"
+        android:text="Login"/>
+
+</LinearLayout>
