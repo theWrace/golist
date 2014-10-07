@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@layout/gradient1"
-    tools:context=".Login" >
+    tools:context=".LoginActivity" >
 
     <LinearLayout
         android:id="@+id/ll5"
@@ -25,6 +25,18 @@
             android:textColor="#FFFFFF"
             android:layout_margin="10dip"
             android:textSize="37sp" />
+        
+        <ProgressBar
+            android:id="@+id/progressBarRegister"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:indeterminateDrawable="@drawable/progressbar3"
+            android:interpolator="@android:anim/linear_interpolator"
+            android:minHeight="48dp"
+            android:progressDrawable="@drawable/progressbar3" />
 
     </LinearLayout>
     

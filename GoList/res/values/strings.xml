@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">GoList</string>
@@ -10,5 +9,6 @@
     <string name="newacc">Create New Account</string>
     <string name="register">Register</string>
     <string name="repeatpassword">Repeat Password</string>
+    <string name="url">http://golist.cwsurf.de/</string>
 
 </resources>
