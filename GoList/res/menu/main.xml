@@ -4,8 +4,8 @@
     tools:context="da.se.golist.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/logout"
         android:orderInCategory="100"
-        android:title="@string/action_settings"/>
+        android:title="Logout"/>
 
 </menu>
