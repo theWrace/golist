@@ -1,33 +1,22 @@
 package da.se.golist.objects;
 
-public class Article {
-	
-	private String name, beschreibung, menge;
 
-	public String getName() {
-		return name;
-	}
+public class Article extends GoListObject{	
 
-	public void setName(String name) {
+	private String amount;
+		
+	public Article(String name, String description, String amount) {
 		this.name = name;
-	}
-
-	public String getBeschreibung() {
-		return beschreibung;
-	}
-
-	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
+		this.description = description;
+		this.amount = amount;
 	}
 
 	public String getMenge() {
-		return menge;
+		return amount;
 	}
 
 	public void setMenge(String menge) {
-		this.menge = menge;
+		this.amount = menge;
 	}
-	
-	
 
 }

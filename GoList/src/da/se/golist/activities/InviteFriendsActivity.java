@@ -1,15 +1,12 @@
 package da.se.golist.activities;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +19,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
-import da.se.golist.objects.JSONParser;
+import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.User;
 
-public class InviteFriendsActivity extends Activity{
+public class InviteFriendsActivity extends DataLoader{
 	
-	private ProgressBar progressBar;
-	private ArrayList<User> user = new ArrayList<User>();
+	private ArrayList<GoListObject> user = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
 	private boolean isLoading = false;
 	private ScaleAnimation blinkanimation;
@@ -63,7 +59,10 @@ public class InviteFriendsActivity extends Activity{
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
-				//TODO: user anzeigen
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("user",user.get(position).getName());
+				setResult(RESULT_OK,returnIntent);
+				finish();
 			}
 
 		});
@@ -76,49 +75,44 @@ public class InviteFriendsActivity extends Activity{
 	private void update(){
 		if(!isLoading){
 			progressBar.startAnimation(blinkanimation);
-			new LoadUserTask().execute();
+			new LoadDataTask(new String[]{},new String[]{}, "loadusers.php").execute();			
 		}
 	}
 	
-	private class LoadUserTask extends AsyncTask<String, String, String> {
+	@Override
+	protected void preExcecute() {
+		isLoading = true;
+		progressBar.setIndeterminate(true);
+	}
+	
+	@Override
+	protected void postExcecute(JSONObject json) {
+		JSONArray userArray;
+		try {
+			userArray = json.getJSONArray("users");
 		
-		public LoadUserTask(){
-			isLoading = true;
-			progressBar.setIndeterminate(true);
-		}
-
-		@Override
-		protected String doInBackground(String... args) {			
-			try {
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				
-				JSONParser jsonParser = new JSONParser();
-				
-				JSONObject json = jsonParser.makeHttpRequest(getString(R.string.url) + "loadusers.php", "POST", params);			
-				
-				JSONArray userArray = json.getJSONArray("users");
-				System.out.println(userArray.length()+"");
-				
-				user.clear();
-				for (int i = 0; i < userArray.length(); i++) {
+			System.out.println(userArray.length()+"");
+			
+			user.clear();
+			for (int i = 0; i < userArray.length(); i++) {
+				boolean contains = false;
+				for(String name : InviteFriendsActivity.this.getIntent().getExtras().getStringArray("names")){
+					if(name.equalsIgnoreCase(userArray.getString(i))){
+						contains = true;
+						break;
+					}
+				}
+				if(!contains){
 					user.add(new User(userArray.getString(i)));
-				}			
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+				}
 			}
-
-			return null; 
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-
-		@Override
-		protected void onPostExecute(String file_url) {
-			progressBar.setIndeterminate(false);
-			listAdapter.updateMails(user);
-			isLoading = false;
-		}
-
+		
+		progressBar.setIndeterminate(false);
+		listAdapter.notifyDataSetChanged();
+		isLoading = false;
 	}
 
 }

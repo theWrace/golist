@@ -1,14 +1,12 @@
 package da.se.golist.activities;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.app.Activity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,15 +22,17 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.adapters.MyListsAdapter;
+import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.ShoppingList;
-import da.se.golist.objects.Base64Coder;
 
-public class MyListsActivity extends Activity{
+public class MyListsActivity extends DataLoader{
 	
-	private ProgressBar progressBar;
-	private ArrayList<ShoppingList> myLists = new ArrayList<ShoppingList>();
+	private ArrayList<GoListObject> myLists = new ArrayList<GoListObject>();
+	private boolean isLoading = false;
+	private MyListsAdapter listAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,8 @@ public class MyListsActivity extends Activity{
 			}
 		});
 		
-		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		progressBar.setIndeterminate(true);
+		progressBar = (ProgressBar) findViewById(R.id.progressBarLists);
+		progressBar.setIndeterminate(false);
 		
 		final ScaleAnimation blinkanimation= new ScaleAnimation(progressBar.getScaleX(), progressBar.getScaleX()/2, progressBar.getScaleY(), progressBar.getScaleY()/2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f); // Change alpha from fully visible to invisible
 		blinkanimation.setDuration(150); // duration - half a second
@@ -64,8 +64,10 @@ public class MyListsActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				progressBar.startAnimation(blinkanimation);
-				//TODO: aktualisieren
+				if(!isLoading){
+					progressBar.startAnimation(blinkanimation);
+					new LoadDataTask(new String[]{"name"},new String[]{LoginActivity.NAME}, "loadlists.php").execute();
+				}
 			}
 		});
 		
@@ -77,30 +79,23 @@ public class MyListsActivity extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
 				//TODO: liste anzeigen
+				Intent intent = new Intent(MyListsActivity.this, ListActivity.class);
+				intent.putExtra("id", ((ShoppingList) myLists.get(position)).getID());
+				startActivity(intent);
 			}
 
 		});
-		myListsView.setAdapter(new MyListsAdapter(this, myLists));
+		listAdapter = new MyListsAdapter(this, myLists);
+		myListsView.setAdapter(listAdapter);
 		
 	}
 	
-	 /** Read the object from Base64 string. */
-	   private static Object fromString( String s ) throws IOException , ClassNotFoundException {
-	        byte [] data = Base64Coder.decode( s );
-	        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
-	        Object o  = ois.readObject();
-	        ois.close();
-	        return o;
-	   }
-
-	    /** Write the object to a Base64 string. */
-	    private static String toString( Serializable o ) throws IOException {
-	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	        ObjectOutputStream oos = new ObjectOutputStream( baos );
-	        oos.writeObject( o );
-	        oos.close();
-	        return new String( Base64Coder.encode( baos.toByteArray() ) );
-	    }
+	@Override
+	protected void onStart() {
+		new LoadDataTask(new String[]{"name"},new String[]{LoginActivity.NAME}, "loadlists.php").execute();
+		super.onStart();
+	}
+	 
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -121,5 +116,39 @@ public class MyListsActivity extends Activity{
 			return super.onOptionsItemSelected(item);
 		}		
 	}
+	
+	@Override
+	protected void preExcecute() {
+		isLoading = true;
+		progressBar.setIndeterminate(true);
+	}
+	
+	@Override
+	protected void postExcecute(JSONObject json) {
+		String message = "Loading failed!";
+		ArrayList<ShoppingList> updatedList = new ArrayList<ShoppingList>();
+		
+		try {
+			JSONArray dataArray = json.getJSONArray("data");
+		
+			for (int i = 0; i < dataArray.length(); i++) {
+				updatedList.add((ShoppingList) listFromString(dataArray.getString(i)));
+			}
+			message = json.getString("message");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		myLists.clear();
+		myLists.addAll(updatedList);
+		listAdapter.notifyDataSetChanged();			
+		progressBar.setIndeterminate(false);
+		isLoading = false;
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+	}	
 
 }

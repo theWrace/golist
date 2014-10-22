@@ -6,12 +6,11 @@ import android.content.Context;
 import da.se.golist.R;
 import da.se.golist.objects.GoListObject;
 
-public class MyListsAdapter extends Adapter{
-
-	public MyListsAdapter(Context context, ArrayList<GoListObject> listObjects) {
+public class ArticleListAdapter extends Adapter{
+		
+	public ArticleListAdapter(Context context, ArrayList<GoListObject> listObjects) {
 		this.context = context;
 		this.listObjects = listObjects;
-		layoutResource = R.layout.listlistitem;
+		layoutResource = R.layout.articlelistitem;
 	}
-
 }
