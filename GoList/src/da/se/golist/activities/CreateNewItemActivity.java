@@ -14,12 +14,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import da.se.golist.R;
-import da.se.golist.objects.Article;
+import da.se.golist.objects.Item;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.ShoppingList;
 import da.se.golist.objects.User;
 
-public class CreateNewArticleActivity extends DataLoader{
+public class CreateNewItemActivity extends DataLoader{
 	
 	private ShoppingList list;
 	private EditText editTextName, editTextNameAmount, editTextNameDescription;
@@ -29,7 +29,7 @@ public class CreateNewArticleActivity extends DataLoader{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.createnewarticlelayout);
+		setContentView(R.layout.createnewitemlayout);
 		
 		list = (ShoppingList) getIntent().getExtras().get("list");
 		
@@ -45,7 +45,7 @@ public class CreateNewArticleActivity extends DataLoader{
 			@Override
 			public void onClick(View v) {
 				if(editTextName.getText().length() != 0 && editTextNameAmount.getText().length() != 0){
-					list.addArticle(new Article(editTextName.getText().toString(), editTextNameDescription.getText().toString(), editTextNameAmount.getText().toString()));
+					list.addArticle(new Item(editTextName.getText().toString(), editTextNameDescription.getText().toString(), editTextNameAmount.getText().toString()));
 					
 					String inviteduser = "", userString = "";
 					for(GoListObject user : list.getPeople()){

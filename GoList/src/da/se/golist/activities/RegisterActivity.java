@@ -25,9 +25,9 @@ public class RegisterActivity extends DataLoader{
 		setContentView(R.layout.register);
 		
 		progressBar = (ProgressBar) findViewById(R.id.progressBarRegister);
-		nameText = (EditText) findViewById(R.id.editText1);
-		passwordText = (EditText) findViewById(R.id.editText2);
-		passwordText1 = (EditText) findViewById(R.id.editText3);
+		nameText = (EditText) findViewById(R.id.editTextRegisterName);
+		passwordText = (EditText) findViewById(R.id.editTextRegisterPassword);
+		passwordText1 = (EditText) findViewById(R.id.editTextRegisterRepeatPassword);
 		buttonRegister = (Button) findViewById(R.id.buttonCreateAcc);
 		
 		buttonRegister.setOnClickListener(new OnClickListener() {
@@ -37,10 +37,6 @@ public class RegisterActivity extends DataLoader{
 				if(passwordText.getText().toString().equals(passwordText1.getText().toString())){
 					if(passwordText.getText().toString().length() > 3 && nameText.getText().toString().length() > 3){
 						new LoadDataTask(new String[]{"password", "name"},new String[]{passwordText.getText().toString(), nameText.getText().toString()}, "register.php").execute();
-						nameText.setEnabled(false);		
-						passwordText.setEnabled(false);
-						passwordText1.setEnabled(false);		
-						buttonRegister.setEnabled(false);
 					}else{
 						Toast.makeText(getApplicationContext(), "Error: Name or Password too short!", Toast.LENGTH_LONG).show();
 					}
@@ -54,6 +50,10 @@ public class RegisterActivity extends DataLoader{
 	
 	@Override
 	protected void preExcecute() {
+		nameText.setEnabled(false);		
+		passwordText.setEnabled(false);
+		passwordText1.setEnabled(false);		
+		buttonRegister.setEnabled(false);
 		progressBar.setVisibility(ProgressBar.VISIBLE);
 	}
 	

@@ -28,7 +28,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="New List"
+            android:text="@string/newlist"
             android:textColor="#FFFFFF"
             android:textSize="37sp"
             android:textStyle="bold" />
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="5dip"
-            android:text="Save" />
+            android:text="@string/save" />
 
         <ProgressBar
             android:id="@+id/progressBar1"
@@ -79,7 +79,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
-        android:text="Invite a Friend" />
+        android:text="@string/inviteafriend" />
 
     <TextView
         android:id="@+id/textView2"
@@ -90,7 +90,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:textColor="#FFFFFF"
-        android:text="People"
+        android:text="@string/people"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView

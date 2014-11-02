@@ -10,5 +10,16 @@
     <string name="register">Register</string>
     <string name="repeatpassword">Repeat Password</string>
     <string name="url">http://golist.cwsurf.de/</string>
+    <string name="newitem">New Item</string>
+    <string name="save">Save</string>
+    <string name="amount">Amount</string>
+    <string name="description">Description</string>
+    <string name="newlist">New List</string>
+    <string name="inviteafriend">Invite a Friend</string>
+    <string name="people">People</string>
+    <string name="invitefriends">Invite Friends</string>
+    <string name="search">Search</string>
+    <string name="list">List</string>
+    <string name="additem">Add Item</string>
 
 </resources>

@@ -22,11 +22,11 @@ public class ShoppingList extends GoListObject{
 		this.id = id;
 	}	
 
-	public void addArticle(Article article){
+	public void addArticle(Item article){
 		articles.add(article);
 	}
 	
-	public void removeArticle(Article article){
+	public void removeArticle(Item article){
 		articles.remove(article);
 	}
 	

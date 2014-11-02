@@ -35,13 +35,13 @@ public class LoginActivity extends DataLoader{
 			prefs.edit().remove("password").commit();
 		}
 		
-		if(prefs.contains("name")){
-			name = prefs.getString("name", "");
-			password = prefs.getString("password", "");
-			new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();
-		}else{
+//		if(prefs.contains("name")){
+//			name = prefs.getString("name", "");
+//			password = prefs.getString("password", "");
+//			new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();
+//		}else{
 			showLoginView();
-		}
+//		}
 	}	
 	
 	private void startMyListsActivity(String name){
@@ -106,8 +106,8 @@ public class LoginActivity extends DataLoader{
 			}
 		});
 		
-		nameText = (EditText) findViewById(R.id.editText1);
-		passwordText = (EditText) findViewById(R.id.editText2);
+		nameText = (EditText) findViewById(R.id.editTextRegisterName);
+		passwordText = (EditText) findViewById(R.id.editTextRegisterPassword);
 		
 		buttonLogin = (Button) findViewById(R.id.buttonLogin);
 		buttonLogin.setOnClickListener(new OnClickListener() {

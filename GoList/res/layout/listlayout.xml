@@ -21,7 +21,7 @@
             android:layout_margin="5dip"
             android:layout_weight="0.97"
             android:gravity="center_vertical"
-            android:text="List"
+            android:text="@string/list"
             android:ellipsize="marquee" 
     		android:marqueeRepeatLimit="marquee_forever"
     		android:scrollHorizontally="true" 
@@ -58,7 +58,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         style="@style/btnStyleOrange"
-        android:text="Add Item"/>
+        android:text="@string/additem"/>
 
     <ListView
         android:id="@+id/listViewArticles"

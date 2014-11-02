@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
-import da.se.golist.adapters.ArticleListAdapter;
+import da.se.golist.adapters.ItemListAdapter;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.ShoppingList;
 
@@ -26,7 +26,7 @@ public class ListActivity extends DataLoader{
 	
 	private ShoppingList list = null;
 	private int id;
-	private ArticleListAdapter listAdapter = null;
+	private ItemListAdapter listAdapter = null;
 	private ListView articleListView;
 	private boolean isLoading = false;
 	private TextView textViewList;
@@ -52,7 +52,7 @@ public class ListActivity extends DataLoader{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ListActivity.this, CreateNewArticleActivity.class);
+				Intent intent = new Intent(ListActivity.this, CreateNewItemActivity.class);
 				intent.putExtra("list", list);
 				startActivity(intent);
 			}
@@ -101,7 +101,7 @@ public class ListActivity extends DataLoader{
 		Toast.makeText(getApplicationContext(), message + " " + id, Toast.LENGTH_LONG).show();
 		if(message.equals("succes") && listAdapter == null){
 			articleListView = (ListView) findViewById(R.id.listViewArticles);
-			listAdapter = new ArticleListAdapter(ListActivity.this, list.getArticles());
+			listAdapter = new ItemListAdapter(ListActivity.this, list.getArticles());
 			articleListView.setAdapter(listAdapter);
 			
 			textViewList = (TextView) findViewById(R.id.textViewList);

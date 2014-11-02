@@ -1,11 +1,11 @@
 package da.se.golist.objects;
 
 
-public class Article extends GoListObject{	
+public class Item extends GoListObject{	
 
 	private String amount;
 		
-	public Article(String name, String description, String amount) {
+	public Item(String name, String description, String amount) {
 		this.name = name;
 		this.description = description;
 		this.amount = amount;
