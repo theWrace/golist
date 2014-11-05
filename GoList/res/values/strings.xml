@@ -21,5 +21,7 @@
     <string name="search">Search</string>
     <string name="list">List</string>
     <string name="additem">Add Item</string>
+    <string name="mylists">My Lists</string>
+    <string name="createnewlist">Create New List</string>
 
 </resources>
