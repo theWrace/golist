@@ -43,7 +43,7 @@
     </LinearLayout>
     
     <EditText
-        android:id="@+id/editTextRegisterName"
+        android:id="@+id/editTextName"
         android:maxLength="50"
         android:textCursorDrawable="@drawable/cursor"
         android:layout_margin="15dip"
@@ -58,7 +58,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editTextRegisterPassword"
+        android:id="@+id/editTextPassword"
         android:maxLength="20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

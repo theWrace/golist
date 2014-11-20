@@ -106,8 +106,8 @@ public class LoginActivity extends DataLoader{
 			}
 		});
 		
-		nameText = (EditText) findViewById(R.id.editTextRegisterName);
-		passwordText = (EditText) findViewById(R.id.editTextRegisterPassword);
+		nameText = (EditText) findViewById(R.id.editTextName);
+		passwordText = (EditText) findViewById(R.id.editTextPassword);
 		
 		buttonLogin = (Button) findViewById(R.id.buttonLogin);
 		buttonLogin.setOnClickListener(new OnClickListener() {
