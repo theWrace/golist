@@ -68,7 +68,7 @@ public class CreateNewListActivity extends DataLoader{
 		userOfList.add(new User(LoginActivity.NAME));
 		listAdapter = new UserListAdapter(this, userOfList);
 		myListsView.setAdapter(listAdapter);
-		
+		  
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 		
 		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
