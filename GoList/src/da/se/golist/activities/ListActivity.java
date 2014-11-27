@@ -1,7 +1,6 @@
 package da.se.golist.activities;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.adapters.ItemListAdapter;
-import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.ShoppingList;
 
 public class ListActivity extends DataLoader{

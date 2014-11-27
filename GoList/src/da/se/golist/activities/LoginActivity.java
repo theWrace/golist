@@ -114,7 +114,7 @@ public class LoginActivity extends DataLoader{
 			
 			@Override
 			public void onClick(View v) {
-				if(nameText.getText().toString().length() > 4 && passwordText.getText().toString().length() > 4){
+				if(nameText.getText().toString().length() != 0 && passwordText.getText().toString().length() != 0){
 					name = nameText.getText().toString();
 					password = passwordText.getText().toString();
 					new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();

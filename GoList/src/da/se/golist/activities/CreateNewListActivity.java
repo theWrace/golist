@@ -159,7 +159,7 @@ public class CreateNewListActivity extends DataLoader{
 				String message = json.getString("message");
 			
 				if(message.equals("successful")){
-					Toast.makeText(getApplicationContext(), list.getName() + " created! " + list.getID(), Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), list.getName() + " created!", Toast.LENGTH_LONG).show();
 					finish();
 				}else{
 					progressBar.setVisibility(ProgressBar.GONE);

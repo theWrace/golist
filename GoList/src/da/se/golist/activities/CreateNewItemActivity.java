@@ -14,10 +14,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import da.se.golist.R;
-import da.se.golist.objects.Item;
 import da.se.golist.objects.GoListObject;
+import da.se.golist.objects.Item;
 import da.se.golist.objects.ShoppingList;
-import da.se.golist.objects.User;
 
 public class CreateNewItemActivity extends DataLoader{
 	
