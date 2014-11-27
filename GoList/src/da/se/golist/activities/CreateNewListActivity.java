@@ -25,6 +25,7 @@ import da.se.golist.objects.User;
 
 public class CreateNewListActivity extends DataLoader{
 	
+	//test
 	private ArrayList<GoListObject> userOfList = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
 	private Button buttonSave;
@@ -68,7 +69,7 @@ public class CreateNewListActivity extends DataLoader{
 		userOfList.add(new User(LoginActivity.NAME));
 		listAdapter = new UserListAdapter(this, userOfList);
 		myListsView.setAdapter(listAdapter);
-		
+		  
 		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 		
 		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
