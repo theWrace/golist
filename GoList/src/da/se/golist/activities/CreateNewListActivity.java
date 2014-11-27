@@ -26,7 +26,7 @@ import da.se.golist.objects.User;
 public class CreateNewListActivity extends DataLoader{
 	  
 	private ArrayList<GoListObject> userOfList = new ArrayList<GoListObject>();
-	private UserListAdapter listAdapter;  
+	private UserListAdapter listAdapter;
 	private Button buttonSave;
 	private ShoppingList list;
 	private boolean firstTaskExcecution = true;
