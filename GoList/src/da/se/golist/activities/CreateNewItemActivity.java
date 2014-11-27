@@ -22,7 +22,7 @@ public class CreateNewItemActivity extends DataLoader{
 	
 	private ShoppingList list;
 	private EditText editTextName, editTextNameAmount, editTextNameDescription;
-	private Button saveArticleButton;
+	private Button saveArticleButton; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
