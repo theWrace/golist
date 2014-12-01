@@ -20,7 +20,7 @@ import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.User;
 
-public class InviteFriendsActivity extends DataLoader{ 
+public class InviteFriendsActivity extends DataLoader{
 	
 	private ArrayList<GoListObject> user = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
