@@ -8,15 +8,13 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
@@ -27,7 +25,7 @@ public class InviteFriendsActivity extends DataLoader{
 	private ArrayList<GoListObject> user = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
 	private boolean isLoading = false;
-	private ScaleAnimation blinkanimation;
+	private EditText searchText;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +33,8 @@ public class InviteFriendsActivity extends DataLoader{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.invitefriendslayout);
 		
-		progressBar = (ProgressBar) findViewById(R.id.progressBarInviteFriends);
+		searchText = (EditText) findViewById(R.id.editTextSearch);
 		
-		blinkanimation= new ScaleAnimation(progressBar.getScaleX(), progressBar.getScaleX()/2, progressBar.getScaleY(), progressBar.getScaleY()/2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f); // Change alpha from fully visible to invisible
-		blinkanimation.setDuration(150); // duration - half a second
-		blinkanimation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
-		blinkanimation.setRepeatCount(1); // Repeat animation infinitely
-		blinkanimation.setRepeatMode(Animation.REVERSE);
-		
-		
-		progressBar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				update();
-			}
-		});
-		
-		
-		//set up animation
 		ListView myListsView = (ListView) findViewById(R.id.listView1);
 		myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -69,20 +50,39 @@ public class InviteFriendsActivity extends DataLoader{
 		listAdapter = new UserListAdapter(this, user);
 		myListsView.setAdapter(listAdapter);
 		
-		update();
+		searchText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,	int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(searchText.getText().length() > 2){
+					loadUsers(searchText.getText().toString());
+				}				
+			}
+		});
 	}
 	
-	private void update(){
+	private void loadUsers(String searchString){
 		if(!isLoading){
-			progressBar.startAnimation(blinkanimation);
-			new LoadDataTask(new String[]{},new String[]{}, "loadusers.php").execute();			
+			new LoadDataTask(new String[]{"searchstring"},new String[]{searchString}, "loadusers.php").execute();		
+			System.out.println(searchString);
 		}
 	}
 	
 	@Override
 	protected void preExcecute() {
 		isLoading = true;
-		progressBar.setIndeterminate(true);
 	}
 	
 	@Override
@@ -90,8 +90,6 @@ public class InviteFriendsActivity extends DataLoader{
 		JSONArray userArray;
 		try {
 			userArray = json.getJSONArray("users");
-		
-			System.out.println(userArray.length()+"");
 			
 			user.clear();
 			for (int i = 0; i < userArray.length(); i++) {
@@ -110,7 +108,6 @@ public class InviteFriendsActivity extends DataLoader{
 			e.printStackTrace();
 		}
 		
-		progressBar.setIndeterminate(false);
 		listAdapter.notifyDataSetChanged();
 		isLoading = false;
 	}
