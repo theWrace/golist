@@ -61,7 +61,7 @@ public class CreateNewListActivity extends DataLoader{
 
 					@Override
 					public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-						//user anzeigen
+						//TODO: user anzeigen
 					}
 
 				});
@@ -86,15 +86,15 @@ public class CreateNewListActivity extends DataLoader{
 					}
 					firstTaskExcecution = true;
 					String inviteduser = "", userString = "";
-					for(GoListObject user : list.getPeople()){
+					for(GoListObject user : list.getUser()){
 						userString = userString + user.getName() + ";";
 					}
-					for(GoListObject user : list.getInvitedPeople()){
+					for(GoListObject user : list.getInvitedUser()){
 						inviteduser = inviteduser + user.getName() + ";";
 					}
 					userString = userString.substring(0, userString.length()-1);
 					if(inviteduser.length() != 0){
-						inviteduser = inviteduser.substring(0, userString.length()-1);
+						inviteduser = inviteduser.substring(0, inviteduser.length()-1);
 					}
 					try {
 						new LoadDataTask(new String[]{"name", "data", "user", "inviteduser"},new String[]{list.getName()+"", listToString(list), userString, inviteduser}, "savelist.php").execute();
@@ -114,11 +114,12 @@ public class CreateNewListActivity extends DataLoader{
 
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
+	        	//ausgewählten User von InviteFriendsActivity zurueckbekommen
 	        	userOfList.add(new User(data.getStringExtra("user")));
 	        	listAdapter.notifyDataSetChanged();
 	        }
 	        if (resultCode == RESULT_CANCELED) {
-	            //TODO
+	            //TODO: liste erstellen abgebrochen
 	        }
 	    }
 	}
@@ -135,10 +136,10 @@ public class CreateNewListActivity extends DataLoader{
 			try {
 				firstTaskExcecution = false;
 				String inviteduser = "", userString = "";
-				for(GoListObject user : list.getPeople()){
+				for(GoListObject user : list.getUser()){
 					userString = userString + user.getName() + ";";
 				}
-				for(GoListObject user : list.getInvitedPeople()){
+				for(GoListObject user : list.getInvitedUser()){
 					inviteduser = inviteduser + user.getName() + ";";
 				}
 				userString = userString.substring(0, userString.length()-1);

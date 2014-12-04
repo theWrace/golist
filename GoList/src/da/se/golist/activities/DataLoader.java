@@ -24,9 +24,9 @@ public abstract class DataLoader extends Activity{
 	
 	protected ProgressBar progressBar;
 	
-	protected void postExcecute(JSONObject json){}
+	protected abstract void postExcecute(JSONObject json);
 	
-	protected void preExcecute(){}
+	protected abstract void preExcecute();
 	
 	/** Write the list to a Base64 string. */
 	protected String listToString( Serializable o ) throws IOException {
