@@ -15,6 +15,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
@@ -43,6 +44,7 @@ public class InviteFriendsActivity extends DataLoader{
 				Intent returnIntent = new Intent();
 				returnIntent.putExtra("user",user.get(position).getName());
 				setResult(RESULT_OK,returnIntent);
+				Toast.makeText(getApplicationContext(), "User invited!", Toast.LENGTH_LONG).show();
 				finish();
 			}
 
@@ -75,8 +77,7 @@ public class InviteFriendsActivity extends DataLoader{
 	
 	private void loadUsers(String searchString){
 		if(!isLoading){
-			new LoadDataTask(new String[]{"searchstring"},new String[]{searchString}, "loadusers.php").execute();		
-			System.out.println(searchString);
+			new LoadDataTask(new String[]{"searchstring"},new String[]{searchString}, "loadusers.php").execute();
 		}
 	}
 	
