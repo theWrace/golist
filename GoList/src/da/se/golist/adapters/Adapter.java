@@ -19,7 +19,7 @@ public abstract class Adapter extends BaseAdapter{
 		
 	public void updateListObjects(ArrayList<GoListObject> listObjects){
 		this.listObjects = listObjects;
-		this.notifyDataSetChanged();		
+		this.notifyDataSetChanged();
 	}
 	
 	@Override

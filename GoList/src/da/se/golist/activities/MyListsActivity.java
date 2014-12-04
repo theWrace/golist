@@ -78,7 +78,6 @@ public class MyListsActivity extends DataLoader{
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
-				//TODO: liste anzeigen
 				Intent intent = new Intent(MyListsActivity.this, ListActivity.class);
 				intent.putExtra("id", ((ShoppingList) myLists.get(position)).getID());
 				startActivity(intent);
