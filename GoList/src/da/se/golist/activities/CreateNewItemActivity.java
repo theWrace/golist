@@ -44,13 +44,13 @@ public class CreateNewItemActivity extends DataLoader{
 			@Override
 			public void onClick(View v) {
 				if(editTextName.getText().length() != 0 && editTextNameAmount.getText().length() != 0){
-					list.addArticle(new Item(editTextName.getText().toString(), editTextNameDescription.getText().toString(), editTextNameAmount.getText().toString()));
+					list.addItem(new Item(editTextName.getText().toString(), editTextNameDescription.getText().toString(), editTextNameAmount.getText().toString()));
 					
 					String inviteduser = "", userString = "";
-					for(GoListObject user : list.getPeople()){
+					for(GoListObject user : list.getUser()){
 						userString = userString + user.getName() + ";";
 					}
-					for(GoListObject user : list.getInvitedPeople()){
+					for(GoListObject user : list.getInvitedUser()){
 						inviteduser = inviteduser + user.getName() + ";";
 					}
 					userString = userString.substring(0, userString.length()-1);
@@ -82,7 +82,7 @@ public class CreateNewItemActivity extends DataLoader{
 			String message = json.getString("message");
 		
 			if(message.equals("successful")){
-				Toast.makeText(getApplicationContext(), list.getName() + " created! " + list.getID(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), list.getName() + " created!", Toast.LENGTH_LONG).show();
 				finish();
 			}else{
 				progressBar.setVisibility(ProgressBar.GONE);
