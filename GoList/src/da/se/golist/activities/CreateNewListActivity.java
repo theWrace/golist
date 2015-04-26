@@ -1,33 +1,37 @@
 package da.se.golist.activities;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
+import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 import da.se.golist.objects.User;
 
-public class CreateNewListActivity extends DataLoader{
+public class CreateNewListActivity extends BaseActivity{
 	  
 	private ArrayList<GoListObject> userOfList = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
-	private Button buttonSave;
+	private Button buttonSave, buttonAddUser;
 	private ShoppingList list;
 	private boolean firstTaskExcecution = true;
 	
@@ -37,13 +41,18 @@ public class CreateNewListActivity extends DataLoader{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.createnewlistlayout);
 		
-		Button addUserButton = (Button) findViewById(R.id.buttonAddUser);
+		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
+		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+		textViewTitle.setTypeface(tf);
+		textViewTitle.setText("New List");
 		
-		addUserButton.setOnClickListener(new OnClickListener() {
+		buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
+		
+		buttonAddUser.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent newListIntent = new Intent(CreateNewListActivity.this, InviteFriendsActivity.class);
+				Intent newListIntent = new Intent(CreateNewListActivity.this, InviteUserActivity.class);
 				String[] names = new String[userOfList.size()];
 				int index = 0;
 				for(GoListObject user : userOfList){
@@ -55,49 +64,36 @@ public class CreateNewListActivity extends DataLoader{
 			}
 		});
 		
-		// set up animation
 		ListView myListsView = (ListView) findViewById(R.id.listViewPeople);
-		myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-						//TODO: user anzeigen
-					}
-
-				});
 		userOfList.add(new User(LoginActivity.NAME));
 		listAdapter = new UserListAdapter(this, userOfList);
 		myListsView.setAdapter(listAdapter);
-		  
-		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+		 
+		logoView = (LogoView) findViewById(R.id.logoView);
 		
 		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
+		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
+		editTextName.setTypeface(tf1);
 		
 		buttonSave = (Button) findViewById(R.id.buttonSave);
 		buttonSave.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				if(editTextName.getText().toString().length() > 3){
-					list = new ShoppingList(editTextName.getText().toString());
+				if(editTextName.getText().toString().length() > 3){					
+					list = new ShoppingList(editTextName.getText().toString(), LoginActivity.NAME, "");
 					list.addUser(new User(LoginActivity.NAME));
 					for(int i = 1; i < userOfList.size(); i++){
 						list.inviteUser((User)userOfList.get(i));
 					}
 					firstTaskExcecution = true;
-					String inviteduser = "", userString = "";
-					for(GoListObject user : list.getUser()){
-						userString = userString + user.getName() + ";";
-					}
-					for(GoListObject user : list.getInvitedUser()){
-						inviteduser = inviteduser + user.getName() + ";";
-					}
-					userString = userString.substring(0, userString.length()-1);
-					if(inviteduser.length() != 0){
-						inviteduser = inviteduser.substring(0, inviteduser.length()-1);
-					}
+					
+					String infoText = getString(R.string.infolistcreated).replace("listname", list.getName()) + "::" + new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());
+					infoText = infoText.replace("username", LoginActivity.NAME);
+					
 					try {
-						new LoadDataTask(new String[]{"name", "data", "user", "inviteduser"},new String[]{list.getName()+"", listToString(list), userString, inviteduser}, "savelist.php").execute();
+						new LoadDataTask(new String[]{"name", "data", "user", "inviteduser", "history"},new String[]{list.getName()+"", objectToString(list), "", "", infoText}, "savelist.php").execute();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -110,6 +106,7 @@ public class CreateNewListActivity extends DataLoader{
 		});
 	}
 	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 	    if (requestCode == 1) {
@@ -118,42 +115,37 @@ public class CreateNewListActivity extends DataLoader{
 	        	userOfList.add(new User(data.getStringExtra("user")));
 	        	listAdapter.notifyDataSetChanged();
 	        }
-	        if (resultCode == RESULT_CANCELED) {
-	            //TODO: liste erstellen abgebrochen
-	        }
 	    }
 	}
 	
 	@Override
 	protected void preExcecute() {
-		progressBar.setVisibility(ProgressBar.VISIBLE);
-		buttonSave.setVisibility(Button.INVISIBLE);
+		buttonSave.setEnabled(false);
+		buttonAddUser.setEnabled(false);
 	}
 	
 	@Override
 	protected void postExcecute(JSONObject json) {
 		if(firstTaskExcecution){
+			firstTaskExcecution = false;
 			try {
-				firstTaskExcecution = false;
-				String inviteduser = "", userString = "";
+				list.setID(Integer.parseInt(json.getString("message")));
+				String users = "";
 				for(GoListObject user : list.getUser()){
-					userString = userString + user.getName() + ";";
+					users += user + ", ";
 				}
-				for(GoListObject user : list.getInvitedUser()){
-					inviteduser = inviteduser + user.getName() + ";";
+				String infoText = "";
+				if(users.length() == 0){
+					
+				}else{
+					infoText = getString(R.string.infomultiuserinvited).replace("username", LoginActivity.NAME);
+					infoText = infoText.replace("users", users);
+					infoText = infoText.replace("listname", list.getName());
 				}
-				userString = userString.substring(0, userString.length()-1);
-				if(inviteduser.length() != 0){
-					inviteduser = inviteduser.substring(0, userString.length()-1);
-				}
-					String message = json.getString("message");
 				
-				list.setID(Integer.parseInt(message));
-				new LoadDataTask(new String[]{"id", "data", "user", "inviteduser"},new String[]{list.getID()+"", listToString(list), userString, inviteduser}, "updatelist.php").execute();
-			} catch (IOException e) {
+				uploadList(list, true, "");
+			} catch (NumberFormatException | JSONException e) {
 				e.printStackTrace();
-			} catch (JSONException e1) {
-				e1.printStackTrace();
 			}
 		}else{
 			try {
@@ -163,14 +155,16 @@ public class CreateNewListActivity extends DataLoader{
 					Toast.makeText(getApplicationContext(), list.getName() + " created!", Toast.LENGTH_LONG).show();
 					finish();
 				}else{
-					progressBar.setVisibility(ProgressBar.GONE);
-					buttonSave.setVisibility(Button.VISIBLE);
+					buttonSave.setEnabled(true);
 					Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_LONG).show();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
+
+		buttonSave.setEnabled(true);
+		buttonAddUser.setEnabled(true);
 	}
 
 }

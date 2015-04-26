@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#007abb"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/buttonChangeName"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/changename" />
+    
+    <Button
+        android:id="@+id/buttonInviteAUser"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/inviteauser" />
+    
+    <Button
+        android:id="@+id/buttonImportItems"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:enabled="false"
+        android:text="@string/importitems" />
+
+    <Button
+        android:id="@+id/buttonDeleteItems"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/deleteallitems" />
+    
+    <Button
+        android:id="@+id/buttonDeleteBoughtItems"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/deleteboughtitems" />
+
+    <Button
+        android:id="@+id/buttonMarkItemsBought"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/markitemsbought" />
+
+    <Button
+        android:id="@+id/buttonMarkItemsUnbought"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/markitemsunbought" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        style="@style/btnStyleOrange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:text="@string/deletelist" />
+
+</LinearLayout>

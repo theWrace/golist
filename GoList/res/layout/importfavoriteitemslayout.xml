@@ -1,0 +1,72 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/popupbackground"
+        android:orientation="vertical"
+        android:padding="1dp" >
+        
+        <TextView
+            android:id="@+id/textViewEmpty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:rotation="30"
+            android:text="@string/nofavoriteitems"
+            android:textColor="#60FFFFFF"
+            android:textSize="40sp"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/listViewFavoriteItems"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/linearLayoutButtons"
+            android:background="@null"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
+            android:padding="2dp" />
+
+        <RelativeLayout
+            android:id="@+id/linearLayoutButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@null" >
+
+            <Button
+                android:id="@+id/buttonImport"
+                style="@style/btnStyleOrange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+                android:text="@string/importitemsbutton" />
+
+            <Button
+                android:id="@+id/buttonCancel"
+                style="@style/btnStyleOrange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentEnd="true"
+                android:text="@string/cancel" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>
