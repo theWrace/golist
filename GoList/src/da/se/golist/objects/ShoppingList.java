@@ -6,12 +6,14 @@ public class ShoppingList extends GoListObject{
 	
 	private ArrayList<GoListObject> items = new ArrayList<GoListObject>();
 	private ArrayList<GoListObject> user = new ArrayList<GoListObject>();
+	private ArrayList<String> admins = new ArrayList<String>();
 	private ArrayList<GoListObject> invitedUser = new ArrayList<GoListObject>();
 	private int id;
 	
-	public ShoppingList(String name){
+	public ShoppingList(String name, String admin, String description){
 		this.name = name;
-		description = "description";
+		admins.add(admin);
+		this.description = description;
 	}
 	
 	public int getID(){
@@ -42,6 +44,14 @@ public class ShoppingList extends GoListObject{
 		return user;
 	}
 	
+	public ArrayList<String> getAdmins(){
+		return admins;
+	}
+	
+	public void addAdmin(String name){
+		admins.add(name);
+	}
+	
 	public void addUser(User user){
 		this.user.add(user);
 	}
@@ -60,6 +70,24 @@ public class ShoppingList extends GoListObject{
 	
 	public void updateItems(ArrayList<GoListObject> items){
 		this.items = items;
+	}
+	
+	public Item getItemById(int id){
+		for(GoListObject object : items){
+			Item item = (Item) object;
+			if(item.getId() == id){
+				return item;
+			}
+		}
+		return null;
+	}
+	
+	public int getFreeId(){
+		int id = 0;
+		while(getItemById(id) != null){
+			id++;
+		}
+		return id;
 	}
 
 }
