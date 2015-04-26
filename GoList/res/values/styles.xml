@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="btnStyleOrange" parent="@android:style/Widget.Button">
-       <item name="android:textSize">20sp</item>
+       <item name="android:textSize">24sp</item>
        <item name="android:textStyle">bold</item>
        <item name="android:textColor">#FFFFFF</item>
        <item name="android:gravity">center</item>
@@ -13,10 +13,13 @@
        <item name="android:padding">10dip</item>
    </style>
    
-    <style name="editTextLoginStyle" parent="@android:style/Widget.EditText">
-       <item name="android:textSize">20sp</item>
-       <item name="android:padding">5dip</item>
-       <item name="android:background">@drawable/edittext</item>
+    <style name="editTextStyle" parent="@android:style/Widget.EditText">
+       <item name="android:textSize">24sp</item>
+       <item name="android:background">@drawable/edittextbackground</item>
+       <item name="android:textColor">#ffffff</item>
+       <item name="android:textColorHint">#dcd2cd</item>
+       <item name="android:padding">12dp</item>       
+       <item name="android:textCursorDrawable">@drawable/cursor</item>  
    </style>
     <!--
         Base application theme, dependent on API level. This theme is replaced

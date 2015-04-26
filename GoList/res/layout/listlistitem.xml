@@ -1,16 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="70dip"
-    android:padding="6dip" >
+    android:padding="6dip" 
+    android:background="@drawable/listitem"
+    android:id="@+id/itemlayout"
+    android:layout_margin="2dp">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="6dip"
-        android:layout_marginEnd="6dip"
-        android:layout_width="65dip"
-   		android:layout_height="65dip"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_width="70dp"
+   		android:layout_height="78dp"
     	android:scaleType="fitCenter"
         android:src="@drawable/list_icon" />
 
@@ -27,7 +32,7 @@
         android:singleLine="true"
         android:textColor="#FFFFFF"
         android:text="@string/description"
-        android:textSize="12sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/title"
@@ -42,6 +47,6 @@
         android:layout_toEndOf="@id/icon"
         android:gravity="center_vertical"
         android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
 </RelativeLayout> 
