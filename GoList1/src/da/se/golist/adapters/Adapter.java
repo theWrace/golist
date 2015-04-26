@@ -23,31 +23,18 @@ public abstract class Adapter extends BaseAdapter{
 		this.notifyDataSetChanged();
 	}
 	
-	private static class ViewHolder {
-		private TextView textViewName, textViewDescription;
-	}
-	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder mViewHolder = null;
-		if(convertView == null){
-			mViewHolder = new ViewHolder();
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(layoutResource, parent, false);
-			mViewHolder.textViewName = (TextView) convertView.findViewById(R.id.title);		
-			mViewHolder.textViewDescription  = (TextView) convertView.findViewById(R.id.secondLine);
-			convertView.setTag(mViewHolder);
-		}else{
-			mViewHolder = (ViewHolder) convertView.getTag();
-		}
-		
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View rowView = inflater.inflate(layoutResource, parent, false);
+		TextView nameText = (TextView) rowView.findViewById(R.id.title);		
+		TextView secondLineText = (TextView) rowView.findViewById(R.id.secondLine);
 		Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/geosanslight.ttf");
-		mViewHolder.textViewName.setTypeface(tf);
-		mViewHolder.textViewDescription.setTypeface(tf);
-		mViewHolder.textViewName.setText(listObjects.get(position).getName());
-		mViewHolder.textViewDescription.setText(listObjects.get(position).getDescription());
-		
-		return convertView;
+		nameText.setTypeface(tf);
+		secondLineText.setTypeface(tf);
+		nameText.setText(listObjects.get(position).getName());
+		secondLineText.setText(listObjects.get(position).getDescription());
+		return rowView;
 	}
 
 	@Override
