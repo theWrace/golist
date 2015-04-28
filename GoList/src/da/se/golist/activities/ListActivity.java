@@ -1,23 +1,20 @@
 package da.se.golist.activities;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,7 +22,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
@@ -35,11 +31,11 @@ import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.adapters.ExpandableMenuListAdapter;
 import da.se.golist.adapters.ItemListAdapter;
-import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.Item;
 import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 
+@SuppressLint("RtlHardcoded")
 public class ListActivity extends BaseActivity{
 	
 	private ShoppingList list = null;
@@ -49,8 +45,9 @@ public class ListActivity extends BaseActivity{
 	private TextView textViewTitleList;
 	private DrawerLayout mDrawerLayout;
 	private ExpandableListView mDrawerList;
-	private boolean deleted = false, update = false;
 	private ExpandableMenuListAdapter mMenuAdapter;
+	public final static int CODE_LIST_DELETED = 0, TYPE_DELETE_ALL_ITEMS = 1, 
+			TYPE_DELETE_BOUGHT_ITEMS = 2, TYPE_MARK_ALL_BOUGHT = 3, TYPE_MARK_ALL_NOT_BOUGHT = 4, TYPE_LEAVE_LIST = 5;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,168 +140,59 @@ public class ListActivity extends BaseActivity{
 			
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+				Intent intent = new Intent(ListActivity.this, ManageItemsActivity.class);
+				intent.putExtra("id", ListActivity.this.id);
+				
 				switch(groupPosition){
 				case 0:	//List
 					switch(childPosition){
 					case 0:	//History
-						Intent newListIntent = new Intent(ListActivity.this, ShowHistoryActivity.class);
-						newListIntent.putExtra("id", ListActivity.this.id);
-						startActivity(newListIntent);
+						intent = new Intent(ListActivity.this, ShowHistoryActivity.class);
+						intent.putExtra("id", ListActivity.this.id);
+						startActivity(intent);
 						break;
-					case 1:	//Change Name/Leave List
-						if(!isAdmin(list, LoginActivity.NAME)){
-							showAlertDialog(R.string.leavelisttitle, R.string.leavelistquestion, new AfterDialogInterface() {
-								
-								@Override
-								public void applyChanges() {
-									refreshList(new AfterRefresh() {
-
-										@Override
-										public void applyChanges() {									
-											for(int i = 0; i < list.getUser().size(); i++){
-												if(list.getUser().get(i).getName().equals(LoginActivity.NAME)){
-													list.getUser().remove(i);
-													i--;
-												}
-											}
-											for(int i = 0; i < list.getInvitedUser().size(); i++){
-												if(list.getInvitedUser().get(i).getName().equals(LoginActivity.NAME)){
-													list.getInvitedUser().remove(i);
-													i--;
-												}
-											}
-											String infoText = getString(R.string.infolistleft).replace("username", LoginActivity.NAME);
-											infoText = infoText.replace("username", LoginActivity.NAME);
-											uploadList(list, true, infoText);
-											finish();
-										}
-										
-									}, ListActivity.this.id);
-								}
-							});
+					case 1:
+						//Leave List
+						if(!isAdmin(list, LoginActivity.NAME)){							
+							intent.putExtra("type", TYPE_LEAVE_LIST);
+							startActivityForResult(intent, CODE_LIST_DELETED);
 							break;
 						}
-						AlertDialog.Builder alert = new AlertDialog.Builder(ListActivity.this);
-			        	alert.setMessage(getString(R.string.pleaseenternewname));
-			 
-			            final EditText input = new EditText(ListActivity.this);
-			            input.setText(list.getName());
-			            alert.setView(input);
-			 
-			        	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			        		public void onClick(DialogInterface dialog, int whichButton) {
-				        		if(input.getEditableText().toString().trim().length() != 0 && !input.getEditableText().toString().trim().equals(list.getName())){
-				        			
-				        			refreshList(new AfterRefresh() {
-										
-										@Override
-										public void applyChanges() {
-											final String oldname = list.getName();
-											list.setName(input.getEditableText().toString().trim());
-											String infoText = getString(R.string.infolistnamechanged).replace("username", LoginActivity.NAME) + "::" 
-													+ new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());
-											infoText = infoText.replace("oldname", oldname);
-											infoText = infoText.replace("newname", list.getName());
-											try {
-												new LoadDataTask(new String[]{"id", "data", "name", "history"},new String[]{list.getID()+"", objectToString(list), list.getName(), infoText}, "updatelist.php").execute();
-											} catch (IOException e) {
-												e.printStackTrace();
-											}										
-										}
-									}, list.getID());			        			
-									
-								}else{
-									Toast.makeText(getApplicationContext(), "You didn't insert a new name!", Toast.LENGTH_LONG).show();
-								}		
-			        		}
-			        	});
-			        	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			        	  public void onClick(DialogInterface dialog, int whichButton) {
-			        		  dialog.cancel();
-			        	  }
-			        	});
-			        	
-			        	AlertDialog alertDialog = alert.create();
-			        	alertDialog.show();			
+						
+						//Change List Name
+						intent = new Intent(ListActivity.this, ChangeListNameActivity.class);
+						intent.putExtra("id", ListActivity.this.id);
+						startActivityForResult(intent, 0);
 						break;
 					default:	//Delete List
-						showAlertDialog(R.string.deletelisttitle, R.string.deletelistquestion, new AfterDialogInterface(){
-
-							@Override
-							public void applyChanges() {
-								deleted = true;
-								new LoadDataTask(new String[]{"id"},new String[]{list.getID()+""}, "deletelistbyid.php").execute();	
-							}
-							
-						});
+						intent = new Intent(ListActivity.this, DeleteListActivity.class);
+						intent.putExtra("id", list.getID());
+						startActivityForResult(intent, CODE_LIST_DELETED);
 						break;
 					}
 					break;
 				case 1:	//Items
 					switch(childPosition){
 					case 0:	//Import Favorite Items
-						Intent newListIntent = new Intent(ListActivity.this, ImportFavoriteItemsActivity.class);
-						newListIntent.putExtra("id", ListActivity.this.id);
-						startActivityForResult(newListIntent, 0);
+						intent = new Intent(ListActivity.this, ImportFavoriteItemsActivity.class);
+						intent.putExtra("id", ListActivity.this.id);
+						startActivityForResult(intent, 0);
 						break;
 					case 1:	//Mark Items bought
-						showAlertDialog(R.string.markallitemsboughttitle, R.string.markallitemsboughtquestion, new AfterDialogInterface() {
-							
-							@Override
-							public void applyChanges() {
-								for(GoListObject item : list.getItems()){
-									((Item) item).setState(Item.STATE_BOUGHT);
-								}
-								String infoText = getString(R.string.infoallitemsbought).replace("username", LoginActivity.NAME);
-								uploadList(list, false, infoText);
-							}
-						});
+						intent.putExtra("type", TYPE_MARK_ALL_BOUGHT);
+						startActivityForResult(intent, 0);						
 						break;
 					case 2:	//Mark Items not bought
-						showAlertDialog(R.string.markallitemsnotboughttitle, R.string.markallitemsnotboughtquestion, new AfterDialogInterface() {
-							
-							@Override
-							public void applyChanges() {
-								for(GoListObject item : list.getItems()){
-									((Item) item).setState(Item.STATE_NORMAL);
-								}
-								String infoText = getString(R.string.infoallitemsnotbought).replace("username", LoginActivity.NAME);
-								uploadList(list, false, infoText);
-							}
-						});						
+						intent.putExtra("type", TYPE_MARK_ALL_NOT_BOUGHT);
+						startActivityForResult(intent, 0);			
 						break;
 					case 3:	//Delete bought Items
-						showAlertDialog(R.string.deleteboughtitemstitle, R.string.deleteallitemsboughtquestion, new AfterDialogInterface() {
-							
-							@Override
-							public void applyChanges() {
-								for(int i = 0; i < list.getItems().size(); i++){
-									if(((Item) list.getItems().get(i)).getState() == Item.STATE_BOUGHT){
-										list.getItems().remove(i);
-										i--;
-									}
-								}
-								String infoText = getString(R.string.infoboughtitemsdeleted).replace("username", LoginActivity.NAME);
-								uploadList(list, false, infoText);
-							}
-						});
+						intent.putExtra("type", TYPE_DELETE_BOUGHT_ITEMS);
+						startActivityForResult(intent, 0);
 						break;
 					default:	//Delete all Items
-						showAlertDialog(R.string.deleteallitemstitle, R.string.deleteallitemsquestion, new AfterDialogInterface() {
-							
-							@Override
-							public void applyChanges() {
-								refreshList(new AfterRefresh() {
-									
-									@Override
-									public void applyChanges() {
-										list.getItems().clear();
-										String infoText = getString(R.string.infoitemsdeleted).replace("username", LoginActivity.NAME);
-										uploadList(list, false, infoText);										
-									}
-								}, list.getID());								
-							}
-						});
+						intent.putExtra("type", TYPE_DELETE_ALL_ITEMS);
+						startActivityForResult(intent, 0);
 						break;
 					}
 					break;
@@ -316,47 +204,31 @@ public class ListActivity extends BaseActivity{
 						startActivityForResult(newListIntent, 0);
 						break;
 					default:	//Show User
-						Intent intent = new Intent(ListActivity.this, ShowUserActivity.class);
+						intent = new Intent(ListActivity.this, ShowUserActivity.class);
 						intent.putExtra("id", ListActivity.this.id);
 						startActivityForResult(intent, 0);
 						break;
 					}
 					break;
 				}
-				update = true;
 				mDrawerLayout.closeDrawer(Gravity.LEFT);
 				return false;
 			}
 		});
 	}
 	
-	private interface AfterDialogInterface{
-		void applyChanges();
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_MENU) {
+	        if (!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+	            mDrawerLayout.openDrawer(Gravity.LEFT);
+	        } else if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+	            mDrawerLayout.closeDrawer(Gravity.LEFT);
+	        }
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
-	
-	private void showAlertDialog(int titleId, int messageId, final AfterDialogInterface afterDialogInterface){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ListActivity.this);
-		 
-		alertDialogBuilder.setTitle(titleId);
-
-		alertDialogBuilder
-			.setMessage(messageId)
-			.setCancelable(false)
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog,int id) {
-					afterDialogInterface.applyChanges();
-				}
-			  })
-			.setNegativeButton("No",new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog,int id) {								
-					dialog.cancel();
-				}
-			});
-
-		alertDialogBuilder.create().show();		
-	}	
 	
 	@Override
 	protected void onStart() {
@@ -369,16 +241,10 @@ public class ListActivity extends BaseActivity{
 	protected void preExcecute() {
 		itemListView.setEnabled(false);
 		mDrawerList.setEnabled(false);
-		if(logoView != null){
-			logoView.startDrawing();
-		}
 	}
 		
 	@Override
 	protected void postExcecute(JSONObject json) {
-		if(logoView != null){
-			logoView.stopDrawing();
-		}
 		String message = "Loading failed!";
 		try {
 			message = json.getString("message");			
@@ -429,33 +295,11 @@ public class ListActivity extends BaseActivity{
 			}			
 		}
 		
-		if(afterRefresh == null){
-			//Liste wurde geupdated
-			try {
-				if(json.getString("message").contains("succes")){
-					if(deleted){
-						Toast.makeText(getApplicationContext(), "List deleted!", Toast.LENGTH_LONG).show();
-						finish();
-						return;
-					}
-				}else{
-					Toast.makeText(getApplicationContext(), "Failed to update List: " + json.getString("message"), Toast.LENGTH_LONG).show();
-				}
-			} catch (JSONException e) {
-				Toast.makeText(getApplicationContext(), "Failed to update List: " + e.getMessage(), Toast.LENGTH_LONG).show();
-				e.printStackTrace();
-			}
-		}else{
+		if(afterRefresh != null){
 			afterRefresh.applyChanges();
 			afterRefresh = null;
 		}
 		
-		if(update){
-			update = false;
-			refreshList(null, this.id);
-		}
-		
-		deleted = false;		
 		itemListView.setEnabled(true);
 		mDrawerList.setEnabled(true);		
 	}
@@ -493,7 +337,7 @@ public class ListActivity extends BaseActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//Activity beenden falls liste gelöscht wurde
-		if(data != null && data.getExtras().containsKey("finish")){
+		if(requestCode == CODE_LIST_DELETED && data != null && data.getExtras().containsKey("listdeleted")){
 			finish();
 		}else{
 			//Nach Show oder Invite User liste aktualisieren

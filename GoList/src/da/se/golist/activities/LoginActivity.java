@@ -66,7 +66,6 @@ public class LoginActivity extends BaseActivity{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
 		if(message.equals("success")){
 			prefs.edit().putString("name", name).commit();
 			prefs.edit().putString("password", password).commit();

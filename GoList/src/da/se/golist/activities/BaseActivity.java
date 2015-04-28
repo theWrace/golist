@@ -171,6 +171,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	 * Liest Favorite Items aus Shared Preferences
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	protected ArrayList<Item> getFavoriteItems(){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if(preferences.contains("favoriteItems")){
@@ -185,6 +186,7 @@ public abstract class BaseActivity extends FragmentActivity{
 		return new ArrayList<Item>();
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected ArrayList<GoListObject> getFavoriteItemsAsGoListObjects(){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if(preferences.contains("favoriteItems")){
