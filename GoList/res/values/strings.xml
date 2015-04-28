@@ -83,8 +83,16 @@
     <string name="cancel">Cancel</string> 
     <string name="nofavoriteitems">No Favorite Items</string>    
     <string name="infoinvitationaccepted">username joined the list</string>   
-    <string name="infoinvitationnotaccepted">username does not want to join the list</string>     
-
+    <string name="infoinvitationnotaccepted">username does not want to join the list</string> 
+    <string name="newpassword">New Password</string>
+    <string name="repeatnewpassword">Repeat New Password</string>  
+    <string name="changepassword">Change Password</string>       
+    <string name="deleteaccount">Delete Account</string>           
+    <string name="deleteaccounttext">Please enter your password if you want to delete your Account.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="answerinvitationquestion">Do you want to join this list?</string>
+    
     <string-array name="category_icons">
         <item>@drawable/cheese</item>
         <item>@drawable/sausage</item>

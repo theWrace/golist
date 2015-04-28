@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="70dip"
-    android:padding="6dip" 
+    android:layout_height="70dp"
+    android:padding="6dp" 
     android:background="@drawable/listitem"
     android:id="@+id/itemlayout"
     android:layout_margin="2dp">
@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/secondLine"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
+        android:layout_height="26dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

@@ -1,26 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="63dip"
+    android:layout_height="63dp"
     android:background="@drawable/listitem"
-    android:paddingTop="6dip"
+    android:paddingTop="6dp"
     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-    android:paddingBottom="2dip" >
+    android:paddingBottom="2dp" >
 
     <ImageView
         android:id="@+id/icon"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="6dip"
-        android:layout_marginBottom="10dip"
-        android:layout_width="75dip"
-   		android:layout_height="75dip"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="75dp"
+   		android:layout_height="75dp"
     	android:scaleType="fitCenter"
         android:src="@drawable/article_icon" />
 
     <TextView
         android:id="@+id/secondLine"
         android:layout_width="fill_parent"
-        android:layout_height="26dip"
+        android:layout_height="26dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

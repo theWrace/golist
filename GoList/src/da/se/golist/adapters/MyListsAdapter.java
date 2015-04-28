@@ -26,6 +26,11 @@ public class MyListsAdapter extends Adapter{
 		private ImageView imageViewIcon;
 	}
 	
+	public void updateListObjects(ArrayList<GoListObject> listObjects){
+		this.listObjects = listObjects;
+		notifyDataSetChanged();
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder mViewHolder = null;
@@ -46,11 +51,14 @@ public class MyListsAdapter extends Adapter{
 		mViewHolder.textViewDescription.setTypeface(tf);
 		mViewHolder.textViewName.setText(listObjects.get(position).getName());
 		mViewHolder.textViewDescription.setText(listObjects.get(position).getDescription());
-		
+
+		RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.itemlayout);
 		if(listObjects.get(position).getDescription().equals("Invitation")){
-			RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.itemlayout);
 			layout.setBackgroundResource(R.drawable.invitationitem);
 			mViewHolder.imageViewIcon.setImageResource(R.drawable.icon_message);
+		}else{
+			layout.setBackgroundResource(R.drawable.listitem);
+			mViewHolder.imageViewIcon.setImageResource(R.drawable.list_icon);
 		}
 		return convertView;
 	}
