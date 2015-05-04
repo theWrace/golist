@@ -59,12 +59,8 @@ public class ChangeListNameActivity extends BaseActivity{
 							try {
 								updateViews(false, buttonSave, buttonCancel);
 								Intent returnIntent = new Intent();
-								try {
-									returnIntent.putExtra("list", objectToString(list));
-									ChangeListNameActivity.this.setResult(RESULT_OK,returnIntent);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
+								returnIntent.putExtra("list", list);
+								ChangeListNameActivity.this.setResult(RESULT_OK,returnIntent);								
 								new LoadDataTask(new String[]{"id", "data", "name", "history"},new String[]{list.getID()+"", objectToString(list), list.getName(), infoText}, "updatelist.php").execute();
 							} catch (IOException e) {
 								e.printStackTrace();

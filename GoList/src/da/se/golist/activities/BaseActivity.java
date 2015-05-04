@@ -180,12 +180,8 @@ public abstract class BaseActivity extends FragmentActivity{
 		//Liste zu vorheriger Activity zurückgeben
 		//So muss nicht nochmal neu geladen werden
 		Intent returnIntent = new Intent();
-		try {
-			returnIntent.putExtra("list", objectToString(list));
-			this.setResult(RESULT_OK,returnIntent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
+		returnIntent.putExtra("list", list);
+		this.setResult(RESULT_OK,returnIntent);
 		
 		if(infoText.length() != 0){
 			infoText += "::" + new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());

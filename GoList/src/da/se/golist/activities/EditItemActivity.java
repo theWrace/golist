@@ -62,7 +62,8 @@ public class EditItemActivity extends BaseActivity{
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
 		list = (ShoppingList) getIntent().getExtras().get("list");
-		item = list.getItemById(this.getIntent().getIntExtra("itemid", 0));						
+		item = list.getItemById(this.getIntent().getIntExtra("itemid", 0));
+		
 		textViewTitle = (TextView) findViewById(R.id.textViewTitle);
 		textViewLastEdit = (TextView) findViewById(R.id.textViewLastEdit);
 		editTextName = (EditText) findViewById(R.id.editTextName);
@@ -73,7 +74,8 @@ public class EditItemActivity extends BaseActivity{
 		markAsBoughtButton = (Button) findViewById(R.id.buttonMarkBought);
 		logoView = (LogoView) findViewById(R.id.logoView);
 		
-		setTypeface("geosanslight", deleteItemButton, saveItemButton, markAsBoughtButton, editTextName, editTextAmount, editTextDescription);
+		setTypeface("geosanslight", deleteItemButton, saveItemButton, markAsBoughtButton, 
+				editTextName, editTextAmount, editTextDescription);
 		setTypeface("deluxe", textViewLastEdit, textViewTitle);
 		
 		textViewTitle.setText(item.getName());
@@ -123,8 +125,7 @@ public class EditItemActivity extends BaseActivity{
 											
 						String infoText = getString(R.string.infoitemedited).replace("username", LoginActivity.NAME);
 						infoText = infoText.replace("itemname", item.getName());
-						uploadList(list, false, infoText);
-						
+						uploadList(list, false, infoText);						
 						finish();
 					}
 					
@@ -262,9 +263,9 @@ public class EditItemActivity extends BaseActivity{
 	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent data) {
-		if(data != null && data.hasExtra("list")){
+		if(data != null && data.getExtras().containsKey("list")){
 			Intent returnIntent = new Intent();
-			returnIntent.putExtra("list", data.getStringExtra("list"));
+			returnIntent.putExtra("list", (ShoppingList)data.getExtras().get("list"));
 			this.setResult(RESULT_OK,returnIntent);
 			finish();
 		}
@@ -289,7 +290,6 @@ public class EditItemActivity extends BaseActivity{
 	}
 	
 	private void write(String text, Tag tag) throws IOException, FormatException {
-
 	    NdefRecord[] records = { createRecord(text) };
 	    NdefMessage message = new NdefMessage(records); 
 	    Ndef ndef = Ndef.get(tag);
