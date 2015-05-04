@@ -1,13 +1,8 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,18 +33,14 @@ public class AnswerInvitationActivity extends BaseActivity{
 		buttonNo = (Button) findViewById(R.id.buttonAnswerInvitationNo);
 		TextView textViewAnswerInvitation = (TextView) findViewById(R.id.textViewAnswerInvitation);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-		buttonCancel.setTypeface(tf);
-		buttonYes.setTypeface(tf);
-		buttonNo.setTypeface(tf);
-		textViewAnswerInvitation.setTypeface(tf1);
+		setTypeface("geosanslight", buttonCancel, buttonYes, buttonNo);
+		setTypeface("deluxe", textViewAnswerInvitation);
 		
 		buttonYes.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				disableButtons();
+				updateViews(false, buttonCancel, buttonNo, buttonNo);
 				refreshList(new AfterRefresh() {
 					
 					@Override
@@ -75,7 +66,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				disableButtons();
+				updateViews(false, buttonCancel, buttonNo, buttonNo);
 				refreshList(new AfterRefresh() {
 					
 					@Override
@@ -105,12 +96,6 @@ public class AnswerInvitationActivity extends BaseActivity{
 		});
 	}
 	
-	private void disableButtons(){
-		buttonCancel.setEnabled(false);
-		buttonNo.setEnabled(false);
-		buttonYes.setEnabled(false);
-	}
-	
 	private void exitToMyLists(){
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("listupdated", true);
@@ -120,29 +105,17 @@ public class AnswerInvitationActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		String message = "Loading failed!";
-		try {
-			message = json.getString("message");			
-			if(message.equals("succes")){
-				JSONArray dataArray = json.getJSONArray("data");
-				list = (ShoppingList) objectFromString(dataArray.getString(0));
-			}
-		} catch (JSONException e) {			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(getListFromJson(json) != null){
+			list = getListFromJson(json);
 		}
+		
 		if(list == null){
 			Toast.makeText(getApplicationContext(), "Failed to load list!", Toast.LENGTH_SHORT).show();
 			finish();
 			return;
 		}
-		if(afterRefresh != null){
-			afterRefresh.applyChanges();
-			afterRefresh = null;
-		}
+		
+		runAfterRefresh();
 	}
 
 	@Override

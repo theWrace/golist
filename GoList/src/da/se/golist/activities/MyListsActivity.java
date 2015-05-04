@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -21,12 +20,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import da.se.golist.R;
 import da.se.golist.adapters.MenuListAdapter;
@@ -46,6 +44,8 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	private final String[] drawerTitles = {"Favorite Items", "Change Password", "Delete Account", "Logout"};
 	private final int[] drawerIcons = {R.drawable.menu_icon_favorite, R.drawable.menu_icon_settings, R.drawable.menu_icon_delete, R.drawable.menu_icon_logout};
 	private final int CODE_ACC_DELETED = 0, CODE_LIST_UPDATED = 1;
+	private LinearLayout linearLayoutBackground;
+	private TextView textViewEmpty;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +54,18 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		setContentView(R.layout.mylistslayout);
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-		textViewTitle.setTypeface(tf);
-		textViewTitle.setText("My Lists");
+	    linearLayoutBackground = (LinearLayout) findViewById(R.id.linerLayoutBackground);
+	    textViewEmpty = (TextView) findViewById(R.id.textViewEmpty);	    
+		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);		
+		textViewTitle.setText(getString(R.string.mylists));
+		setTypeface("deluxe", textViewTitle, textViewEmpty);
 		
 		//Button für neue Liste
 		((ImageButton) findViewById(R.id.buttonNewList)).setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent newListIntent = new Intent(MyListsActivity.this, CreateNewListActivity.class);
-				startActivity(newListIntent);
+				startActivity(new Intent(MyListsActivity.this, CreateNewListActivity.class));
 			}
 		});
 		
@@ -85,8 +85,6 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 
         MenuListAdapter mMenuAdapter = new MenuListAdapter(this, drawerTitles, drawerIcons);
         mDrawerList.setAdapter(mMenuAdapter);
-        mDrawerList.setDivider(null);
-        mDrawerList.setDividerHeight(50);
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -112,7 +110,9 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 			}
 		});
         
-        textViewTitle.setOnClickListener(new OnClickListener() {
+        ImageButton imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        
+        imageButtonMenu.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -139,9 +139,6 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	 */
 	@Override
 	protected void onStart() {
-		Tracker t = ((GoListApplication) getApplication()).getTracker();
-		t.setScreenName("MyListsActivity");
-		t.send(new HitBuilders.ScreenViewBuilder().build());
 		updateLists();
 		super.onStart();
 	}
@@ -176,6 +173,16 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		startLoginActivity.putExtra("logout", 1);
 		startActivity(startLoginActivity);
 		finish();
+	}
+	
+	private void updateVisibility(){
+		if(myLists.size() == 0){
+			textViewEmpty.setVisibility(View.VISIBLE);
+			linearLayoutBackground.setVisibility(View.INVISIBLE);
+		}else{
+			textViewEmpty.setVisibility(View.INVISIBLE);
+			linearLayoutBackground.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	/**
@@ -230,6 +237,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 				listAdapter.updateListObjects(myLists);
 			}
 			
+			updateVisibility();			
 			isLoading = false;
 			
 		} catch (ClassNotFoundException e) {

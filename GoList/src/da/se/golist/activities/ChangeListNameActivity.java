@@ -5,11 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,20 +31,15 @@ public class ChangeListNameActivity extends BaseActivity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(R.layout.changelistnamelayout);
-		getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		
+		getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);		
 		
 		final Button buttonSave = (Button) findViewById(R.id.buttonSave);
 		final Button buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		TextView textViewChangeListName = (TextView) findViewById(R.id.textViewChangeListName);
 		editTextNewName = (EditText) findViewById(R.id.editTextNewName);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-		textViewChangeListName.setTypeface(tf1);
-		buttonCancel.setTypeface(tf);
-		buttonSave.setTypeface(tf);
-		editTextNewName.setTypeface(tf);
+		setTypeface("geosanslight", buttonCancel, buttonSave, editTextNewName);
+		setTypeface("deluxe", textViewChangeListName);
 		
 		buttonSave.setOnClickListener(new OnClickListener() {
 			
@@ -64,8 +57,14 @@ public class ChangeListNameActivity extends BaseActivity{
 							infoText = infoText.replace("oldname", oldname);
 							infoText = infoText.replace("newname", list.getName());
 							try {
-								buttonSave.setEnabled(false);
-								buttonCancel.setEnabled(false);
+								updateViews(false, buttonSave, buttonCancel);
+								Intent returnIntent = new Intent();
+								try {
+									returnIntent.putExtra("list", objectToString(list));
+									ChangeListNameActivity.this.setResult(RESULT_OK,returnIntent);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
 								new LoadDataTask(new String[]{"id", "data", "name", "history"},new String[]{list.getID()+"", objectToString(list), list.getName(), infoText}, "updatelist.php").execute();
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -90,32 +89,17 @@ public class ChangeListNameActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		String message = "Loading failed!";
-		try {
-			message = json.getString("message");			
-			if(message.equals("succes")){
-				JSONArray dataArray = json.getJSONArray("data");
-				list = (ShoppingList) objectFromString(dataArray.getString(0));
-				if(afterRefresh != null){
-					afterRefresh.applyChanges();
-					afterRefresh = null;
-				}
-				return;
-			}
-		} catch (JSONException e) {			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(getListFromJson(json) != null){
+			list = getListFromJson(json);
 		}
 		
 		if(list == null){
-			Toast.makeText(getApplicationContext(), "Failed to load list!", Toast.LENGTH_SHORT).show();			
-		}else if(message.equals("succes")){
+			Toast.makeText(getApplicationContext(), "Failed to load list!", Toast.LENGTH_SHORT).show();
+		}else{
+			runAfterRefresh();
 			Toast.makeText(getApplicationContext(), "List updated!", Toast.LENGTH_SHORT).show();
 		}
-		finish();		
+		finish();
 	}
 
 	@Override

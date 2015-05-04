@@ -1,10 +1,8 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +10,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +23,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import da.se.golist.R;
 import da.se.golist.objects.Item;
 import da.se.golist.objects.LogoView;
@@ -34,8 +35,9 @@ import da.se.golist.objects.ShoppingList;
 public class CreateNewItemActivity extends BaseActivity{
 	
 	private ShoppingList list;
-	private EditText editTextName, editTextNameAmount, editTextNameDescription;
+	private EditText editTextName, editTextAmount, editTextDescription;
 	private Button saveItemButton;
+	private ImageView imageView;
 	private int category;
 	
 	@Override
@@ -44,20 +46,16 @@ public class CreateNewItemActivity extends BaseActivity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.createnewitemlayout);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-		textViewTitle.setTypeface(tf);
-		textViewTitle.setText("New Item");
-		
 		list = (ShoppingList) getIntent().getExtras().get("list");
 		
+		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
+		setTypeface("deluxe", textViewTitle);
+		textViewTitle.setText(getString(R.string.newitem));
+		
 		editTextName = (EditText) findViewById(R.id.editTextName);
-		editTextNameAmount = (EditText) findViewById(R.id.editTextAmount);
-		editTextNameDescription = (EditText) findViewById(R.id.editTextDescription);
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		editTextName.setTypeface(tf1);
-		editTextNameAmount.setTypeface(tf1);
-		editTextNameDescription.setTypeface(tf1);
+		editTextAmount = (EditText) findViewById(R.id.editTextAmount);
+		editTextDescription = (EditText) findViewById(R.id.editTextDescription);
+		setTypeface("geosanslight", editTextName, editTextAmount, editTextDescription);
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		
@@ -68,26 +66,12 @@ public class CreateNewItemActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				if(editTextName.getText().length() != 0){					
-					refreshList(new AfterRefresh() {
-						
-						@Override
-						public void applyChanges() {
-							String amount = editTextNameAmount.getText().toString().trim();
-							if(amount.length() == 0){
-								amount = "1";
-							}
-							
-							list.addItem(new Item(list.getFreeId(), editTextName.getText().toString(), editTextNameDescription.getText().toString(), amount, category, LoginActivity.NAME, new Date()));
-							
-							String infoText = getString(R.string.infoitemcreated).replace("listname", list.getName());
-							infoText = infoText.replace("username", LoginActivity.NAME);
-							infoText = infoText.replace("itemname", editTextName.getText().toString());
-							uploadList(list, false, infoText);
-								
-							CreateNewItemActivity.this.finish();
-						}
-					}, list.getID());
+				if(editTextName.getText().length() != 0){
+					String amount = editTextAmount.getText().toString().trim();
+					if(amount.length() == 0){
+						amount = "1";
+					}
+					createItem(editTextName.getText().toString(), category, amount, editTextDescription.getText().toString());
 				}else{
 					Toast.makeText(getApplicationContext(), "Please fill in a name!", Toast.LENGTH_LONG).show();
 				}
@@ -95,7 +79,7 @@ public class CreateNewItemActivity extends BaseActivity{
 		});
 		
 		final TypedArray imgs = getResources().obtainTypedArray(R.array.category_icons);
-		final ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+		imageView = (ImageView) findViewById(R.id.imageView1);
 		final ArrayList<Integer> imageList = new ArrayList<Integer>();
 		
 		for(int i = 0; i < 10; i++){
@@ -139,42 +123,57 @@ public class CreateNewItemActivity extends BaseActivity{
 			        builder.create().show();
 			}
 		});
+		
+	}
+	
+	private void createItem(final String name, final int category, final String amount, final String description){
+		updateViews(false, editTextName, editTextAmount, editTextDescription, saveItemButton, imageView);
+		
+		refreshList(new AfterRefresh() {
+			
+			@Override
+			public void applyChanges() {				
+				list.addItem(new Item(list.getFreeId(), name, description, amount, category, LoginActivity.NAME, new Date()));
+				
+				String infoText = getString(R.string.infoitemcreated).replace("listname", list.getName());
+				infoText = infoText.replace("username", LoginActivity.NAME);
+				infoText = infoText.replace("itemname", name);
+				uploadList(list, false, infoText);
+				CreateNewItemActivity.this.finish();
+			}
+		}, list.getID());
 	}
 	
 	@Override
-	protected void preExcecute() {
-		saveItemButton.setEnabled(false);
-	}
+	protected void preExcecute() {}
 	
 	@Override
 	protected void postExcecute(JSONObject json) {
-		try {
-			String message = json.getString("message");
-			if(message.equals("succes") && json.has("data")){
-				JSONArray dataArray = json.getJSONArray("data");
-				list = (ShoppingList) objectFromString(dataArray.getString(0));
-			}
-		} catch (JSONException e) {			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(getListFromJson(json) != null){
+			list = getListFromJson(json);
 		}
 		
-		if(afterRefresh != null){
-			afterRefresh.applyChanges();
-			afterRefresh = null;
+		if(!runAfterRefresh()){
 			return;
 		}
 		
 		try {
 			String message = json.getString("message");
 		
-			if(message.equals("successful")){
-				Toast.makeText(getApplicationContext(), editTextName.getText().toString() + " created!", Toast.LENGTH_LONG).show();
+			if(message.equals("succes")){
+				String name = "Item from nfc tag";
+				if(editTextName != null){
+					name = editTextName.getText().toString();
+				}
+				Tracker t = ((GoListApplication)getApplication()).getTracker();
+				t.send(new HitBuilders.EventBuilder()
+			    .setCategory("Item")
+			    .setAction("erstellt")
+			    .setLabel("Name: " + name).build());
+				
+				Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG).show();
 			}else{
-				saveItemButton.setEnabled(true);
+				updateViews(true, editTextName, editTextAmount, editTextDescription, saveItemButton, imageView);
 				Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_LONG).show();
 			}
 		} catch (JSONException e) {

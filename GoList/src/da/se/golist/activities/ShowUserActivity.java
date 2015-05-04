@@ -2,12 +2,9 @@ package da.se.golist.activities;
 
 import java.io.IOException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +28,7 @@ public class ShowUserActivity extends BaseActivity{
 	private ShoppingList list = null;
 	private boolean isAdmin = false;
 	private int id;
+	private MemberFragment userFragment, invitedFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +67,9 @@ public class ShowUserActivity extends BaseActivity{
 		public Fragment getItem(int i) {
 			switch (i){
 			case 0:
-				return new MemberFragment(MemberFragment.MEMBER);
+				return (userFragment = new MemberFragment(MemberFragment.MEMBER));
 			default:
-				return new MemberFragment(MemberFragment.INVITED);
+				return (invitedFragment = new MemberFragment(MemberFragment.INVITED));
 			}
 		}
 
@@ -101,6 +99,14 @@ public class ShowUserActivity extends BaseActivity{
 			public MemberFragment(int type) {
 				this.type = type;
 			}
+			
+			public void updateAdapter(){
+				if(type == MEMBER){
+					listAdapter.updateListObjects(list.getUser());
+				}else{
+					listAdapter.updateListObjects(list.getInvitedUser());
+				}
+			}
 
 			@Override
 			public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,40 +125,18 @@ public class ShowUserActivity extends BaseActivity{
 						
 							@Override
 							public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-								if(!(type == MEMBER && list.getUser().get(position).getName().equalsIgnoreCase(LoginActivity.NAME))){
-									AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ShowUserActivity.this);
-									 
-									alertDialogBuilder.setTitle(R.string.deleteusertitle);
-						 
-									alertDialogBuilder
-										.setMessage(R.string.deleteuserquestion)
-										.setCancelable(false)
-										.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(DialogInterface dialog,int id) {
-												String username;
-												if(type == MEMBER){
-													username = list.getUser().get(position).getName();
-													list.getUser().remove(position);
-												}else{
-													username = list.getInvitedUser().get(position).getName();
-													list.getInvitedUser().remove(position);
-												}
-												listAdapter.notifyDataSetChanged();
-												String infoText = getString(R.string.infouserremoved).replace("username1", LoginActivity.NAME);
-												infoText = infoText.replace("username2", username);
-												infoText = infoText.replace("listname", list.getName());
-												uploadList(list, true, infoText);
-											}
-										  })
-										.setNegativeButton("No",new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(DialogInterface dialog,int id) {								
-												dialog.cancel();
-											}
-									});
-					 
-									alertDialogBuilder.create().show();
+								if(!(type == MEMBER && list.getUser().get(position).getName().equals(LoginActivity.NAME))){
+									String username;
+									if(type == MEMBER){
+										username = list.getUser().get(position).getName();
+									}else{
+										username = list.getInvitedUser().get(position).getName();
+									}
+									Intent intent = new Intent(ShowUserActivity.this, ManageListActivity.class);
+									intent.putExtra("type", ManageListActivity.TYPE_REMOVE_USER);
+									intent.putExtra("username", username);
+									intent.putExtra("id", list.getID());
+									startActivityForResult(intent, 0);
 								}	
 								return true;
 							}
@@ -165,23 +149,26 @@ public class ShowUserActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		try {
-			String message = json.getString("message");
-			if(message.equals("succes") && json.has("data")){
-				JSONArray dataArray = json.getJSONArray("data");
-				list = (ShoppingList) objectFromString(dataArray.getString(0));
-			}
-		} catch (JSONException e) {			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(getListFromJson(json) != null){
+			list = getListFromJson(json);
 		}
-		
-		if(afterRefresh != null){
-			afterRefresh.applyChanges();
-			afterRefresh = null;
+		runAfterRefresh();
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent data) {
+		if(data != null && data.hasExtra("list")){
+			try {
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("list", data.getStringExtra("list"));
+				this.setResult(RESULT_OK, returnIntent);
+				
+				list = (ShoppingList) objectFromString(data.getStringExtra("list"));
+				userFragment.updateAdapter();
+				invitedFragment.updateAdapter();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

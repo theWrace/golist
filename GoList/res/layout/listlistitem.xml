@@ -45,6 +45,8 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/icon"
         android:layout_toEndOf="@id/icon"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:textColor="#FFFFFF"
         android:textSize="20sp" />

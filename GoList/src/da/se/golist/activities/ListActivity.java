@@ -1,18 +1,29 @@
 package da.se.golist.activities;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.IntentFilter;
+import android.content.IntentFilter.MalformedMimeTypeException;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +36,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,12 +54,13 @@ public class ListActivity extends BaseActivity{
 	private int id;
 	private ItemListAdapter listAdapter = null;
 	private ListView itemListView;
-	private TextView textViewTitleList;
+	private TextView textViewTitleList, textViewEmpty;
 	private DrawerLayout mDrawerLayout;
 	private ExpandableListView mDrawerList;
-	private ExpandableMenuListAdapter mMenuAdapter;
-	public final static int CODE_LIST_DELETED = 0, TYPE_DELETE_ALL_ITEMS = 1, 
-			TYPE_DELETE_BOUGHT_ITEMS = 2, TYPE_MARK_ALL_BOUGHT = 3, TYPE_MARK_ALL_NOT_BOUGHT = 4, TYPE_LEAVE_LIST = 5;
+	private ExpandableMenuListAdapter mMenuAdapter;	
+	private NfcAdapter mNfcAdapter;
+	private LinearLayout linearLayoutBackground;
+	public static final String MIME_TEXT_PLAIN = "text/plain";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +68,22 @@ public class ListActivity extends BaseActivity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.listlayout);
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
+	    
+	    mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+	    		
+		textViewEmpty = (TextView)findViewById(R.id.textViewEmpty);
 		textViewTitleList = (TextView) findViewById(R.id.textViewTitle);
-		textViewTitleList.setTypeface(tf);
+		linearLayoutBackground = (LinearLayout) findViewById(R.id.linerLayoutBackground);
+	    setTypeface("deluxe", textViewEmpty, textViewTitleList);
 		textViewTitleList.setText("List");
 		
-		textViewTitleList.setOnClickListener(new OnClickListener() {
+		ImageButton imageButtonMenu = (ImageButton) findViewById(R.id.imageButtonMenu);
+        
+        imageButtonMenu.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				mDrawerLayout.openDrawer(Gravity.LEFT);
+				mDrawerLayout.openDrawer(Gravity.LEFT);				
 			}
 		});
 		
@@ -89,7 +107,7 @@ public class ListActivity extends BaseActivity{
 				Intent intent = new Intent(ListActivity.this, EditItemActivity.class);
 				intent.putExtra("list", list);
 				intent.putExtra("itemid", ((Item) list.getItems().get(position)).getId());
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}
 		});
 		
@@ -97,7 +115,6 @@ public class ListActivity extends BaseActivity{
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int position, long arg3) {
-				itemListView.setEnabled(false);
 				final int itemid = ((Item) list.getItems().get(position)).getId();
 				refreshList(new AfterRefresh() {
 					
@@ -117,21 +134,16 @@ public class ListActivity extends BaseActivity{
 							Toast.makeText(ListActivity.this, R.string.markedbought, Toast.LENGTH_SHORT).show();
 						}
 						uploadList(list, false, infoText);
-						itemListView.setEnabled(true);
-						refreshList(null, id);
 					}
 				}, id);
 				return true;
 			}
-		});
+		});		
 		
-		
-		//### Menu ###
-		
+		//### Menu ###		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ExpandableListView) findViewById(R.id.navList);
         mDrawerList.setGroupIndicator(null);
-
        
         mDrawerList.setDivider(null);
         mDrawerList.setVerticalScrollBarEnabled(false);
@@ -140,7 +152,7 @@ public class ListActivity extends BaseActivity{
 			
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-				Intent intent = new Intent(ListActivity.this, ManageItemsActivity.class);
+				Intent intent = new Intent(ListActivity.this, ManageListActivity.class);
 				intent.putExtra("id", ListActivity.this.id);
 				
 				switch(groupPosition){
@@ -154,8 +166,8 @@ public class ListActivity extends BaseActivity{
 					case 1:
 						//Leave List
 						if(!isAdmin(list, LoginActivity.NAME)){							
-							intent.putExtra("type", TYPE_LEAVE_LIST);
-							startActivityForResult(intent, CODE_LIST_DELETED);
+							intent.putExtra("type", ManageListActivity.TYPE_LEAVE_LIST);
+							startActivityForResult(intent, ManageListActivity.CODE_LIST_DELETED);
 							break;
 						}
 						
@@ -167,7 +179,7 @@ public class ListActivity extends BaseActivity{
 					default:	//Delete List
 						intent = new Intent(ListActivity.this, DeleteListActivity.class);
 						intent.putExtra("id", list.getID());
-						startActivityForResult(intent, CODE_LIST_DELETED);
+						startActivityForResult(intent, ManageListActivity.CODE_LIST_DELETED);
 						break;
 					}
 					break;
@@ -179,19 +191,19 @@ public class ListActivity extends BaseActivity{
 						startActivityForResult(intent, 0);
 						break;
 					case 1:	//Mark Items bought
-						intent.putExtra("type", TYPE_MARK_ALL_BOUGHT);
+						intent.putExtra("type", ManageListActivity.TYPE_MARK_ALL_BOUGHT);
 						startActivityForResult(intent, 0);						
 						break;
 					case 2:	//Mark Items not bought
-						intent.putExtra("type", TYPE_MARK_ALL_NOT_BOUGHT);
+						intent.putExtra("type", ManageListActivity.TYPE_MARK_ALL_NOT_BOUGHT);
 						startActivityForResult(intent, 0);			
 						break;
 					case 3:	//Delete bought Items
-						intent.putExtra("type", TYPE_DELETE_BOUGHT_ITEMS);
+						intent.putExtra("type", ManageListActivity.TYPE_DELETE_BOUGHT_ITEMS);
 						startActivityForResult(intent, 0);
 						break;
 					default:	//Delete all Items
-						intent.putExtra("type", TYPE_DELETE_ALL_ITEMS);
+						intent.putExtra("type", ManageListActivity.TYPE_DELETE_ALL_ITEMS);
 						startActivityForResult(intent, 0);
 						break;
 					}
@@ -215,6 +227,9 @@ public class ListActivity extends BaseActivity{
 				return false;
 			}
 		});
+
+	    id = getIntent().getExtras().getInt("id");
+		refreshList(null, id);
 	}
 	
 	@Override
@@ -230,39 +245,84 @@ public class ListActivity extends BaseActivity{
 	    return super.onKeyDown(keyCode, event);
 	}
 	
-	@Override
-	protected void onStart() {
-		id = getIntent().getExtras().getInt("id");
-		refreshList(null, id);
-		super.onStart();
-	}
+	public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+ 
+        final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
+ 
+        IntentFilter[] filters = new IntentFilter[1];
+        String[][] techList = new String[][]{};
+ 
+        // Notice that this is the same filter as in our manifest.
+        filters[0] = new IntentFilter();
+        filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        filters[0].addCategory(Intent.CATEGORY_DEFAULT);
+        try {
+            filters[0].addDataType(MIME_TEXT_PLAIN);
+        } catch (MalformedMimeTypeException e) {
+            throw new RuntimeException("Check your mime type.");
+        }
+         
+        adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
+    }
 	
 	@Override
-	protected void preExcecute() {
-		itemListView.setEnabled(false);
-		mDrawerList.setEnabled(false);
+    protected void onResume() {
+        super.onResume();
+        if(mNfcAdapter != null){
+        	setupForegroundDispatch(this, mNfcAdapter);
+        }
+    }
+     
+    @Override
+    protected void onPause() {
+    	 if(mNfcAdapter != null){
+    		 stopForegroundDispatch(this, mNfcAdapter); 
+    	 }       
+        super.onPause();
+    }
+    
+    public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
+        adapter.disableForegroundDispatch(activity);
+    }
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		String action = intent.getAction();
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+			String type = intent.getType();
+			if (MIME_TEXT_PLAIN.equals(type)) {
+				Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+				new NdefReaderTask().execute(tag);
+			} else {
+				Log.d("TAG", "Wrong mime type: " + type);
+			}
+		} else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+			String[] techList = tag.getTechList();
+			String searchedTech = Ndef.class.getName();
+
+			for (String tech : techList) {
+				if (searchedTech.equals(tech)) {
+					new NdefReaderTask().execute(tag);
+					break;
+				}
+			}
+		}
 	}
 		
 	@Override
-	protected void postExcecute(JSONObject json) {
-		String message = "Loading failed!";
-		try {
-			message = json.getString("message");			
-			if(message.equals("succes")){
-				JSONArray dataArray = json.getJSONArray("data");
-				list = (ShoppingList) objectFromString(dataArray.getString(0));
-				updateMenuItems(isAdmin(list, LoginActivity.NAME));
-			}
-		} catch (JSONException e) {			
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}			       
-        
+	protected void preExcecute() {
+		updateViews(false, itemListView, mDrawerList);
+	}
+		
+	@Override
+	protected void postExcecute(JSONObject json) {		        
 		//Daten von Liste erfolgreich geladen
-		if(message.equals("succes")){
+		if(getListFromJson(json) != null){
+			list = getListFromJson(json);
+			updateMenuItems(isAdmin(list, LoginActivity.NAME));
 			
 			//Button für neues Item
 			((ImageButton) findViewById(R.id.buttonNewItem)).setOnClickListener(new OnClickListener() {				
@@ -271,7 +331,7 @@ public class ListActivity extends BaseActivity{
 				public void onClick(View v) {
 					Intent intent = new Intent(ListActivity.this, CreateNewItemActivity.class);
 					intent.putExtra("list", list);
-					startActivity(intent);
+					startActivityForResult(intent, 0);
 				}
 			});
 			
@@ -282,26 +342,23 @@ public class ListActivity extends BaseActivity{
 				listAdapter.updateListObjects(list.getItems());
 			}
 		    
-		    textViewTitleList.setText(list.getName());			
-			
-			TextView textViewEmpty = (TextView)findViewById(R.id.textViewEmpty);
-			if(list.getItems().size() == 0){
-				Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-				textViewEmpty.setVisibility(View.VISIBLE);
-				textViewEmpty.setTypeface(tf);
-			}
-			else{
-				textViewEmpty.setVisibility(View.INVISIBLE);
-			}			
+			updateTextViews();
 		}
 		
-		if(afterRefresh != null){
-			afterRefresh.applyChanges();
-			afterRefresh = null;
-		}
+		runAfterRefresh();
+		updateViews(true, itemListView, mDrawerList);
+	}
+	
+	private void updateTextViews(){
+		textViewTitleList.setText(list.getName());						
 		
-		itemListView.setEnabled(true);
-		mDrawerList.setEnabled(true);		
+		if(list.getItems().size() == 0){
+			textViewEmpty.setVisibility(View.VISIBLE);
+			linearLayoutBackground.setVisibility(View.INVISIBLE);
+		}else{
+			textViewEmpty.setVisibility(View.INVISIBLE);
+			linearLayoutBackground.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	/**
@@ -336,12 +393,75 @@ public class ListActivity extends BaseActivity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//Activity beenden falls liste gelöscht wurde
-		if(requestCode == CODE_LIST_DELETED && data != null && data.getExtras().containsKey("listdeleted")){
-			finish();
-		}else{
-			//Nach Show oder Invite User liste aktualisieren
-			refreshList(null, id);
+		if(data != null && data.getExtras().containsKey("list")){
+			try {
+				list = (ShoppingList) objectFromString(data.getStringExtra("list"));
+				listAdapter.updateListObjects(list.getItems());
+				updateTextViews();
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
+			return;
 		}
+		//Activity beenden falls liste gelöscht wurde
+		if(requestCode == ManageListActivity.CODE_LIST_DELETED && data != null && data.getExtras().containsKey("listdeleted")){
+			finish();
+		}
+	}
+	
+	private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
+		 
+	    @Override
+	    protected String doInBackground(Tag... params) {
+	        Tag tag = params[0];
+	         
+	        Ndef ndef = Ndef.get(tag);
+	        if (ndef == null) {
+	            return null;
+	        }
+	        
+	        NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+	 
+	        NdefRecord[] records = ndefMessage.getRecords();
+	        for (NdefRecord ndefRecord : records) {
+	            if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
+	                try {
+	                    return readText(ndefRecord);
+	                } catch (UnsupportedEncodingException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	 
+	        return null;
+	    }
+	     
+	    private String readText(NdefRecord record) throws UnsupportedEncodingException {	 
+	        byte[] payload = record.getPayload();
+	        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
+	        int languageCodeLength = payload[0] & 0063;
+	        return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
+	    }
+	     
+	    @Override
+	    protected void onPostExecute(String result) {
+	        if (result == null || !result.contains(";;")) {	    
+	        	return;
+	        }
+	        
+	        String[] resultArray = result.split(";;");
+	        if(resultArray.length != 4){
+	        	Toast.makeText(getApplicationContext(), "Error: Incorrect Data!", Toast.LENGTH_SHORT).show();
+	        	return;
+	        }
+	        
+	        list.addItem(new Item(list.getFreeId(), resultArray[0], resultArray[2], resultArray[3], Integer.parseInt(resultArray[1]), LoginActivity.NAME, new Date()));
+	        listAdapter.notifyDataSetChanged();
+	        textViewEmpty.setVisibility(View.INVISIBLE);
+	        String infoText = getString(R.string.infofromnfc).replace("username", LoginActivity.NAME);
+	        infoText = infoText.replace("itemname", resultArray[0]);
+	        //List wird nicht aktualisiert, dauert sonst lange
+	        uploadList(list, false, infoText);
+	    }
 	}
 }

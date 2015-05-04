@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:background="#007abb" >
 
-        <include layout="@layout/titlebar" />
+        <include layout="@layout/titlebar_menu" />
 
         <TextView
             android:id="@+id/textViewEmpty"
@@ -25,12 +25,13 @@
             android:visibility="invisible" />
 
         <LinearLayout
-            android:id="@+id/ll6"
+            android:id="@+id/linerLayoutBackground"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_below="@+id/linearLayoutTitle"
-            android:background="@drawable/listviewbackgroundgradient"
-            android:orientation="horizontal" >
+            android:visibility="invisible"
+            android:orientation="horizontal"
+            android:background="@drawable/listviewbackgroundgradient" >
         </LinearLayout>
 
         <ListView

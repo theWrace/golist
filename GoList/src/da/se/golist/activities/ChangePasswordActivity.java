@@ -3,7 +3,6 @@ package da.se.golist.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,11 +31,7 @@ public class ChangePasswordActivity extends BaseActivity{
 		editTextNewPassword = (EditText) findViewById(R.id.editTextNewPassword);
 		buttonChangePassword = (Button) findViewById(R.id.buttonCreateAcc);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		editTextPassword.setTypeface(tf);
-		editTextRepeatNewPassword.setTypeface(tf);
-		editTextNewPassword.setTypeface(tf);
-		buttonChangePassword.setTypeface(tf);
+		setTypeface("geosanslight", editTextPassword, editTextRepeatNewPassword, editTextNewPassword, buttonChangePassword);
 		
 		buttonChangePassword.setOnClickListener(new OnClickListener() {
 			
@@ -51,8 +46,7 @@ public class ChangePasswordActivity extends BaseActivity{
 					}
 				}else{
 					Toast.makeText(getApplicationContext(), "Error: Passwords do not match!", Toast.LENGTH_LONG).show();
-				}
-				
+				}				
 			}
 		});		
 	}

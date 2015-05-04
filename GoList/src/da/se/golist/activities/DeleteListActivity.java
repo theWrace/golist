@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +12,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import da.se.golist.R;
 
 public class DeleteListActivity extends BaseActivity{
@@ -31,11 +34,8 @@ public class DeleteListActivity extends BaseActivity{
 		buttonCancel = (Button) findViewById(R.id.buttonDeleteListNo);
 		TextView textViewDeleteAccount = (TextView) findViewById(R.id.textViewDeleteList);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
-		buttonDeleteList.setTypeface(tf);
-		buttonCancel.setTypeface(tf);
-		textViewDeleteAccount.setTypeface(tf1);
+		setTypeface("geosanslight", buttonDeleteList, buttonCancel);
+		setTypeface("deluxe", textViewDeleteAccount);
 		
 		buttonDeleteList.setOnClickListener(new OnClickListener() {
 			
@@ -59,6 +59,11 @@ public class DeleteListActivity extends BaseActivity{
 	protected void postExcecute(JSONObject json) {
 		try {
 			if(json.getString("message").contains("succes")){
+				Tracker t = ((GoListApplication)getApplication()).getTracker();
+				t.send(new HitBuilders.EventBuilder()
+			    .setCategory("Liste")
+			    .setAction("gelöscht")
+			    .setLabel("Name nicht verfügbar").build());
 				Toast.makeText(getApplicationContext(), "List deleted!", Toast.LENGTH_LONG).show();
 			}else{
 				Toast.makeText(getApplicationContext(), "Failed to delete List: " + json.getString("message"), Toast.LENGTH_LONG).show();

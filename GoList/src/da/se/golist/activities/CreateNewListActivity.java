@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +19,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
@@ -40,13 +43,19 @@ public class CreateNewListActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.createnewlistlayout);
-		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
+				
 		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);
-		textViewTitle.setTypeface(tf);
+		TextView textViewUser = (TextView) findViewById(R.id.textViewUser);
+		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
+		buttonSave = (Button) findViewById(R.id.buttonSave);
+		logoView = (LogoView) findViewById(R.id.logoView);
+		ListView myListsView = (ListView) findViewById(R.id.listViewPeople);
+		buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
+		
+		setTypeface("deluxe", textViewTitle, textViewUser);
+		setTypeface("geosanslight", editTextName);
 		textViewTitle.setText("New List");
 		
-		buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
 		
 		buttonAddUser.setOnClickListener(new OnClickListener() {
 			
@@ -63,20 +72,11 @@ public class CreateNewListActivity extends BaseActivity{
 				startActivityForResult(newListIntent, 1);			
 			}
 		});
-		
-		ListView myListsView = (ListView) findViewById(R.id.listViewPeople);
 
 		userOfList.add(new User(LoginActivity.NAME));
 		listAdapter = new UserListAdapter(this, userOfList);
 		myListsView.setAdapter(listAdapter);
-		 
-		logoView = (LogoView) findViewById(R.id.logoView);
 		
-		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		editTextName.setTypeface(tf1);
-		
-		buttonSave = (Button) findViewById(R.id.buttonSave);
 		buttonSave.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -96,19 +96,16 @@ public class CreateNewListActivity extends BaseActivity{
 						new LoadDataTask(new String[]{"name", "data", "user", "inviteduser", "history"},new String[]{list.getName()+"", objectToString(list), "", "", infoText}, "savelist.php").execute();
 					} catch (IOException e) {
 						e.printStackTrace();
-					}
-					
+					}					
 				}else{
 					Toast.makeText(getApplicationContext(), "Please enter a longer name!", Toast.LENGTH_LONG).show();
-				}
-				
+				}				
 			}
 		});
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 	    if (requestCode == 1) {
 	        if(resultCode == RESULT_OK){
 	        	//ausgewählten User von InviteFriendsActivity zurueckbekommen
@@ -120,8 +117,7 @@ public class CreateNewListActivity extends BaseActivity{
 	
 	@Override
 	protected void preExcecute() {
-		buttonSave.setEnabled(false);
-		buttonAddUser.setEnabled(false);
+		updateViews(false, buttonSave, buttonAddUser);
 	}
 	
 	@Override
@@ -152,6 +148,12 @@ public class CreateNewListActivity extends BaseActivity{
 				String message = json.getString("message");
 			
 				if(message.equals("successful")){
+					Tracker t = ((GoListApplication)getApplication()).getTracker();
+					t.send(new HitBuilders.EventBuilder()
+				    .setCategory("Liste")
+				    .setAction("erstellt")
+				    .setLabel("Name: " + list.getName()).build());
+					
 					Toast.makeText(getApplicationContext(), list.getName() + " created!", Toast.LENGTH_LONG).show();
 					finish();
 				}else{
@@ -163,8 +165,7 @@ public class CreateNewListActivity extends BaseActivity{
 			}
 		}
 
-		buttonSave.setEnabled(true);
-		buttonAddUser.setEnabled(true);
+		updateViews(true, buttonSave, buttonAddUser);
 	}
 
 }
