@@ -23,7 +23,7 @@
     <string name="description">Description</string>
     <string name="newlist">New List</string>
     <string name="inviteauser">Invite a User</string>
-    <string name="people">People</string>
+    <string name="user">User</string>
     <string name="invitefriends">Invite Friends</string>
     <string name="search">Search</string>
     <string name="list">List</string>
@@ -38,18 +38,10 @@
     <string name="markallitemsnotboughtquestion">Are you sure you want to mark all Items as not bought?</string>
     <string name="deleteallitemsboughtquestion">Are you sure you want to delete all bought Items?</string>
     <string name="markallitemsboughtquestion">Are you sure you want to mark all Items as bought?</string>
-    <string name="deleteitemtitle">Delete Item</string>
-    <string name="leavelisttitle">Leave List</string>
     <string name="leavelistquestion">Are you sure you want to leave this list?</string>
-    <string name="deleteboughtitemstitle">Delete bought Items</string>
-    <string name="deleteallitemstitle">Delete all Items</string>
     <string name="deleteallitemsquestion">Are you sure you want to delete all Items?</string>
-    <string name="markallitemsboughttitle">Mark all Items as bought</string>
-    <string name="markallitemsnotboughttitle">Mark all Items as not bought</string>
     <string name="deletelistquestion">This list and all items in it will be deleted!\nAre you sure you want to do this?</string>
-    <string name="deletelisttitle">Delete List</string>
     <string name="deleteuserquestion">Do you want to kick this user out of the list?</string>
-    <string name="deleteusertitle">Delete User</string>
     <string name="edit">Edit</string>
     <string name="removeauser">Remove a user</string>
     <string name="deleteallitems">Delete all Items</string>
@@ -90,8 +82,11 @@
     <string name="deleteaccount">Delete Account</string>           
     <string name="deleteaccounttext">Please enter your password if you want to delete your Account.</string>
     <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="no">No</string>    
+    <string name="deleteitemtitle">Delete Item</string>
     <string name="answerinvitationquestion">Do you want to join this list?</string>
+    <string name="infofromnfc">username imported itemname from nfc tag</string> 
+    <string name="createalist">Create a Shoppinglist!</string>
     
     <string-array name="category_icons">
         <item>@drawable/cheese</item>

@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70dip"
+    android:paddingTop="3dip"
+    android:paddingLeft="2dp"
+    android:paddingStart="2dp"
+    android:paddingRight="2dp"
+    android:paddingEnd="2dp"
+    android:paddingBottom="1dip" >
+
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+		android:scrollHorizontally="true"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/description"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/secondLine"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+		android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+</RelativeLayout> 

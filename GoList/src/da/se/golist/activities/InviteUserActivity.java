@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -8,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,9 +40,8 @@ public class InviteUserActivity extends BaseActivity{
 		setContentView(R.layout.inviteuserlayout);
 		getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/deluxe.ttf");
 		TextView textViewTitleList = (TextView) findViewById(R.id.textViewTitle);
-		textViewTitleList.setTypeface(tf);
+		setTypeface("deluxe", textViewTitleList);
 		textViewTitleList.setText("Invite User");
 		
 		list = (ShoppingList) getIntent().getExtras().get("list");
@@ -54,9 +51,8 @@ public class InviteUserActivity extends BaseActivity{
 			userInList.addAll(list.getUser());		
 		}
 		
-		Typeface tf1 = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
 		searchText = (EditText) findViewById(R.id.editTextSearch);
-		searchText.setTypeface(tf1);
+		setTypeface("geosanslight", searchText);
 		
 		ListView myListsView = (ListView) findViewById(R.id.listView1);
 		myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,7 +73,7 @@ public class InviteUserActivity extends BaseActivity{
 							itemclicked = true;
 							String infoText = getString(R.string.infouserinvited).replace("username1", LoginActivity.NAME);
 							infoText = infoText.replace("username2", user.get(position).getName());
-							infoText = infoText.replace("listname", list.getName());
+							infoText = infoText.replace("listname", list.getName());							
 							uploadList(list, true, infoText);
 							Toast.makeText(getApplicationContext(), user.get(position).getName() + " invited!", Toast.LENGTH_SHORT).show();
 						}
@@ -136,23 +132,10 @@ public class InviteUserActivity extends BaseActivity{
 		}
 		
 		if(!json.has("users")){
-			try {
-				String message = json.getString("message");
-				if(message.equals("succes") && json.has("data")){
-					JSONArray dataArray = json.getJSONArray("data");
-					list = (ShoppingList) objectFromString(dataArray.getString(0));
-				}
-			} catch (JSONException e) {			
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(getListFromJson(json) != null){
+				list = getListFromJson(json);
 			}
-			if(afterRefresh != null){
-				afterRefresh.applyChanges();
-				afterRefresh = null;
-			}
+			runAfterRefresh();
 			return;
 		}
 		

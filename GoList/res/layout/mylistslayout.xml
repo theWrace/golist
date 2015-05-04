@@ -10,13 +10,26 @@
         android:layout_height="fill_parent"
         android:background="#007abb" >
 
-        <include layout="@layout/titlebar" />
+        <include layout="@layout/titlebar_menu" />
+        
+        <TextView
+            android:id="@+id/textViewEmpty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:rotation="30"
+            android:text="@string/createalist"
+            android:textColor="#60FFFFFF"
+            android:textSize="40sp"
+            android:visibility="invisible" />
 
         <LinearLayout
-            android:id="@+id/ll6"
+            android:id="@+id/linerLayoutBackground"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_below="@+id/linearLayoutTitle"
+            android:visibility="invisible"
             android:background="@drawable/listviewbackgroundgradient"
             android:orientation="horizontal" >
         </LinearLayout>
@@ -55,6 +68,8 @@
         android:layout_width="230dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#95ffffff" />
+        android:background="#95ffffff"
+        android:divider="@null"
+        android:dividerHeight="20dp" />
 
 </android.support.v4.widget.DrawerLayout>

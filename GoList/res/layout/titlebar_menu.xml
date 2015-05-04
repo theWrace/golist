@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearLayoutTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#0554A8"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_alignParentTop="true" >
+        
+    	<ImageButton
+    	    android:id="@+id/imageButtonMenu"
+    	    android:layout_width="35dp"
+    	    android:layout_height="35dp"
+    	    android:layout_marginLeft="20dp"
+    	    android:layout_marginStart="20dp"
+    	    android:layout_marginRight="5dp"
+    	    android:layout_marginEnd="5dp"
+    	    android:layout_marginTop="10dp"
+    	    android:background="@null"
+    	    android:scaleType="fitCenter"
+    	    android:src="@drawable/button_menu" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.97"
+            android:gravity="center_vertical"
+            android:text="@string/title"
+            android:ellipsize="marquee" 
+    		android:marqueeRepeatLimit="marquee_forever"
+    		android:scrollHorizontally="true" 
+            android:singleLine="true"
+            android:textColor="#FFFFFF"
+            android:textSize="42sp"
+            android:focusable="true" 
+    		android:focusableInTouchMode="true" 
+    		android:freezesText="true"
+    		android:layout_marginLeft="15dp"
+    		android:layout_marginStart="15dp" />
+        
+        <da.se.golist.objects.LogoView
+            android:id="@+id/logoView"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:minHeight="48dp"
+            android:indeterminate="true"
+            android:visibility="visible"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp" />
+
+    </LinearLayout>

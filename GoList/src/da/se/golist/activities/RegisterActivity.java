@@ -3,7 +3,6 @@ package da.se.golist.activities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +10,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import da.se.golist.R;
 import da.se.golist.objects.LogoView;
 
@@ -29,12 +32,9 @@ public class RegisterActivity extends BaseActivity{
 		editTextPassword = (EditText) findViewById(R.id.editTextRegisterPassword);
 		editTextRepeatPassword = (EditText) findViewById(R.id.editTextRegisterRepeatPassword);
 		buttonRegister = (Button) findViewById(R.id.buttonCreateAcc);
+		logoView = (LogoView) findViewById(R.id.logoViewRegister);
 		
-		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/geosanslight.ttf");
-		editTextName.setTypeface(tf);
-		editTextPassword.setTypeface(tf);
-		editTextRepeatPassword.setTypeface(tf);
-		buttonRegister.setTypeface(tf);
+		setTypeface("geosanslight", editTextName, editTextPassword, editTextRepeatPassword, buttonRegister);
 		
 		buttonRegister.setOnClickListener(new OnClickListener() {
 			
@@ -53,16 +53,12 @@ public class RegisterActivity extends BaseActivity{
 			}
 		});		
 
-		logoView = (LogoView) findViewById(R.id.logoViewRegister);
 		logoView.showLogoBackground();
 	}
 	
 	@Override
 	protected void preExcecute() {
-		editTextName.setEnabled(false);		
-		editTextPassword.setEnabled(false);
-		editTextRepeatPassword.setEnabled(false);		
-		buttonRegister.setEnabled(false);
+		updateViews(false, editTextName, editTextPassword, editTextRepeatPassword, buttonRegister);
 	}
 	
 	@Override
@@ -74,14 +70,17 @@ public class RegisterActivity extends BaseActivity{
 			e.printStackTrace();
 		}
 		if(message.equals("Registration successful!")){
+			Tracker t = ((GoListApplication)getApplication()).getTracker();
+			t.send(new HitBuilders.EventBuilder()
+		    .setCategory("Account")
+		    .setAction("erstellt")
+		    .setLabel("Name: " + editTextName.getText().toString()).build());
+			
 			Toast.makeText(RegisterActivity.this, "Account created!", Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
-		buttonRegister.setEnabled(true);
-		editTextName.setEnabled(true);
-		editTextPassword.setEnabled(true);
-		editTextRepeatPassword.setEnabled(true);
+		updateViews(true, editTextName, editTextPassword, editTextRepeatPassword, buttonRegister);
 		Toast.makeText(RegisterActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();
 	}
 

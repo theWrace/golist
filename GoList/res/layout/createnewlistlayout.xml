@@ -42,15 +42,15 @@
         android:text="@string/inviteauser" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="20dip"
-        android:text="@string/people"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="24sp"
+        android:text="@string/user"
         android:textColor="#FFFFFF" />
 
     <ListView
