@@ -157,10 +157,10 @@ public class ShowUserActivity extends BaseActivity{
 	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent data) {
-		if(data != null && data.hasExtra("list")){
+		if(data != null && data.getExtras().containsKey("list")){
 			try {
 				Intent returnIntent = new Intent();
-				returnIntent.putExtra("list", data.getStringExtra("list"));
+				returnIntent.putExtra("list", (ShoppingList)data.getExtras().get("list"));
 				this.setResult(RESULT_OK, returnIntent);
 				
 				list = (ShoppingList) objectFromString(data.getStringExtra("list"));

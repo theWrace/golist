@@ -394,13 +394,9 @@ public class ListActivity extends BaseActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(data != null && data.getExtras().containsKey("list")){
-			try {
-				list = (ShoppingList) objectFromString(data.getStringExtra("list"));
-				listAdapter.updateListObjects(list.getItems());
-				updateTextViews();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
+			list = (ShoppingList) data.getExtras().get("list");
+			listAdapter.updateListObjects(list.getItems());
+			updateTextViews();
 			return;
 		}
 		//Activity beenden falls liste gelöscht wurde
