@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
 
 public class ChangeListNameActivity extends BaseActivity{
 	
@@ -45,13 +46,14 @@ public class ChangeListNameActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				if(editTextNewName.getText().toString().trim().length() != 0){
+				final String newName = editTextNewName.getText().toString().trim();
+				if(newName.length() != 0){
 					refreshList(new AfterRefresh() {
 						
 						@Override
 						public void applyChanges() {
 							final String oldname = list.getName();
-							list.setName(editTextNewName.getText().toString().trim());
+							list.setName(newName);
 							String infoText = getString(R.string.infolistnamechanged).replace("username", LoginActivity.NAME) + "::" 
 									+ new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());
 							infoText = infoText.replace("oldname", oldname);
@@ -60,7 +62,7 @@ public class ChangeListNameActivity extends BaseActivity{
 								updateViews(false, buttonSave, buttonCancel);
 								Intent returnIntent = new Intent();
 								returnIntent.putExtra("list", list);
-								ChangeListNameActivity.this.setResult(RESULT_OK,returnIntent);								
+								ChangeListNameActivity.this.setResult(RESULT_OK, returnIntent);								
 								new LoadDataTask(new String[]{"id", "data", "name", "history"},new String[]{list.getID()+"", objectToString(list), list.getName(), infoText}, "updatelist.php").execute();
 							} catch (IOException e) {
 								e.printStackTrace();

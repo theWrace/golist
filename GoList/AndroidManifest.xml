@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.NFC"/>
 
     <application
-        android:name=".activities.GoListApplication"
+        android:name="da.se.application.GoListApplication"
         android:icon="@drawable/logo5"
         android:label="@string/app_name"
         android:allowBackup="true"

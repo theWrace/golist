@@ -31,12 +31,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
-import da.se.golist.objects.Base64Coder;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.Item;
-import da.se.golist.objects.JSONParser;
 import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
+import da.se.otherclasses.Base64Coder;
+import da.se.otherclasses.JSONParser;
 
 public abstract class BaseActivity extends FragmentActivity{
 	
@@ -176,7 +177,7 @@ public abstract class BaseActivity extends FragmentActivity{
 		}
 	}
 	
-	protected void uploadList(ShoppingList list, boolean userChanged, String infoText){
+	public void uploadList(ShoppingList list, boolean userChanged, String infoText){
 		//Liste zu vorheriger Activity zurückgeben
 		//So muss nicht nochmal neu geladen werden
 		Intent returnIntent = new Intent();
@@ -216,13 +217,9 @@ public abstract class BaseActivity extends FragmentActivity{
 		}
 	}
 	
-	protected void refreshList(AfterRefresh afterRefresh, int id){
+	public void refreshList(AfterRefresh afterRefresh, int id){
 		this.afterRefresh = afterRefresh;
 		new LoadDataTask(new String[]{"id"},new String[]{id+""}, "loadlistbyid.php").execute();
-	}
-	
-	protected interface AfterRefresh{
-		void applyChanges();
 	}
 	
 	/**

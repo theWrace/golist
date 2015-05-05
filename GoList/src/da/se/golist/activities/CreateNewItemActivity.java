@@ -27,10 +27,12 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import da.se.application.GoListApplication;
 import da.se.golist.R;
 import da.se.golist.objects.Item;
 import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
 
 public class CreateNewItemActivity extends BaseActivity{
 	
@@ -66,12 +68,13 @@ public class CreateNewItemActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				if(editTextName.getText().length() != 0){
+				String name = editTextName.getText().toString().trim();
+				if(name.length() != 0){
 					String amount = editTextAmount.getText().toString().trim();
 					if(amount.length() == 0){
 						amount = "1";
 					}
-					createItem(editTextName.getText().toString(), category, amount, editTextDescription.getText().toString());
+					createItem(name, category, amount, editTextDescription.getText().toString());
 				}else{
 					Toast.makeText(getApplicationContext(), "Please fill in a name!", Toast.LENGTH_LONG).show();
 				}
@@ -163,7 +166,7 @@ public class CreateNewItemActivity extends BaseActivity{
 			if(message.equals("succes")){
 				String name = "Item from nfc tag";
 				if(editTextName != null){
-					name = editTextName.getText().toString();
+					name = editTextName.getText().toString().trim();
 				}
 				Tracker t = ((GoListApplication)getApplication()).getTracker();
 				t.send(new HitBuilders.EventBuilder()

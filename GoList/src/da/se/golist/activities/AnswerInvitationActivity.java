@@ -14,6 +14,7 @@ import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.objects.ShoppingList;
 import da.se.golist.objects.User;
+import da.se.interfaces.AfterRefresh;
 
 public class AnswerInvitationActivity extends BaseActivity{
 	

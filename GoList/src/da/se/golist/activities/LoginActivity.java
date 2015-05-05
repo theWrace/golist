@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import da.se.application.GoListApplication;
 import da.se.golist.R;
 import da.se.golist.objects.LogoView;
 
