@@ -1,29 +1,15 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentFilter.MalformedMimeTypeException;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,9 +32,14 @@ import da.se.golist.adapters.ItemListAdapter;
 import da.se.golist.objects.Item;
 import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
+import da.se.otherclasses.DeleteAllItems;
+import da.se.otherclasses.DeleteBoughtItems;
+import da.se.otherclasses.LeaveList;
+import da.se.otherclasses.MarkAllItems;
 
 @SuppressLint("RtlHardcoded")
-public class ListActivity extends BaseActivity{
+public class ListActivity extends ReadNFCActivity{
 	
 	private ShoppingList list = null;
 	private int id;
@@ -58,9 +49,7 @@ public class ListActivity extends BaseActivity{
 	private DrawerLayout mDrawerLayout;
 	private ExpandableListView mDrawerList;
 	private ExpandableMenuListAdapter mMenuAdapter;	
-	private NfcAdapter mNfcAdapter;
 	private LinearLayout linearLayoutBackground;
-	public static final String MIME_TEXT_PLAIN = "text/plain";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +58,7 @@ public class ListActivity extends BaseActivity{
 		setContentView(R.layout.listlayout);
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	    
-	    mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+	    initAdapter();
 	    		
 		textViewEmpty = (TextView)findViewById(R.id.textViewEmpty);
 		textViewTitleList = (TextView) findViewById(R.id.textViewTitle);
@@ -97,8 +86,6 @@ public class ListActivity extends BaseActivity{
 		});
 		
 		itemListView = (ListView) findViewById(R.id.listViewArticles);
-		
-		itemListView.setDividerHeight(6);
 		
 		itemListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -143,11 +130,7 @@ public class ListActivity extends BaseActivity{
 		//### Menu ###		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ExpandableListView) findViewById(R.id.navList);
-        mDrawerList.setGroupIndicator(null);
        
-        mDrawerList.setDivider(null);
-        mDrawerList.setVerticalScrollBarEnabled(false);
-        mDrawerList.setDividerHeight(50);
         mDrawerList.setOnChildClickListener(new OnChildClickListener() {
 			
 			@Override
@@ -166,7 +149,7 @@ public class ListActivity extends BaseActivity{
 					case 1:
 						//Leave List
 						if(!isAdmin(list, LoginActivity.NAME)){							
-							intent.putExtra("type", ManageListActivity.TYPE_LEAVE_LIST);
+							intent.putExtra("managelistfunction", new LeaveList());
 							startActivityForResult(intent, ManageListActivity.CODE_LIST_DELETED);
 							break;
 						}
@@ -191,19 +174,19 @@ public class ListActivity extends BaseActivity{
 						startActivityForResult(intent, 0);
 						break;
 					case 1:	//Mark Items bought
-						intent.putExtra("type", ManageListActivity.TYPE_MARK_ALL_BOUGHT);
+						intent.putExtra("managelistfunction", new MarkAllItems(true));
 						startActivityForResult(intent, 0);						
 						break;
 					case 2:	//Mark Items not bought
-						intent.putExtra("type", ManageListActivity.TYPE_MARK_ALL_NOT_BOUGHT);
+						intent.putExtra("managelistfunction", new MarkAllItems(false));
 						startActivityForResult(intent, 0);			
 						break;
 					case 3:	//Delete bought Items
-						intent.putExtra("type", ManageListActivity.TYPE_DELETE_BOUGHT_ITEMS);
+						intent.putExtra("managelistfunction", new DeleteBoughtItems());
 						startActivityForResult(intent, 0);
 						break;
 					default:	//Delete all Items
-						intent.putExtra("type", ManageListActivity.TYPE_DELETE_ALL_ITEMS);
+						intent.putExtra("managelistfunction", new DeleteAllItems());
 						startActivityForResult(intent, 0);
 						break;
 					}
@@ -243,73 +226,6 @@ public class ListActivity extends BaseActivity{
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
-	}
-	
-	public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
-        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
- 
-        final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
- 
-        IntentFilter[] filters = new IntentFilter[1];
-        String[][] techList = new String[][]{};
- 
-        // Notice that this is the same filter as in our manifest.
-        filters[0] = new IntentFilter();
-        filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        filters[0].addCategory(Intent.CATEGORY_DEFAULT);
-        try {
-            filters[0].addDataType(MIME_TEXT_PLAIN);
-        } catch (MalformedMimeTypeException e) {
-            throw new RuntimeException("Check your mime type.");
-        }
-         
-        adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
-    }
-	
-	@Override
-    protected void onResume() {
-        super.onResume();
-        if(mNfcAdapter != null){
-        	setupForegroundDispatch(this, mNfcAdapter);
-        }
-    }
-     
-    @Override
-    protected void onPause() {
-    	 if(mNfcAdapter != null){
-    		 stopForegroundDispatch(this, mNfcAdapter); 
-    	 }       
-        super.onPause();
-    }
-    
-    public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
-        adapter.disableForegroundDispatch(activity);
-    }
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		String action = intent.getAction();
-		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-			String type = intent.getType();
-			if (MIME_TEXT_PLAIN.equals(type)) {
-				Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-				new NdefReaderTask().execute(tag);
-			} else {
-				Log.d("TAG", "Wrong mime type: " + type);
-			}
-		} else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
-			Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			String[] techList = tag.getTechList();
-			String searchedTech = Ndef.class.getName();
-
-			for (String tech : techList) {
-				if (searchedTech.equals(tech)) {
-					new NdefReaderTask().execute(tag);
-					break;
-				}
-			}
-		}
 	}
 		
 	@Override
@@ -404,60 +320,28 @@ public class ListActivity extends BaseActivity{
 			finish();
 		}
 	}
-	
-	private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
-		 
-	    @Override
-	    protected String doInBackground(Tag... params) {
-	        Tag tag = params[0];
-	         
-	        Ndef ndef = Ndef.get(tag);
-	        if (ndef == null) {
-	            return null;
-	        }
-	        
-	        NdefMessage ndefMessage = ndef.getCachedNdefMessage();
-	 
-	        NdefRecord[] records = ndefMessage.getRecords();
-	        for (NdefRecord ndefRecord : records) {
-	            if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
-	                try {
-	                    return readText(ndefRecord);
-	                } catch (UnsupportedEncodingException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-	 
-	        return null;
-	    }
-	     
-	    private String readText(NdefRecord record) throws UnsupportedEncodingException {	 
-	        byte[] payload = record.getPayload();
-	        String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-	        int languageCodeLength = payload[0] & 0063;
-	        return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
-	    }
-	     
-	    @Override
-	    protected void onPostExecute(String result) {
-	        if (result == null || !result.contains(";;")) {	    
-	        	return;
-	        }
-	        
-	        String[] resultArray = result.split(";;");
-	        if(resultArray.length != 4){
-	        	Toast.makeText(getApplicationContext(), "Error: Incorrect Data!", Toast.LENGTH_SHORT).show();
-	        	return;
-	        }
-	        
-	        list.addItem(new Item(list.getFreeId(), resultArray[0], resultArray[2], resultArray[3], Integer.parseInt(resultArray[1]), LoginActivity.NAME, new Date()));
-	        listAdapter.notifyDataSetChanged();
-	        textViewEmpty.setVisibility(View.INVISIBLE);
-	        String infoText = getString(R.string.infofromnfc).replace("username", LoginActivity.NAME);
-	        infoText = infoText.replace("itemname", resultArray[0]);
-	        //List wird nicht aktualisiert, dauert sonst lange
-	        uploadList(list, false, infoText);
-	    }
+
+	/**
+	 * Text von NFC Tag gelesen
+	 */
+	@Override
+	protected void nfcTagRead(String result) {
+		if (result == null || !result.contains(";;")) {	    
+        	return;
+        }
+        
+        String[] resultArray = result.split(";;");
+        if(resultArray.length != 4){
+        	Toast.makeText(getApplicationContext(), "Error: Incorrect Data!", Toast.LENGTH_SHORT).show();
+        	return;
+        }
+        
+        list.addItem(new Item(list.getFreeId(), resultArray[0], resultArray[2], resultArray[3], Integer.parseInt(resultArray[1]), LoginActivity.NAME, new Date()));
+        listAdapter.notifyDataSetChanged();
+        textViewEmpty.setVisibility(View.INVISIBLE);
+        String infoText = getString(R.string.infofromnfc).replace("username", LoginActivity.NAME);
+        infoText = infoText.replace("itemname", resultArray[0]);
+        uploadList(list, false, infoText);
 	}
+	
 }

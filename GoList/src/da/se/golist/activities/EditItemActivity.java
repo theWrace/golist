@@ -1,7 +1,5 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,18 +8,10 @@ import java.util.Locale;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.nfc.FormatException;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +29,10 @@ import da.se.golist.R;
 import da.se.golist.objects.Item;
 import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
+import da.se.otherclasses.DeleteItem;
 
-public class EditItemActivity extends BaseActivity{
+public class EditItemActivity extends WriteNFCActivity{
 	
 	private ShoppingList list;
 	private EditText editTextName, editTextAmount, editTextDescription;
@@ -48,11 +40,7 @@ public class EditItemActivity extends BaseActivity{
 	private Item item;
 	private int state, category;
 	private TextView textViewTitle, textViewLastEdit;
-	private NfcAdapter adapter;
-	private PendingIntent pendingIntent;
 	private ImageView imageViewFavorite;
-	private IntentFilter writeTagFilters[];
-	private Tag mytag;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +128,7 @@ public class EditItemActivity extends BaseActivity{
 				Intent intent = new Intent(EditItemActivity.this, ManageListActivity.class);
 				intent.putExtra("itemid", EditItemActivity.this.getIntent().getIntExtra("itemid", 0));
 				intent.putExtra("id", list.getID());
-				intent.putExtra("type", ManageListActivity.TYPE_DELETE_ITEM);
+				intent.putExtra("managelistfunction", new DeleteItem());
 				startActivityForResult(intent, 0);
 			}
 		});
@@ -210,13 +198,7 @@ public class EditItemActivity extends BaseActivity{
 			}
 		});
 		
-		adapter = NfcAdapter.getDefaultAdapter(this);
-		if(adapter != null){
-		    pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-		    IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
-		    tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
-		    writeTagFilters = new IntentFilter[] { tagDetected };
-		}
+		initAdapter();
 	}
 
 	@Override
@@ -241,23 +223,13 @@ public class EditItemActivity extends BaseActivity{
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
-		if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())){
-			mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			try {
-				if(editTextName.getText().toString().length() != 0){
-					String amount = "1";
-					if(editTextAmount.getText().toString().length() != 0){
-						amount = editTextAmount.getText().toString();
-					}
-					write(editTextName.getText().toString() + ";;" + category + ";;" + editTextDescription.getText().toString() + ";;" + amount, mytag);
-				}
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (FormatException e) {
-				e.printStackTrace();
+		String name = editTextName.getText().toString().trim();
+		if(name.length() != 0){
+			String amount = "1";
+			if(editTextAmount.getText().toString().trim().length() != 0){
+				amount = editTextAmount.getText().toString().trim();
 			}
+			write(name + ";;" + category + ";;" + editTextDescription.getText().toString().trim() + ";;" + amount, intent);
 		}
 	}
 	
@@ -270,49 +242,4 @@ public class EditItemActivity extends BaseActivity{
 			finish();
 		}
 	}
-	
-	private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
-
-	    String lang = "en";
-	    byte[] textBytes = text.getBytes();
-	    byte[] langBytes = lang.getBytes("US-ASCII");
-	    int langLength = langBytes.length;
-	    int textLength = textBytes.length;
-
-	    byte[] payload = new byte[1 + langLength + textLength];
-	    payload[0] = (byte) langLength;
-
-	    System.arraycopy(langBytes, 0, payload, 1, langLength);
-	    System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength);
-
-	    NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN, NdefRecord.RTD_TEXT, new byte[0], payload);
-	    return recordNFC;
-	}
-	
-	private void write(String text, Tag tag) throws IOException, FormatException {
-	    NdefRecord[] records = { createRecord(text) };
-	    NdefMessage message = new NdefMessage(records); 
-	    Ndef ndef = Ndef.get(tag);
-	    ndef.connect();
-	    ndef.writeNdefMessage(message);
-	    ndef.close();
-	    Toast.makeText(getApplicationContext(), "Saved Item on Tag!", Toast.LENGTH_SHORT).show();
-	}
-	
-	@Override
-    protected void onResume() {
-        super.onResume();
-        if(adapter != null){
-        	adapter.enableForegroundDispatch(this, pendingIntent, writeTagFilters, null);
-        }
-    }
-     
-    @Override
-    protected void onPause() {
-    	if(adapter != null){
-    		adapter.disableForegroundDispatch(this);      
-    	}
-        super.onPause();
-    }
-
 }

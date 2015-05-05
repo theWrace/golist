@@ -23,6 +23,7 @@ import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.ShoppingList;
 import da.se.golist.objects.User;
+import da.se.interfaces.AfterRefresh;
 
 public class InviteUserActivity extends BaseActivity{
 	

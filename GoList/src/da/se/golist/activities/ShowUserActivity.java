@@ -1,7 +1,5 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
-
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -20,6 +18,8 @@ import android.widget.ListView;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.ShoppingList;
+import da.se.interfaces.AfterRefresh;
+import da.se.otherclasses.RemoveUser;
 
 public class ShowUserActivity extends BaseActivity{
 	
@@ -133,7 +133,7 @@ public class ShowUserActivity extends BaseActivity{
 										username = list.getInvitedUser().get(position).getName();
 									}
 									Intent intent = new Intent(ShowUserActivity.this, ManageListActivity.class);
-									intent.putExtra("type", ManageListActivity.TYPE_REMOVE_USER);
+									intent.putExtra("managelistfunction", new RemoveUser());
 									intent.putExtra("username", username);
 									intent.putExtra("id", list.getID());
 									startActivityForResult(intent, 0);
@@ -158,17 +158,13 @@ public class ShowUserActivity extends BaseActivity{
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent data) {
 		if(data != null && data.getExtras().containsKey("list")){
-			try {
-				Intent returnIntent = new Intent();
-				returnIntent.putExtra("list", (ShoppingList)data.getExtras().get("list"));
-				this.setResult(RESULT_OK, returnIntent);
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra("list", (ShoppingList)data.getExtras().get("list"));
+			this.setResult(RESULT_OK, returnIntent);
 				
-				list = (ShoppingList) objectFromString(data.getStringExtra("list"));
-				userFragment.updateAdapter();
-				invitedFragment.updateAdapter();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
+			list = (ShoppingList) data.getExtras().get("list");
+			userFragment.updateAdapter();
+			invitedFragment.updateAdapter();
 		}
 	}
 

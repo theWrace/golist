@@ -41,7 +41,7 @@
             android:layout_below="@+id/linearLayoutTitle"
             android:layout_margin="10dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10dp"
+            android:dividerHeight="3dp"
             android:scrollbars="none" >
         </ListView>
 
@@ -68,6 +68,10 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:divider="@null"
+        android:scrollbars="none"
+        android:dividerHeight="20dp"
+        android:groupIndicator="@null"
         android:background="#95ffffff" />
 
 </android.support.v4.widget.DrawerLayout>

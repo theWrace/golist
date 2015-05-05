@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import da.se.application.GoListApplication;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
@@ -54,8 +55,7 @@ public class CreateNewListActivity extends BaseActivity{
 		
 		setTypeface("deluxe", textViewTitle, textViewUser);
 		setTypeface("geosanslight", editTextName);
-		textViewTitle.setText("New List");
-		
+		textViewTitle.setText(getString(R.string.newlist));		
 		
 		buttonAddUser.setOnClickListener(new OnClickListener() {
 			
@@ -81,15 +81,17 @@ public class CreateNewListActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				if(editTextName.getText().toString().length() > 3){					
-					list = new ShoppingList(editTextName.getText().toString(), LoginActivity.NAME, "");
+				String name = editTextName.getText().toString().trim();
+				if(name.length() != 0){					
+					list = new ShoppingList(name, LoginActivity.NAME, "");
 					list.addUser(new User(LoginActivity.NAME));
 					for(int i = 1; i < userOfList.size(); i++){
 						list.inviteUser((User)userOfList.get(i));
 					}
 					firstTaskExcecution = true;
 					
-					String infoText = getString(R.string.infolistcreated).replace("listname", list.getName()) + "::" + new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());
+					String infoText = getString(R.string.infolistcreated).replace("listname", name);
+					infoText += "::" + new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US).format(new Date());
 					infoText = infoText.replace("username", LoginActivity.NAME);
 					
 					try {
@@ -98,7 +100,7 @@ public class CreateNewListActivity extends BaseActivity{
 						e.printStackTrace();
 					}					
 				}else{
-					Toast.makeText(getApplicationContext(), "Please enter a longer name!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Please insert a name!", Toast.LENGTH_LONG).show();
 				}				
 			}
 		});
@@ -106,12 +108,10 @@ public class CreateNewListActivity extends BaseActivity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == 1) {
-	        if(resultCode == RESULT_OK){
-	        	//ausgewählten User von InviteFriendsActivity zurueckbekommen
-	        	userOfList.add(new User(data.getStringExtra("user")));
-	        	listAdapter.notifyDataSetChanged();
-	        }
+	    if (requestCode == 1 && resultCode == RESULT_OK) {
+	        //ausgewählten User von InviteFriendsActivity zurueckbekommen
+	        userOfList.add(new User(data.getStringExtra("user")));
+	        listAdapter.notifyDataSetChanged();
 	    }
 	}
 	
@@ -131,15 +131,14 @@ public class CreateNewListActivity extends BaseActivity{
 					users += user + ", ";
 				}
 				String infoText = "";
-				if(users.length() == 0){
-					
-				}else{
-					infoText = getString(R.string.infomultiuserinvited).replace("username", LoginActivity.NAME);
+				if(users.length() != 0){
+					infoText = getString(R.string.infomultiuserinvited);
+					infoText = infoText.replace("username", LoginActivity.NAME);
 					infoText = infoText.replace("users", users);
 					infoText = infoText.replace("listname", list.getName());
 				}
 				
-				uploadList(list, true, "");
+				uploadList(list, true, infoText);
 			} catch (NumberFormatException | JSONException e) {
 				e.printStackTrace();
 			}
