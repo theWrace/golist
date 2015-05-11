@@ -19,7 +19,7 @@ public class GoListApplication extends Application {
 		super.onCreate();
 		GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 	    analytics.setDryRun(false);
-	    analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
+	    analytics.getLogger().setLogLevel(Logger.LogLevel.WARNING);
 	    analytics.enableAutoActivityReports(this);
 	}
 

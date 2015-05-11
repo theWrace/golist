@@ -1,184 +1,1005 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="da.se.golist.adapters.MyListsAdapter" project="GoList" 
-    file="/GoList/src/da/se/golist/adapters/MyListsAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="734" y="635"/>    
+  <class id="1" language="java" name="da.se.application.GoListApplication" project="GoList" 
+    file="/GoList/src/da/se/application/GoListApplication.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="126" x="291" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="da.se.golist.objects.ShoppingList" project="GoList" 
-    file="/GoList/src/da/se/golist/objects/ShoppingList.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="689" y="1213"/>    
+  <class id="2" language="java" name="da.se.golist.activities.RegisterActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/RegisterActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="190" x="1831" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <class id="3" language="java" name="da.se.golist.activities.BaseActivity" project="GoList" 
     file="/GoList/src/da/se/golist/activities/BaseActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="608" y="190"/>    
+    <position height="387" width="317" x="2303" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="da.se.golist.objects.GoListObject" project="GoList" 
-    file="/GoList/src/da/se/golist/objects/GoListObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="370" y="1136"/>    
+  <class id="4" language="java" name="da.se.golist.activities.ShowFavoriteItemsActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ShowFavoriteItemsActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="181" x="402" y="1727"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="da.se.golist.activities.InviteUserActivity" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/InviteUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="566" y="467"/>    
+  <class id="5" language="java" name="da.se.golist.activities.ShowHistoryActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ShowHistoryActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="181" x="1136" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="da.se.golist.activities.LoginActivity" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="223" y="340"/>    
+  <class id="6" language="java" name="da.se.golist.activities.EditItemActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/EditItemActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="369" width="189" x="3443" y="837"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="da.se.otherclasses.JSONParser" project="GoList" 
-    file="/GoList/src/da/se/otherclasses/JSONParser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="348" y="191"/>    
+  <class id="7" language="java" name="da.se.golist.activities.ChangeListNameActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ChangeListNameActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="181" x="3478" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="da.se.golist.activities.ListActivity" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/ListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="413" y="467"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="9" language="java" name="da.se.golist.activities.BaseActivity.LoadDataTask" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/BaseActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="765" y="345"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="da.se.golist.objects.User" project="GoList" 
-    file="/GoList/src/da/se/golist/objects/User.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="272" y="1311"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="da.se.otherclasses.Base64Coder" project="GoList" 
-    file="/GoList/src/da/se/otherclasses/Base64Coder.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="761" y="198"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="da.se.golist.activities.CreateNewItemActivity" project="GoList" 
+  <class id="8" language="java" name="da.se.golist.activities.CreateNewItemActivity" project="GoList" 
     file="/GoList/src/da/se/golist/activities/CreateNewItemActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="553" y="347"/>    
+    <position height="261" width="211" x="3006" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="da.se.golist.activities.MyListsActivity" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/MyListsActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="767" y="459"/>    
+  <class id="9" language="java" name="da.se.golist.activities.ShowUserActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ShowUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="243" width="292" x="4170" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="da.se.golist.adapters.UserListAdapter" project="GoList" 
-    file="/GoList/src/da/se/golist/adapters/UserListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="375" y="826"/>    
+  <class id="10" language="java" name="da.se.golist.activities.ChangePasswordActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ChangePasswordActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="213" x="1578" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="da.se.golist.activities.CreateNewListActivity" project="GoList" 
+  <class id="11" language="java" name="da.se.golist.activities.CreateNewListActivity" project="GoList" 
     file="/GoList/src/da/se/golist/activities/CreateNewListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="247" y="460"/>    
+    <position height="207" width="189" x="3693" y="837"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="da.se.golist.adapters.Adapter" project="GoList" 
-    file="/GoList/src/da/se/golist/adapters/Adapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="305" y="646"/>    
+  <class id="12" language="java" name="da.se.golist.activities.BaseActivity.LoadDataTask" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/BaseActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="207" x="442" y="464"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="da.se.golist.objects.Item" project="GoList" 
-    file="/GoList/src/da/se/golist/objects/Item.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="429" y="1338"/>    
+  <class id="13" language="java" name="da.se.golist.activities.ShowUserActivity.PagerAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ShowUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="188" x="4255" y="837"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="da.se.golist.adapters.ItemListAdapter" project="GoList" 
+  <class id="14" language="java" name="da.se.golist.activities.ListActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="351" width="195" x="2891" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="da.se.golist.activities.DeleteListActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/DeleteListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="181" x="1357" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="da.se.golist.activities.ReadNFCActivity.NdefReaderTask" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ReadNFCActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="166" x="2685" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="da.se.golist.activities.ManageListActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ManageListActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="181" x="2785" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="da.se.golist.activities.DeleteAccountActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/DeleteAccountActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="181" x="2082" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="da.se.golist.activities.LoginActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/LoginActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="181" x="689" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="da.se.golist.activities.MyListsActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/MyListsActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="240" x="2405" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="da.se.golist.activities.AnswerInvitationActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/AnswerInvitationActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="181" x="3699" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="da.se.golist.activities.ReadNFCActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ReadNFCActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="279" width="276" x="2303" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="da.se.golist.activities.ImportFavoriteItemsActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ImportFavoriteItemsActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="181" x="3257" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="da.se.golist.activities.WriteNFCActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/WriteNFCActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="279" width="189" x="3920" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="da.se.golist.activities.ShowUserActivity.MemberFragment" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/ShowUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="171" width="293" x="3922" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="da.se.golist.activities.InviteUserActivity" project="GoList" 
+    file="/GoList/src/da/se/golist/activities/InviteUserActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="181" x="4483" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="da.se.golist.adapters.SelectFavoriteItemListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/SelectFavoriteItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="337" x="2374" y="1727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="da.se.golist.adapters.MyListsAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/MyListsAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="269" x="2358" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="da.se.golist.adapters.ExpandableMenuListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/ExpandableMenuListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="346" x="2996" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="da.se.golist.adapters.HistoryItemListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/HistoryItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="240" x="5204" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="da.se.golist.adapters.ItemListAdapter.ViewHolder" project="GoList" 
     file="/GoList/src/da/se/golist/adapters/ItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="685" y="764"/>    
+    <position height="135" width="184" x="2751" y="1727"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="da.se.golist.activities.RegisterActivity" project="GoList" 
-    file="/GoList/src/da/se/golist/activities/RegisterActivity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="386" y="346"/>    
+  <class id="32" language="java" name="da.se.golist.adapters.MyListsAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/MyListsAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="176" x="2158" y="1727"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="false" private="false" static="false"/>      
-      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="21">    
+  <class id="33" language="java" name="da.se.golist.adapters.CategoryListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/CategoryListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="189" width="248" x="1036" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="da.se.golist.adapters.FavoriteItemListAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/FavoriteItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="184" x="623" y="1727"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="da.se.golist.adapters.Adapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/Adapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="263" x="2102" y="837"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="da.se.golist.adapters.SelectFavoriteItemListAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/SelectFavoriteItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="184" x="2374" y="1938"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="da.se.golist.adapters.MenuListAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/MenuListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="160" x="41" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="da.se.golist.adapters.ItemListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/ItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="268" x="2667" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="da.se.golist.adapters.MenuListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/MenuListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="207" width="210" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="da.se.golist.adapters.UserListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/UserListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="81" width="272" x="3727" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="da.se.golist.adapters.CategoryListAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/CategoryListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="140" x="241" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="da.se.golist.adapters.FavoriteItemListAdapter" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/FavoriteItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="439" x="623" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="da.se.golist.adapters.Adapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/Adapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="176" x="2142" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="da.se.golist.adapters.HistoryItemListAdapter.ViewHolder" project="GoList" 
+    file="/GoList/src/da/se/golist/adapters/HistoryItemListAdapter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="144" x="5204" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="da.se.golist.objects.ShoppingList" project="GoList" 
+    file="/GoList/src/da/se/golist/objects/ShoppingList.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="405" width="263" x="3382" y="1282"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="da.se.golist.objects.GoListObject" project="GoList" 
+    file="/GoList/src/da/se/golist/objects/GoListObject.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="261" width="163" x="3403" y="1938"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="da.se.golist.objects.LogoView" project="GoList" 
+    file="/GoList/src/da/se/golist/objects/LogoView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="279" width="186" x="910" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="48" language="java" name="da.se.golist.objects.Item" project="GoList" 
+    file="/GoList/src/da/se/golist/objects/Item.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="227" x="3708" y="2239"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="49" language="java" name="da.se.golist.objects.User" project="GoList" 
+    file="/GoList/src/da/se/golist/objects/User.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="81" width="91" x="3403" y="2239"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="50" language="java" name="da.se.interfaces.AfterRefresh" project="GoList" 
+    file="/GoList/src/da/se/interfaces/AfterRefresh.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="81" width="126" x="2619" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="51" language="java" name="da.se.interfaces.ManageListFunction" project="GoList" 
+    file="/GoList/src/da/se/interfaces/ManageListFunction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="99" width="187" x="4523" y="464"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="52" language="java" name="da.se.otherclasses.JSONParser" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/JSONParser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="342" x="654" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="53" language="java" name="da.se.otherclasses.DeleteBoughtItems" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/DeleteBoughtItems.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="187" x="4523" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="54" language="java" name="da.se.otherclasses.MarkAllItems" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/MarkAllItems.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="153" width="187" x="4750" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="55" language="java" name="da.se.otherclasses.LeaveList" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/LeaveList.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="187" x="4069" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="56" language="java" name="da.se.otherclasses.Base64Coder" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/Base64Coder.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="225" width="157" x="457" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="57" language="java" name="da.se.otherclasses.RemoveUser" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/RemoveUser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="187" x="4977" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="58" language="java" name="da.se.otherclasses.DeleteAllItems" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/DeleteAllItems.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="187" x="4296" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="59" language="java" name="da.se.otherclasses.DeleteItem" project="GoList" 
+    file="/GoList/src/da/se/otherclasses/DeleteItem.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="187" x="3842" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <nesting id="60">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="32"/>  
+  </nesting>  
+  <generalization id="61">    
     <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="4"/>  
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="62">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="63" name="listAdapter"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="66" name="listAdapter"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="68">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="44"/>  
+  </nesting>  
+  <generalization id="69">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <association id="70">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="71" name="favoriteItemListAdapter"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="73">    
+    <bendpoint x="2111" y="1282"/>    
+    <bendpoint x="2111" y="1727"/>    
+    <end type="SOURCE" refId="35" navigable="false">      
+      <attribute id="74" name="listObjects"/>      
+      <multiplicity id="75" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="76">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="77">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="38"/>  
+  </generalization>  
+  <nesting id="78">    
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="34"/>  
+  </nesting>  
+  <generalization id="79">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <nesting id="80">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="36"/>  
+  </nesting>  
+  <generalization id="81">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="83">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <realization id="84">    
+    <end type="SOURCE" refId="53"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <realization id="85">    
+    <end type="SOURCE" refId="58"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <generalization id="86">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="22"/>  
+  </generalization>  
+  <association id="87">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="88" name="userFragment"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="90">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="31"/>  
+  </nesting>  
+  <generalization id="91">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="92">    
+    <bendpoint x="3412" y="837"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="93" name="list"/>      
+      <multiplicity id="94" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="95">    
+    <bendpoint x="3370" y="1727"/>    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="96" name="user"/>      
+      <multiplicity id="97" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="98">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="99">    
+    <bendpoint x="3391" y="837"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="100" name="list"/>      
+      <multiplicity id="101" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <bendpoint x="2965" y="1282"/>    
+    <bendpoint x="2965" y="1727"/>    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="103" name="myLists"/>      
+      <multiplicity id="104" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="105">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="106" name="mMenuAdapter"/>      
+      <multiplicity id="107" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="108">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="109" name="listAdapter"/>      
+      <multiplicity id="110" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="111">    
+    <bendpoint x="3433" y="1727"/>    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="46"/>  
+  </generalization>  
+  <realization id="112">    
+    <end type="SOURCE" refId="59"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <generalization id="113">    
+    <bendpoint x="4492" y="464"/>    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <nesting id="114">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="12"/>  
+  </nesting>  
+  <nesting id="115">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="13"/>  
+  </nesting>  
+  <association id="116">    
+    <bendpoint x="3116" y="837"/>    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="117" name="list"/>      
+      <multiplicity id="118" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="119">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="43"/>  
+  </nesting>  
+  <association id="120">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="121" name="invitedFragment"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <bendpoint x="3675" y="1282"/>    
+    <bendpoint x="3675" y="1727"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="124" name="userOfList"/>      
+      <multiplicity id="125" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="126">    
+    <bendpoint x="411" y="1282"/>    
+    <bendpoint x="411" y="837"/>    
+    <bendpoint x="411" y="464"/>    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="127">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <nesting id="128">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="16"/>  
+  </nesting>  
+  <association id="129">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="130" name="listAdapter"/>      
+      <multiplicity id="131" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="132">    
+    <bendpoint x="2051" y="464"/>    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="133">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="134" name="list"/>      
+      <multiplicity id="135" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="136">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <generalization id="137">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <nesting id="138">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="41"/>  
+  </nesting>  
+  <association id="139">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="140" name="list"/>      
+      <multiplicity id="141" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="142">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="24"/>  
+  </generalization>  
+  <realization id="143">    
+    <end type="SOURCE" refId="57"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <association id="144">    
+    <bendpoint x="3328" y="837"/>    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="145" name="list"/>      
+      <multiplicity id="146" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="147">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="148" name="logoView"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="150">    
+    <bendpoint x="4139" y="464"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="151">    
+    <bendpoint x="3391" y="1727"/>    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="152" name="items"/>      
+      <multiplicity id="153" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="154">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="25"/>  
+  </nesting>  
+  <generalization id="155">    
+    <end type="SOURCE" refId="49"/>    
+    <end type="TARGET" refId="46"/>  
+  </generalization>  
+  <nesting id="156">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="37"/>  
+  </nesting>  
+  <generalization id="157">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <association id="158">    
+    <bendpoint x="3412" y="1727"/>    
+    <end type="SOURCE" refId="45" navigable="false">      
+      <attribute id="159" name="invitedUser"/>      
+      <multiplicity id="160" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="161">    
+    <end type="SOURCE" refId="54"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <association id="162">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="163" name="afterRefresh"/>      
+      <multiplicity id="164" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="50" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="165">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="166" name="list"/>      
+      <multiplicity id="167" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="168">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="169">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="170" name="list"/>      
+      <multiplicity id="171" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="172">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="173" name="listAdapter"/>      
+      <multiplicity id="174" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="175">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="176" name="selectedItems"/>      
+      <multiplicity id="177" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="178">    
+    <bendpoint x="3662" y="837"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="179" name="list"/>      
+      <multiplicity id="180" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="181">    
+    <end type="SOURCE" refId="48"/>    
+    <end type="TARGET" refId="46"/>  
+  </generalization>  
+  <generalization id="182">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="183">    
+    <end type="SOURCE" refId="42" navigable="false">      
+      <attribute id="184" name="activity"/>      
+      <multiplicity id="185" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="186">    
+    <end type="SOURCE" refId="55"/>    
+    <end type="TARGET" refId="51"/>  
+  </realization>  
+  <generalization id="187">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="188">    
+    <bendpoint x="3203" y="837"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="189" name="list"/>      
+      <multiplicity id="190" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="191">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="192">    
+    <bendpoint x="4029" y="1282"/>    
+    <bendpoint x="3696" y="1727"/>    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="193" name="user"/>      
+      <multiplicity id="194" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="195">    
+    <bendpoint x="4050" y="1282"/>    
+    <bendpoint x="4050" y="1727"/>    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="196" name="userInList"/>      
+      <multiplicity id="197" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="198">    
+    <bendpoint x="3696" y="1282"/>    
+    <bendpoint x="3717" y="1727"/>    
+    <bendpoint x="3717" y="1938"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="199" name="item"/>      
+      <multiplicity id="200" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="48" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="201">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
