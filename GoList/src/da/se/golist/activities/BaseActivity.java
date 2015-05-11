@@ -79,11 +79,10 @@ public abstract class BaseActivity extends FragmentActivity{
 	    return o;
 	}
 	
-	protected class LoadDataTask extends AsyncTask<String, String, String> {
+	protected class LoadDataTask extends AsyncTask<String, String, JSONObject> {
 		
 		protected String phpFile;
 		protected List<NameValuePair> params = new ArrayList<NameValuePair>();
-		protected JSONObject json;
 		private String uniqueName;
 		
 		public LoadDataTask(String[] inputNames, String[] inputValues, String phpFile){
@@ -98,19 +97,18 @@ public abstract class BaseActivity extends FragmentActivity{
 		@Override
 		protected void onPreExecute() {
 			if(logoView != null){
-				logoView.startDrawing();
+				logoView.startRotationAnimation();
 			}
 			preExcecute();
 		}
 
 		@Override
-		protected String doInBackground(String... args) {			
-			json = new JSONParser().makeHttpRequest(getString(R.string.url) + phpFile, "POST", params);			
-			return null;
+		protected JSONObject doInBackground(String... args) {
+			return new JSONParser().makeHttpRequest(getString(R.string.url) + phpFile, "POST", params);
 		}
 
 		@Override
-		protected void onPostExecute(String file_url) {
+		protected void onPostExecute(JSONObject json) {
 			SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 			if(json != null){
 				if(phpFile.contains("load") || phpFile.contains("login")){		//speichern im offline modus verhindern
@@ -131,7 +129,7 @@ public abstract class BaseActivity extends FragmentActivity{
 			}
 			postExcecute(json);		//Achtung: JSON null wenn keine Verbindung möglich
 			if(logoView != null){
-				logoView.stopDrawing();
+				logoView.stopAnimation();
 			}
 		}
 	}
@@ -171,12 +169,23 @@ public abstract class BaseActivity extends FragmentActivity{
 		return false;
 	}
 	
+	/**
+	 * mehrere Views aktivieren oder deaktivieren
+	 * @param enabled
+	 * @param views
+	 */
 	protected void updateViews(boolean enabled, View... views){
 		for(View view : views){
 			view.setEnabled(enabled);
 		}
 	}
 	
+	/**
+	 * Liste in Datenbank speichern
+	 * @param list
+	 * @param userChanged
+	 * @param infoText
+	 */
 	public void uploadList(ShoppingList list, boolean userChanged, String infoText){
 		//Liste zu vorheriger Activity zurückgeben
 		//So muss nicht nochmal neu geladen werden

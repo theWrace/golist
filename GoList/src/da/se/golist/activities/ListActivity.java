@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -22,8 +23,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import da.se.golist.R;
@@ -49,7 +50,7 @@ public class ListActivity extends ReadNFCActivity{
 	private DrawerLayout mDrawerLayout;
 	private ExpandableListView mDrawerList;
 	private ExpandableMenuListAdapter mMenuAdapter;	
-	private LinearLayout linearLayoutBackground;
+	private RelativeLayout relativeLayoutList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class ListActivity extends ReadNFCActivity{
 	    		
 		textViewEmpty = (TextView)findViewById(R.id.textViewEmpty);
 		textViewTitleList = (TextView) findViewById(R.id.textViewTitle);
-		linearLayoutBackground = (LinearLayout) findViewById(R.id.linerLayoutBackground);
+		relativeLayoutList = (RelativeLayout) findViewById(R.id.relativeLayoutList);
 	    setTypeface("deluxe", textViewEmpty, textViewTitleList);
 		textViewTitleList.setText("List");
 		
@@ -266,14 +267,18 @@ public class ListActivity extends ReadNFCActivity{
 	}
 	
 	private void updateTextViews(){
-		textViewTitleList.setText(list.getName());						
+		textViewTitleList.setText(list.getName());
 		
 		if(list.getItems().size() == 0){
 			textViewEmpty.setVisibility(View.VISIBLE);
-			linearLayoutBackground.setVisibility(View.INVISIBLE);
+			relativeLayoutList.setBackgroundColor(Color.parseColor("#007abb"));
 		}else{
 			textViewEmpty.setVisibility(View.INVISIBLE);
-			linearLayoutBackground.setVisibility(View.VISIBLE);
+			
+			//Bug in android 5.0: radial gradient geht nicht
+			if(android.os.Build.VERSION.SDK_INT != 21){
+				relativeLayoutList.setBackgroundResource(R.drawable.listviewbackground);
+			}
 		}
 	}
 	

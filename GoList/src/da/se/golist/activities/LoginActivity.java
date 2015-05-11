@@ -31,8 +31,8 @@ public class LoginActivity extends BaseActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		requestWindowFeature(Window.FEATURE_NO_TITLE);		
+				
 		prefs = this.getPreferences(MODE_PRIVATE);
 		
 		//Gespeicherte Daten löschen falls Logout gedrückt wurde
@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity{
 			new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();
 		}else{
 			showLoginView();
-		}		
+		}
 	}	
 	
 	private void startMyListsActivity(String name){
@@ -76,9 +76,11 @@ public class LoginActivity extends BaseActivity{
 	
 	@Override
 	protected void preExcecute() {
-		if(buttonLogin != null){
-			updateViews(false, buttonLogin, buttonRegister, editTextName, editTextPassword);
-		}
+		setContentView(R.layout.loginloadingscreen);
+		logoView = (LogoView) findViewById(R.id.logoViewLoading);
+		logoView.showLogoBackground();
+		logoView.startPulseAnimation();
+		//logoView.startMoveRotation();
 	}
 	
 	@Override

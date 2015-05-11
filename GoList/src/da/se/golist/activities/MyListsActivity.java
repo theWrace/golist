@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -20,12 +21,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.analytics.GoogleAnalytics;
-
 import da.se.golist.R;
 import da.se.golist.adapters.MenuListAdapter;
 import da.se.golist.adapters.MyListsAdapter;
@@ -44,7 +42,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	private final String[] drawerTitles = {"Favorite Items", "Change Password", "Delete Account", "Logout"};
 	private final int[] drawerIcons = {R.drawable.menu_icon_favorite, R.drawable.menu_icon_settings, R.drawable.menu_icon_delete, R.drawable.menu_icon_logout};
 	private final int CODE_ACC_DELETED = 0, CODE_LIST_UPDATED = 1;
-	private LinearLayout linearLayoutBackground;
+	private RelativeLayout linearLayoutMyLists;
 	private TextView textViewEmpty;
 	
 	@Override
@@ -54,7 +52,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		setContentView(R.layout.mylistslayout);
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
-	    linearLayoutBackground = (LinearLayout) findViewById(R.id.linerLayoutBackground);
+	    linearLayoutMyLists = (RelativeLayout) findViewById(R.id.mylistslayout);
 	    textViewEmpty = (TextView) findViewById(R.id.textViewEmpty);	    
 		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);		
 		textViewTitle.setText(getString(R.string.mylists));
@@ -143,15 +141,9 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		super.onStart();
 	}
 	
-	@Override
-	protected void onStop() {
-		GoogleAnalytics.getInstance(this).reportActivityStop(this);
-		super.onStop();
-	}
-	
 	private void updateLists(){
 		if(!isLoading){
-			logoView.startDrawing();
+			logoView.startRotationAnimation();
 			if((LoginActivity.NAME.length() == 0 || LoginActivity.NAME == null) && getPreferences(MODE_PRIVATE).contains("name")){
 				LoginActivity.NAME = getPreferences(MODE_PRIVATE).getString("name", "");
 			}
@@ -178,10 +170,14 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	private void updateVisibility(){
 		if(myLists.size() == 0){
 			textViewEmpty.setVisibility(View.VISIBLE);
-			linearLayoutBackground.setVisibility(View.INVISIBLE);
+			linearLayoutMyLists.setBackgroundColor(Color.parseColor("#007abb"));
 		}else{
 			textViewEmpty.setVisibility(View.INVISIBLE);
-			linearLayoutBackground.setVisibility(View.VISIBLE);
+			
+			//Bug in android 5.0: radial gradient geht nicht
+			if(android.os.Build.VERSION.SDK_INT != 21){
+				linearLayoutMyLists.setBackgroundResource(R.drawable.listviewbackground);
+			}
 		}
 	}
 	

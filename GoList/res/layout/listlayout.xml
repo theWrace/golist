@@ -6,6 +6,7 @@
     android:layout_height="match_parent" >
 
     <RelativeLayout
+        android:id="@+id/relativeLayoutList"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#007abb" >
@@ -23,16 +24,6 @@
             android:textColor="#60FFFFFF"
             android:textSize="40sp"
             android:visibility="invisible" />
-
-        <LinearLayout
-            android:id="@+id/linerLayoutBackground"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/linearLayoutTitle"
-            android:visibility="invisible"
-            android:orientation="horizontal"
-            android:background="@drawable/listviewbackgroundgradient" >
-        </LinearLayout>
 
         <ListView
             android:id="@+id/listViewArticles"
@@ -68,10 +59,10 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="#95ffffff"
         android:divider="@null"
-        android:scrollbars="none"
         android:dividerHeight="20dp"
         android:groupIndicator="@null"
-        android:background="#95ffffff" />
+        android:scrollbars="none" />
 
 </android.support.v4.widget.DrawerLayout>
