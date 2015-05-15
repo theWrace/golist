@@ -30,19 +30,19 @@ public class LoginActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);		
 				
-		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);	
 		
 		//Beim Ersten Ausführen direkt zur Registration
 		if(!prefs.contains("firstStart")){
-			prefs.edit().putBoolean("firstStart", true).commit();
+			prefs.edit().putBoolean("firstStart", false).commit();
 			showLoginView();
 			register();
 			return;
 		}
 		
 		//Gespeicherte Daten löschen falls Logout gedrückt wurde
-		if(getIntent().getExtras() != null){
-			prefs.edit().remove("LoginActivity.NAME").commit();
+		if(getIntent().getExtras() != null && getIntent().getExtras().containsKey("logout")){
+			prefs.edit().remove("name").commit();
 			prefs.edit().remove("password").commit();
 		}
 		
@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity{
 		t.send(new HitBuilders.EventBuilder()
 	    .setCategory("Login")
 	    .setAction("eingeloggt")
-	    .setLabel("LoginActivity.NAME: " + LoginActivity.NAME).build());
+	    .setLabel("Name: " + LoginActivity.NAME).build());
 		
 		startActivity(new Intent(LoginActivity.this, MyListsActivity.class));
 		finish();
@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity{
 		}
 		if(message.equals("success")){
 			SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-			prefs.edit().putString("LoginActivity.NAME", LoginActivity.NAME).commit();
+			prefs.edit().putString("name", LoginActivity.NAME).commit();
 			prefs.edit().putString("password", password).commit();
 			startMyListsActivity();
 		}else{
