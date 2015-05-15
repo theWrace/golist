@@ -17,61 +17,55 @@ import com.google.android.gms.analytics.Tracker;
 
 import da.se.application.GoListApplication;
 import da.se.golist.R;
-import da.se.golist.objects.LogoView;
+import da.se.otherclasses.LogoView;
 
 
 public class LoginActivity extends BaseActivity{
 	
-	private EditText editTextName, editTextPassword;
-	private String name, password;
-	private Button buttonLogin, buttonRegister;
+	private String password;
 	public static String NAME;
-	private SharedPreferences prefs;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);		
 				
-		prefs = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		
+		//Beim Ersten Ausführen direkt zur Registration
+		if(!prefs.contains("firstStart")){
+			prefs.edit().putBoolean("firstStart", true).commit();
+			showLoginView();
+			register();
+			return;
+		}
 		
 		//Gespeicherte Daten löschen falls Logout gedrückt wurde
 		if(getIntent().getExtras() != null){
-			prefs.edit().remove("name").commit();
+			prefs.edit().remove("LoginActivity.NAME").commit();
 			prefs.edit().remove("password").commit();
 		}
 		
 		//Falls Daten gespeichert gleich einloggen
 		if(prefs.contains("name")){
-			name = prefs.getString("name", "");
+			LoginActivity.NAME = prefs.getString("name", "");
 			password = prefs.getString("password", "");
-			new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();
-		}else{
-			showLoginView();
+			new LoadDataTask(new String[]{"password", "name"},new String[]{password, LoginActivity.NAME}, "login.php").execute();
+			return;
 		}
+		
+		showLoginView();
 	}	
 	
-	private void startMyListsActivity(String name){
+	private void startMyListsActivity(){
 		Tracker t = ((GoListApplication)getApplication()).getTracker();
 		t.send(new HitBuilders.EventBuilder()
 	    .setCategory("Login")
 	    .setAction("eingeloggt")
-	    .setLabel("Name: " + name).build());
+	    .setLabel("LoginActivity.NAME: " + LoginActivity.NAME).build());
 		
-		Intent startMyListsActivityIntent = new Intent(LoginActivity.this, MyListsActivity.class);
-		startMyListsActivityIntent.putExtra("name", name);
-		NAME = name;
-		startActivity(startMyListsActivityIntent);
-		LoginActivity.this.finish();
-	}
-	
-	@Override
-	protected void onStart() {
-		Tracker t = ((GoListApplication)getApplication()).getTracker();
-		t.enableAdvertisingIdCollection(true);
-		t.enableAutoActivityTracking(true);
-		t.enableExceptionReporting(true);
-		super.onStart();
+		startActivity(new Intent(LoginActivity.this, MyListsActivity.class));
+		finish();
 	}
 	
 	@Override
@@ -80,7 +74,6 @@ public class LoginActivity extends BaseActivity{
 		logoView = (LogoView) findViewById(R.id.logoViewLoading);
 		logoView.showLogoBackground();
 		logoView.startPulseAnimation();
-		//logoView.startMoveRotation();
 	}
 	
 	@Override
@@ -92,24 +85,24 @@ public class LoginActivity extends BaseActivity{
 			e.printStackTrace();
 		}
 		if(message.equals("success")){
-			prefs.edit().putString("name", name).commit();
+			SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+			prefs.edit().putString("LoginActivity.NAME", LoginActivity.NAME).commit();
 			prefs.edit().putString("password", password).commit();
-			startMyListsActivity(name);
+			startMyListsActivity();
 		}else{
 			showLoginView();
-			Toast.makeText(LoginActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();
-			updateViews(true, buttonLogin, buttonRegister, editTextName, editTextPassword);
+			Toast.makeText(LoginActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();			
 		}
 	}
 	
 	private void showLoginView() {
 		setContentView(R.layout.login);
 		
-		editTextName = (EditText) findViewById(R.id.editTextName);
-		editTextPassword = (EditText) findViewById(R.id.editTextPassword);		
-		buttonLogin = (Button) findViewById(R.id.buttonLogin);
+		final EditText editTextName = (EditText) findViewById(R.id.editTextName);
+		final EditText editTextPassword = (EditText) findViewById(R.id.editTextPassword);		
+		Button buttonLogin = (Button) findViewById(R.id.buttonLogin);
 		logoView = (LogoView) findViewById(R.id.logoViewLogin);
-		buttonRegister = (Button) findViewById(R.id.buttonRegistrieren);
+		Button buttonRegister = (Button) findViewById(R.id.buttonRegistrieren);
 		
 		setTypeface("geosanslight", editTextName, editTextPassword, buttonLogin, buttonRegister);
 		
@@ -117,8 +110,7 @@ public class LoginActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				startActivity(intent);
+				register();
 			}
 		});
 		
@@ -127,16 +119,23 @@ public class LoginActivity extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				if(editTextName.getText().toString().length() != 0 && editTextPassword.getText().toString().length() != 0){
-					name = editTextName.getText().toString();
+					LoginActivity.NAME = editTextName.getText().toString();
 					password = editTextPassword.getText().toString();
-					new LoadDataTask(new String[]{"password", "name"},new String[]{password, name}, "login.php").execute();
+					new LoadDataTask(new String[]{"password", "name"},
+							new String[]{password, LoginActivity.NAME}, "login.php").execute();
 				}else{
 					Toast.makeText(LoginActivity.this, "Please enter a name and a password!", Toast.LENGTH_LONG).show();
 				}
 			}
 		});		
 		
-		logoView.showLogoBackground();
+		logoView.showLogoBackground();		
+		updateViews(true, buttonLogin, buttonRegister, editTextName, editTextPassword);
+	}
+	
+	private void register(){
+		Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+		startActivity(intent);
 	}
 
 }

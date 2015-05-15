@@ -16,7 +16,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import da.se.application.GoListApplication;
 import da.se.golist.R;
-import da.se.golist.objects.LogoView;
+import da.se.otherclasses.LogoView;
 
 public class RegisterActivity extends BaseActivity{
 	

@@ -30,9 +30,9 @@ import com.google.android.gms.analytics.Tracker;
 import da.se.application.GoListApplication;
 import da.se.golist.R;
 import da.se.golist.objects.Item;
-import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 import da.se.interfaces.AfterRefresh;
+import da.se.otherclasses.LogoView;
 
 public class CreateNewItemActivity extends BaseActivity{
 	
@@ -137,6 +137,7 @@ public class CreateNewItemActivity extends BaseActivity{
 			@Override
 			public void applyChanges() {				
 				list.addItem(new Item(list.getFreeId(), name, description, amount, category, LoginActivity.NAME, new Date()));
+				list.setDescription(list.getItems().size() + " Items");
 				
 				String infoText = getString(R.string.infoitemcreated).replace("listname", list.getName());
 				infoText = infoText.replace("username", LoginActivity.NAME);

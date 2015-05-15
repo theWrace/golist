@@ -6,6 +6,7 @@ import da.se.golist.R;
 import da.se.golist.activities.LoginActivity;
 import da.se.golist.activities.ManageListActivity;
 import da.se.golist.objects.Item;
+import da.se.golist.objects.ShoppingList;
 import da.se.interfaces.ManageListFunction;
 
 public class DeleteBoughtItems implements ManageListFunction, Serializable{
@@ -19,14 +20,17 @@ public class DeleteBoughtItems implements ManageListFunction, Serializable{
 
 	@Override
 	public void execute(ManageListActivity activity) {
-		for(int i = 0; i < activity.getList().getItems().size(); i++){
-			if(((Item) activity.getList().getItems().get(i)).getState() == Item.STATE_BOUGHT){
-				activity.getList().getItems().remove(i);
+		ShoppingList list = activity.getList();
+		for(int i = 0; i < list.getItems().size(); i++){
+			if(((Item) list.getItems().get(i)).getState() == Item.STATE_BOUGHT){
+				list.getItems().remove(i);
 				i--;
 			}
 		}
+		list.setDescription(list.getItems().size() + " Items");
+		
 		String infoText = activity.getString(R.string.infoboughtitemsdeleted);
 		infoText = infoText.replace("username", LoginActivity.NAME);
-		activity.uploadList(activity.getList(), false, infoText);
+		activity.uploadList(list, false, infoText);
 	}
 }

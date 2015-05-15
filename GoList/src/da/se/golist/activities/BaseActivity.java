@@ -33,11 +33,11 @@ import android.widget.Toast;
 import da.se.golist.R;
 import da.se.golist.objects.GoListObject;
 import da.se.golist.objects.Item;
-import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 import da.se.interfaces.AfterRefresh;
 import da.se.otherclasses.Base64Coder;
 import da.se.otherclasses.JSONParser;
+import da.se.otherclasses.LogoView;
 
 public abstract class BaseActivity extends FragmentActivity{
 	

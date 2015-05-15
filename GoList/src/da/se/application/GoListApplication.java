@@ -26,6 +26,9 @@ public class GoListApplication extends Application {
 	public synchronized Tracker getTracker() {
 		if(tracker == null){
 			tracker = GoogleAnalytics.getInstance(this).newTracker("UA-56547668-3");
+			tracker.enableAdvertisingIdCollection(true);
+			tracker.enableAutoActivityTracking(true);
+			tracker.enableExceptionReporting(true);
 		}
 		return tracker;
 	}

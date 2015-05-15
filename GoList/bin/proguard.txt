@@ -1,0 +1,85 @@
+# view res/layout/showuserlayout.xml #generated:24
+-keep class android.support.v4.view.PagerTitleStrip { <init>(...); }
+
+# view res/layout/activity_main.xml #generated:2
+# view res/layout/showuserlayout.xml #generated:18
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/listlayout.xml #generated:2
+# view res/layout/mylistslayout.xml #generated:2
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view AndroidManifest.xml #generated:11
+-keep class android.test.InstrumentationTestRunner { <init>(...); }
+
+# view AndroidManifest.xml #generated:19
+-keep class da.se.application.GoListApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:123
+-keep class da.se.golist.activities.AnswerInvitationActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:135
+-keep class da.se.golist.activities.ChangeListNameActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:105
+-keep class da.se.golist.activities.ChangePasswordActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:61
+-keep class da.se.golist.activities.CreateNewArticleActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:71
+-keep class da.se.golist.activities.CreateNewItemActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:50
+-keep class da.se.golist.activities.CreateNewListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:111
+-keep class da.se.golist.activities.DeleteAccountActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:117
+-keep class da.se.golist.activities.DeleteListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:76
+-keep class da.se.golist.activities.EditItemActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:93
+-keep class da.se.golist.activities.ImportFavoriteItemsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:55
+-keep class da.se.golist.activities.InviteUserActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:45
+-keep class da.se.golist.activities.ListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:29
+-keep class da.se.golist.activities.LoginActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:129
+-keep class da.se.golist.activities.ManageListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:40
+-keep class da.se.golist.activities.MyListsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:66
+-keep class da.se.golist.activities.RegisterActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:99
+-keep class da.se.golist.activities.ShowFavoriteItemsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:87
+-keep class da.se.golist.activities.ShowHistoryActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:81
+-keep class da.se.golist.activities.ShowUserActivity { <init>(...); }
+
+# view res/layout/login.xml #generated:17
+# view res/layout/loginloadingscreen.xml #generated:13
+# view res/layout/register.xml #generated:17
+# view res/layout/titlebar.xml #generated:32
+# view res/layout/titlebar_menu.xml #generated:45
+# view sw300dp-v13\res/layout-sw300dp-v13/login.xml #generated:17
+# view sw300dp-v13\res/layout-sw300dp-v13/register.xml #generated:17
+# view sw350dp-v13\res/layout-sw350dp-v13/login.xml #generated:17
+# view sw350dp-v13\res/layout-sw350dp-v13/register.xml #generated:17
+-keep class da.se.otherclasses.LogoView { <init>(...); }
+
