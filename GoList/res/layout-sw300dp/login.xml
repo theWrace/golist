@@ -14,7 +14,7 @@
             android:layout_height="190dp"
             android:background="@drawable/logobackgroundgradient" >
 
-            <da.se.golist.objects.LogoView
+            <da.se.otherclasses.LogoView
                 android:id="@+id/logoViewLogin"
                 android:layout_width="150dp"
                 android:layout_height="150dp"

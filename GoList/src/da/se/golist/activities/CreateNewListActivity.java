@@ -27,9 +27,9 @@ import da.se.application.GoListApplication;
 import da.se.golist.R;
 import da.se.golist.adapters.UserListAdapter;
 import da.se.golist.objects.GoListObject;
-import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 import da.se.golist.objects.User;
+import da.se.otherclasses.LogoView;
 
 public class CreateNewListActivity extends BaseActivity{
 	  
@@ -84,6 +84,7 @@ public class CreateNewListActivity extends BaseActivity{
 				String name = editTextName.getText().toString().trim();
 				if(name.length() != 0){					
 					list = new ShoppingList(name, LoginActivity.NAME, "");
+					list.setDescription("0 Items");
 					list.addUser(new User(LoginActivity.NAME));
 					for(int i = 1; i < userOfList.size(); i++){
 						list.inviteUser((User)userOfList.get(i));
@@ -139,7 +140,7 @@ public class CreateNewListActivity extends BaseActivity{
 				}
 				
 				uploadList(list, true, infoText);
-			} catch (NumberFormatException | JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}else{

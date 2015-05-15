@@ -29,7 +29,7 @@
     		android:layout_marginLeft="15dp"
     		android:layout_marginStart="15dp" />
         
-        <da.se.golist.objects.LogoView
+        <da.se.otherclasses.LogoView
             android:id="@+id/logoView"
             android:layout_width="55dp"
             android:layout_height="55dp"

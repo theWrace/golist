@@ -1,4 +1,4 @@
-package da.se.golist.objects;
+package da.se.otherclasses;
 
 import android.content.Context;
 import android.graphics.Bitmap;

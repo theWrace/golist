@@ -28,19 +28,15 @@ import da.se.golist.R;
 import da.se.golist.adapters.MenuListAdapter;
 import da.se.golist.adapters.MyListsAdapter;
 import da.se.golist.objects.GoListObject;
-import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
+import da.se.otherclasses.LogoView;
 
 @SuppressLint("RtlHardcoded")
 public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	
-	private ArrayList<GoListObject> myLists = new ArrayList<GoListObject>();
 	private boolean isLoading = false;
 	private MyListsAdapter listAdapter;	
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private final String[] drawerTitles = {"Favorite Items", "Change Password", "Delete Account", "Logout"};
-	private final int[] drawerIcons = {R.drawable.menu_icon_favorite, R.drawable.menu_icon_settings, R.drawable.menu_icon_delete, R.drawable.menu_icon_logout};
 	private final int CODE_ACC_DELETED = 0, CODE_LIST_UPDATED = 1;
 	private RelativeLayout linearLayoutMyLists;
 	private TextView textViewEmpty;
@@ -79,8 +75,12 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		});
 		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.navList);
-
+		ListView mDrawerList = (ListView) findViewById(R.id.navList);
+       
+        final String[] drawerTitles = {"Favorite Items", "Change Password", "Delete Account", "Logout"};
+    	final int[] drawerIcons = {R.drawable.menu_icon_favorite, R.drawable.menu_icon_settings, 
+    			R.drawable.menu_icon_delete, R.drawable.menu_icon_logout};
+    	
         MenuListAdapter mMenuAdapter = new MenuListAdapter(this, drawerTitles, drawerIcons);
         mDrawerList.setAdapter(mMenuAdapter);
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
@@ -168,7 +168,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	}
 	
 	private void updateVisibility(){
-		if(myLists.size() == 0){
+		if(listAdapter.getCount() == 0){
 			textViewEmpty.setVisibility(View.VISIBLE);
 			linearLayoutMyLists.setBackgroundColor(Color.parseColor("#007abb"));
 		}else{
@@ -187,53 +187,49 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	@Override
 	protected void postExcecute(JSONObject json) {		
 		try {
-			ArrayList<ShoppingList> updatedList = new ArrayList<ShoppingList>();
+			final ArrayList<GoListObject> shoppingLists = new ArrayList<GoListObject>();
 			
 			try {
 				JSONArray dataArray = json.getJSONArray("data");			
 				for (int i = 0; i < dataArray.length(); i++) {
-					updatedList.add((ShoppingList) objectFromString(dataArray.getString(i)));
-					updatedList.get(i).setDescription(updatedList.get(i).getItems().size() + " Items");
+					shoppingLists.add((GoListObject) objectFromString(dataArray.getString(i)));
 				}
 				
 				JSONArray dataArrayInvitations = json.getJSONArray("datainvitations");				
 				for (int i = 0; i < dataArrayInvitations.length(); i++) {
-					updatedList.add((ShoppingList) objectFromString(dataArrayInvitations.getString(i)));
-					updatedList.get(updatedList.size()-1).setDescription("Invitation");
+					shoppingLists.add((ShoppingList) objectFromString(dataArrayInvitations.getString(i)));
+					shoppingLists.get(shoppingLists.size()-1).setDescription("Invitation");
 				}
 			} catch (JSONException e) {	//tritt auf wenn keine Listen vorhanden
 				e.printStackTrace();
 			}
 			
-			myLists.clear();
-			myLists.addAll(updatedList);
-			
 			if(listAdapter == null){
 				//Liste mit allen ShoppingLists
 				ListView myListsView = (ListView) findViewById(R.id.listView1);
 				myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	
+	 
 					@Override
 					public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
-						if(myLists.get(position).getDescription().equals("Invitation")){
+						if(shoppingLists.get(position).getDescription().equals("Invitation")){
 							Intent intent = new Intent(MyListsActivity.this, AnswerInvitationActivity.class);
-							intent.putExtra("id", ((ShoppingList) myLists.get(position)).getID());
+							intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
 							startActivityForResult(intent, CODE_LIST_UPDATED);
 							return;
 						}
 						Intent intent = new Intent(MyListsActivity.this, ListActivity.class);
-						intent.putExtra("id", ((ShoppingList) myLists.get(position)).getID());
+						intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
 						startActivity(intent);
 					}
 	
 				});
-				listAdapter = new MyListsAdapter(this, myLists);
+				listAdapter = new MyListsAdapter(this, shoppingLists);
 				myListsView.setAdapter(listAdapter);
 			}else{
-				listAdapter.updateListObjects(myLists);
+				listAdapter.updateListObjects(shoppingLists);
 			}
 			
-			updateVisibility();			
+			updateVisibility();
 			isLoading = false;
 			
 		} catch (ClassNotFoundException e) {

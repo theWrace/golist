@@ -31,12 +31,12 @@ import da.se.golist.R;
 import da.se.golist.adapters.ExpandableMenuListAdapter;
 import da.se.golist.adapters.ItemListAdapter;
 import da.se.golist.objects.Item;
-import da.se.golist.objects.LogoView;
 import da.se.golist.objects.ShoppingList;
 import da.se.interfaces.AfterRefresh;
 import da.se.otherclasses.DeleteAllItems;
 import da.se.otherclasses.DeleteBoughtItems;
 import da.se.otherclasses.LeaveList;
+import da.se.otherclasses.LogoView;
 import da.se.otherclasses.MarkAllItems;
 
 @SuppressLint("RtlHardcoded")
@@ -331,7 +331,7 @@ public class ListActivity extends ReadNFCActivity{
 	 */
 	@Override
 	protected void nfcTagRead(String result) {
-		if (result == null || !result.contains(";;")) {	    
+		if (result == null || !result.contains(";;")) {
         	return;
         }
         
@@ -341,7 +341,9 @@ public class ListActivity extends ReadNFCActivity{
         	return;
         }
         
-        list.addItem(new Item(list.getFreeId(), resultArray[0], resultArray[2], resultArray[3], Integer.parseInt(resultArray[1]), LoginActivity.NAME, new Date()));
+        list.addItem(new Item(list.getFreeId(), resultArray[0], resultArray[2], resultArray[3], 
+        		Integer.parseInt(resultArray[1]), LoginActivity.NAME, new Date()));
+        list.setDescription(list.getItems().size() + " Items");
         listAdapter.notifyDataSetChanged();
         textViewEmpty.setVisibility(View.INVISIBLE);
         String infoText = getString(R.string.infofromnfc).replace("username", LoginActivity.NAME);

@@ -10,7 +10,7 @@
         android:layout_centerVertical="true"
         android:background="@+drawable/loadingbackgroundgradient" >
 
-        <da.se.golist.objects.LogoView
+        <da.se.otherclasses.LogoView
             android:id="@+id/logoViewLoading"
             android:layout_width="110dp"
             android:layout_height="110dp"
