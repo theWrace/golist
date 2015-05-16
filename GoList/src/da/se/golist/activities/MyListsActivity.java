@@ -192,7 +192,9 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 			try {
 				JSONArray dataArray = json.getJSONArray("data");			
 				for (int i = 0; i < dataArray.length(); i++) {
-					shoppingLists.add((GoListObject) objectFromString(dataArray.getString(i)));
+					GoListObject list = (GoListObject) objectFromString(dataArray.getString(i));
+					list.setDescription(((ShoppingList)list).getItems().size() + " Items");
+					shoppingLists.add(list);
 				}
 				
 				JSONArray dataArrayInvitations = json.getJSONArray("datainvitations");				
