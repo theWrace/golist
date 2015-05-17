@@ -151,7 +151,7 @@ public class ListActivity extends ReadNFCActivity{
 						//Leave List
 						if(!isAdmin(list, LoginActivity.NAME)){							
 							intent.putExtra("managelistfunction", new LeaveList());
-							startActivityForResult(intent, ManageListActivity.CODE_LIST_DELETED);
+							startActivityForResult(intent, ManageListActivity.CODE_LIST_LEFT);
 							break;
 						}
 						
@@ -315,7 +315,7 @@ public class ListActivity extends ReadNFCActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		//Activity beenden falls liste gelöscht wurde
-		if(requestCode == ManageListActivity.CODE_LIST_DELETED && resultCode != ManageListActivity.CODE_CANCELED){
+		if(requestCode == ManageListActivity.CODE_LIST_LEFT && resultCode != ManageListActivity.CODE_CANCELED){
 			finish();
 			return;
 		}

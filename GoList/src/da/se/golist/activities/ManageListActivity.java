@@ -19,7 +19,7 @@ public class ManageListActivity extends BaseActivity{
 	
 	private Button buttonYes, buttonCancel;
 	private ShoppingList list;
-	public static final int CODE_LIST_DELETED = 1, CODE_CANCELED = 2;
+	public static final int CODE_LIST_DELETED = 1, CODE_CANCELED = 2, CODE_LIST_LEFT = 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
