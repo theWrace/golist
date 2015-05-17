@@ -37,9 +37,11 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	private boolean isLoading = false;
 	private MyListsAdapter listAdapter;	
 	private DrawerLayout mDrawerLayout;
-	private final int CODE_ACC_DELETED = 0, CODE_LIST_UPDATED = 1;
+	private final int CODE_ACC_DELETED = 0, CODE_INVITATION_ANSWERED = 1;
 	private RelativeLayout linearLayoutMyLists;
 	private TextView textViewEmpty;
+	private ListView myListsView;
+	private ArrayList<GoListObject> shoppingLists;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,32 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		setContentView(R.layout.mylistslayout);
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		
+	    myListsView = (ListView) findViewById(R.id.listView1);
 	    linearLayoutMyLists = (RelativeLayout) findViewById(R.id.mylistslayout);
 	    textViewEmpty = (TextView) findViewById(R.id.textViewEmpty);	    
 		TextView textViewTitle = (TextView) findViewById(R.id.textViewTitle);		
 		textViewTitle.setText(getString(R.string.mylists));
 		setTypeface("deluxe", textViewTitle, textViewEmpty);
+		
+        shoppingLists = new ArrayList<GoListObject>();
+        listAdapter = new MyListsAdapter(this, shoppingLists);
+		myListsView.setAdapter(listAdapter);
+		myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			 
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
+				if(shoppingLists.get(position).getDescription().equals("Invitation")){
+					Intent intent = new Intent(MyListsActivity.this, AnswerInvitationActivity.class);
+					intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
+					startActivityForResult(intent, CODE_INVITATION_ANSWERED);
+				}else{
+					Intent intent = new Intent(MyListsActivity.this, ListActivity.class);
+					intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
+					startActivity(intent);
+				}
+			}
+
+		});
 		
 		//Button für neue Liste
 		((ImageButton) findViewById(R.id.buttonNewList)).setOnClickListener(new OnClickListener() {
@@ -116,7 +139,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 			public void onClick(View v) {
 				mDrawerLayout.openDrawer(Gravity.LEFT);				
 			}
-		});
+		});        
 	}
 	
 	@Override
@@ -187,58 +210,32 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	@Override
 	protected void postExcecute(JSONObject json) {		
 		try {
-			final ArrayList<GoListObject> shoppingLists = new ArrayList<GoListObject>();
+			shoppingLists.clear();
 			
-			try {
-				JSONArray dataArray = json.getJSONArray("data");			
-				for (int i = 0; i < dataArray.length(); i++) {
-					GoListObject list = (GoListObject) objectFromString(dataArray.getString(i));
-					list.setDescription(((ShoppingList)list).getItems().size() + " Items");
-					shoppingLists.add(list);
-				}
-				
-				JSONArray dataArrayInvitations = json.getJSONArray("datainvitations");				
-				for (int i = 0; i < dataArrayInvitations.length(); i++) {
-					shoppingLists.add((ShoppingList) objectFromString(dataArrayInvitations.getString(i)));
-					shoppingLists.get(shoppingLists.size()-1).setDescription("Invitation");
-				}
-			} catch (JSONException e) {	//tritt auf wenn keine Listen vorhanden
-				e.printStackTrace();
+			JSONArray dataArray = json.getJSONArray("data");
+			for (int i = 0; i < dataArray.length(); i++) {
+				GoListObject list = (GoListObject) objectFromString(dataArray.getString(i));
+				list.setDescription(((ShoppingList)list).getItems().size() + " Items");
+				shoppingLists.add(list);
 			}
 			
-			if(listAdapter == null){
-				//Liste mit allen ShoppingLists
-				ListView myListsView = (ListView) findViewById(R.id.listView1);
-				myListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	 
-					@Override
-					public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
-						if(shoppingLists.get(position).getDescription().equals("Invitation")){
-							Intent intent = new Intent(MyListsActivity.this, AnswerInvitationActivity.class);
-							intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
-							startActivityForResult(intent, CODE_LIST_UPDATED);
-							return;
-						}
-						Intent intent = new Intent(MyListsActivity.this, ListActivity.class);
-						intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
-						startActivity(intent);
-					}
-	
-				});
-				listAdapter = new MyListsAdapter(this, shoppingLists);
-				myListsView.setAdapter(listAdapter);
-			}else{
-				listAdapter.updateListObjects(shoppingLists);
+			JSONArray dataArrayInvitations = json.getJSONArray("datainvitations");				
+			for (int i = 0; i < dataArrayInvitations.length(); i++) {
+				shoppingLists.add((ShoppingList) objectFromString(dataArrayInvitations.getString(i)));
+				shoppingLists.get(shoppingLists.size()-1).setDescription("Invitation");
 			}
-			
-			updateVisibility();
-			isLoading = false;
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+		
+		listAdapter.updateListObjects(shoppingLists);
+		updateVisibility();
+		isLoading = false;
 	}
 	
 	@Override
@@ -248,11 +245,9 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 			logout();
 			return;
 		}
-		if(requestCode == CODE_LIST_UPDATED && data != null && data.getBooleanExtra("listupdated", false)){
+		if(requestCode == CODE_INVITATION_ANSWERED){
 			updateLists();
-			return;
 		}
-		super.onActivityResult(requestCode, arg1, data);
 	}
 	
 }

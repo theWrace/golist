@@ -2,7 +2,6 @@ package da.se.golist.activities;
 
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,7 +62,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 						uploadList(list, true, infoText);
 						Toast.makeText(getApplicationContext(), "Invitation accepted!", Toast.LENGTH_SHORT).show();
 						
-						exitToMyLists();										
+						finish();										
 					}
 					
 				}, getIntent().getIntExtra("id", 0));
@@ -95,7 +94,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 						uploadList(list, true, infoText);
 						Toast.makeText(getApplicationContext(), "Invitation removed!", Toast.LENGTH_SHORT).show();
 						
-						exitToMyLists();		
+						finish();		
 					}
 					
 				}, getIntent().getIntExtra("id", 0));
@@ -125,16 +124,6 @@ public class AnswerInvitationActivity extends BaseActivity{
 		Toast.makeText(getApplicationContext(), "Error: Invitation does not exist anymore!", Toast.LENGTH_SHORT).show();
 		finish();
 		return -1;
-	}
-	
-	/**
-	 * Beendet diese Activity geht zurück zu MyListsActivity
-	 */
-	private void exitToMyLists(){
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra("listupdated", true);
-		setResult(RESULT_OK,returnIntent);
-		finish();
 	}
 
 	@Override

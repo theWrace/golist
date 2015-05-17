@@ -314,15 +314,16 @@ public class ListActivity extends ReadNFCActivity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Activity beenden falls liste gelöscht wurde
+		if(requestCode == ManageListActivity.CODE_LIST_DELETED && resultCode != ManageListActivity.CODE_CANCELED){
+			finish();
+			return;
+		}
+		
 		if(data != null && data.getExtras().containsKey("list")){
 			list = (ShoppingList) data.getExtras().get("list");
 			listAdapter.updateListObjects(list.getItems());
 			updateTextViews();
-			return;
-		}
-		//Activity beenden falls liste gelöscht wurde
-		if(requestCode == ManageListActivity.CODE_LIST_DELETED && data != null && data.getExtras().containsKey("listdeleted")){
-			finish();
 		}
 	}
 

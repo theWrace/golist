@@ -2,8 +2,6 @@ package da.se.otherclasses;
 
 import java.io.Serializable;
 
-import android.app.Activity;
-import android.content.Intent;
 import da.se.golist.R;
 import da.se.golist.activities.LoginActivity;
 import da.se.golist.activities.ManageListActivity;
@@ -34,10 +32,6 @@ public class LeaveList implements ManageListFunction, Serializable{
 		}
 		String infoText = activity.getString(R.string.infolistleft);
 		infoText = infoText.replace("username", LoginActivity.NAME);
-		infoText = infoText.replace("username", LoginActivity.NAME);
-		Intent returnIntent = new Intent();
-		returnIntent.putExtra("listdeleted", true);
-		activity.setResult(Activity.RESULT_OK, returnIntent);
 		activity.uploadList(activity.getList(), true, infoText);
 	}
 }

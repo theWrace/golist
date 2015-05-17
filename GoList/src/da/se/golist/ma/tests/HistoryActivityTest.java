@@ -49,6 +49,6 @@ public class HistoryActivityTest extends ActivityInstrumentationTestCase2<MyList
 		assertTrue("da.se.golist.activities.ShowHistoryActivity is not found!", solo.waitForActivity(ShowHistoryActivity.class));
 		//Testen ob Verlauf in Liste angezeigt wird
 		ListView listViewHistory = (ListView) solo.getView(R.id.listViewHistory);
-		assertNotNull(listViewHistory);		
+		assertNotNull(listViewHistory);
 	}
 }

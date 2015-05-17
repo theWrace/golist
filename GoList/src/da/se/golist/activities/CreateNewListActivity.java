@@ -84,7 +84,6 @@ public class CreateNewListActivity extends BaseActivity{
 				String name = editTextName.getText().toString().trim();
 				if(name.length() != 0){					
 					list = new ShoppingList(name, LoginActivity.NAME, "");
-					list.setDescription("0 Items");
 					list.addUser(new User(LoginActivity.NAME));
 					for(int i = 1; i < userOfList.size(); i++){
 						list.inviteUser((User)userOfList.get(i));
@@ -159,13 +158,12 @@ public class CreateNewListActivity extends BaseActivity{
 				}else{
 					buttonSave.setEnabled(true);
 					Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_LONG).show();
+					updateViews(true, buttonSave, buttonAddUser);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-		}
-
-		updateViews(true, buttonSave, buttonAddUser);
+		}		
 	}
 
 }
