@@ -136,7 +136,7 @@ public class CreateNewItemActivity extends BaseActivity{
 			@Override
 			public void applyChanges() {				
 				list.addItem(new Item(list.getFreeId(), name, description, amount, category, LoginActivity.NAME, new Date()));
-				list.setDescription(list.getItems().size() + getString(R.string._items));
+				list.setDescription(list.getItems().size() + " " + getString(R.string.items));
 				
 				String infoText = getString(R.string.infoitemcreated).replace("listname", list.getName());
 				infoText = infoText.replace("username", LoginActivity.NAME);
@@ -174,7 +174,7 @@ public class CreateNewItemActivity extends BaseActivity{
 		   .setAction("erstellt")
 		   .setLabel("Name: " + name).build());
 			
-		Toast.makeText(getApplicationContext(), name + getString(R.string.created), Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), name + " " + getString(R.string.created), Toast.LENGTH_LONG).show();
 			
 	}
 }

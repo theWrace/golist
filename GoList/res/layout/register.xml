@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dip"
                 android:ems="10"
+                android:maxLines="1"
                 android:hint="@string/name"
                 android:maxLength="50"
                 android:textCursorDrawable="@drawable/cursor" >
@@ -50,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dip"
                 android:ems="10"
+                android:maxLines="1"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLength="20"
@@ -62,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dip"
                 android:ems="10"
+                android:maxLines="1"
                 android:hint="@string/repeatpassword"
                 android:inputType="textPassword"
                 android:maxLength="20"

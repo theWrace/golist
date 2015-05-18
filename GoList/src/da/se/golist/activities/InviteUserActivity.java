@@ -76,7 +76,7 @@ public class InviteUserActivity extends BaseActivity{
 							infoText = infoText.replace("username2", user.get(position).getName());
 							infoText = infoText.replace("listname", list.getName());							
 							uploadList(list, true, infoText);
-							Toast.makeText(getApplicationContext(), user.get(position).getName() + getString(R.string._invited), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), user.get(position).getName() + " " + getString(R.string.invited), Toast.LENGTH_SHORT).show();
 						}
 					}, list.getID());
 							

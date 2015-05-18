@@ -22,12 +22,12 @@
     		android:scrollHorizontally="true" 
             android:singleLine="true"
             android:textColor="#FFFFFF"
-            android:textSize="42sp"
+            android:textSize="36sp"
             android:focusable="true" 
     		android:focusableInTouchMode="true" 
     		android:freezesText="true"
-    		android:layout_marginLeft="15dp"
-    		android:layout_marginStart="15dp" />
+    		android:layout_marginLeft="14dp"
+    		android:layout_marginStart="14dp" />
         
         <da.se.otherclasses.LogoView
             android:id="@+id/logoView"

@@ -149,11 +149,11 @@ public class CreateNewListActivity extends BaseActivity{
 			    .setAction("erstellt")
 			    .setLabel("Name: " + list.getName()).build());
 					
-				Toast.makeText(getApplicationContext(), list.getName() + getString(R.string.created), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), list.getName() + " " + getString(R.string.created), Toast.LENGTH_SHORT).show();
 				finish();
 			}else{
 				buttonSave.setEnabled(true);
-				Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
 				updateViews(true, buttonSave, buttonAddUser);
 			}
 		}		

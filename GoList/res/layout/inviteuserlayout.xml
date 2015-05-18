@@ -36,7 +36,7 @@
             android:text="@string/inviteauser"
             android:textColor="#FFFFFF"
             android:layout_alignParentTop="true"
-            android:textSize="42sp" />
+            android:textSize="40sp" />
 
         <EditText
             android:id="@+id/editTextSearch"
@@ -61,7 +61,9 @@
             android:id="@+id/listView1"
             android:layout_below="@+id/editTextSearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content"            
+    		android:divider="#ffffff"
+    		android:dividerHeight="1dp"
             android:background="@null" >
         </ListView>
     </RelativeLayout>

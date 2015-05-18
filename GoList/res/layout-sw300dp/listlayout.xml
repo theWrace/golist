@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#007abb" >
+
+        <include layout="@layout/titlebar_menu" />
+
+        <TextView
+            android:id="@+id/textViewEmpty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:rotation="30"
+            android:text="@string/empty"
+            android:textColor="#60FFFFFF"
+            android:textSize="32sp"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/listViewArticles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearLayoutTitle"
+            android:layout_margin="5dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="1dp"
+            android:scrollbars="none" >
+        </ListView>
+
+        <ImageButton
+            android:id="@+id/buttonNewItem"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/floatingbutton"
+            android:gravity="center"
+            android:padding="25dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pluswhite"
+            android:text="@string/createnewlist" />
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/navList"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#95ffffff"
+        android:divider="@null"
+        android:dividerHeight="20dp"
+        android:groupIndicator="@null"
+        android:scrollbars="none" />
+
+</android.support.v4.widget.DrawerLayout>

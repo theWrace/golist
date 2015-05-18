@@ -314,8 +314,8 @@ public class ListActivity extends ReadNFCActivity{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//Activity beenden falls liste gelöscht wurde
-		if(requestCode == ManageListActivity.CODE_LIST_LEFT && resultCode != ManageListActivity.CODE_CANCELED){
+		//Activity beenden falls liste gelöscht oder verlassen wurde
+		if((requestCode == ManageListActivity.CODE_LIST_LEFT || requestCode == ManageListActivity.CODE_LIST_DELETED) && resultCode != ManageListActivity.CODE_CANCELED){
 			finish();
 			return;
 		}

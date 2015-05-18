@@ -11,7 +11,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/popupbackground"
         android:padding="1dp" >
 
@@ -24,7 +24,7 @@
             <android.support.v4.view.PagerTitleStrip
                 android:id="@+id/pager_title_strip"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="52dp"
                 android:layout_margin="3dp"
                 android:background="@null"
                 android:paddingBottom="3dp"

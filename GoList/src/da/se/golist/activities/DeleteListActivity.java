@@ -50,6 +50,7 @@ public class DeleteListActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(View v) {
+				setResult(ManageListActivity.CODE_CANCELED, null);
 				finish();				
 			}
 		});

@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:ems="10"
+                android:maxLines="1"
                 android:hint="@string/name"
                 android:maxLength="50" >
 
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:maxLines="1"
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword"

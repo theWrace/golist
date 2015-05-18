@@ -99,15 +99,13 @@
     <string name="errornameorpasswordtooshort">Error: Name or Password too short!</string>     
     <string name="errorpasswordsnomatch">Error: Passwords do not match!</string>   
     <string name="error">Error</string>    
-    <string name="passwordchanged">Password changed</string>    
-    <string name="_items"> Items</string>    
-    <string name="created"> created!</string>
+    <string name="passwordchanged">Password changed</string> 
+    <string name="created">created!</string>
     <string name="errorenterpassword">Error: Please enter your Password!</string>
     <string name="accountdeleted">Account deleted!</string>
     <string name="errordeletelistfailed">Error: Failed to delete List!</string>
     <string name="listdeleted">List deleted!</string>
     <string name="lasteditby">Last edited by </string>
-    <string name="_invited"> invited!</string>
     <string name="invited">Invited</string>
     <string name="inviteuser">Invite User</string>
     <string name="failedtoupdatelist">Failed to update List!</string>
