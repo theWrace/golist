@@ -82,9 +82,9 @@ public class ShowUserActivity extends BaseActivity{
 		public CharSequence getPageTitle(int i) {
 			switch (i){
 			case 0:
-				return "User";
+				return getString(R.string.user);
 			default:
-				return "Invited";
+				return getString(R.string.invited);
 			}
 		}
 	}

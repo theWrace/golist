@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.json.JSONObject;
 
+import da.se.golist.R;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -49,7 +50,7 @@ public abstract class WriteNFCActivity extends BaseActivity {
 				ndef.connect();
 				ndef.writeNdefMessage(message);
 				ndef.close();
-				Toast.makeText(getApplicationContext(), "Saved Data on Tag!", Toast.LENGTH_SHORT).show();				
+				Toast.makeText(getApplicationContext(), getString(R.string.saveditemontag), Toast.LENGTH_SHORT).show();				
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

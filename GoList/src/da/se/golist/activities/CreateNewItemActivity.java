@@ -3,7 +3,6 @@ package da.se.golist.activities;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
@@ -74,9 +73,9 @@ public class CreateNewItemActivity extends BaseActivity{
 					if(amount.length() == 0){
 						amount = "1";
 					}
-					createItem(name, category, amount, editTextDescription.getText().toString());
+					createItem(name, category, amount, editTextDescription.getText().toString().trim());
 				}else{
-					Toast.makeText(getApplicationContext(), "Please fill in a name!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.insertname), Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -137,7 +136,7 @@ public class CreateNewItemActivity extends BaseActivity{
 			@Override
 			public void applyChanges() {				
 				list.addItem(new Item(list.getFreeId(), name, description, amount, category, LoginActivity.NAME, new Date()));
-				list.setDescription(list.getItems().size() + " Items");
+				list.setDescription(list.getItems().size() + getString(R.string._items));
 				
 				String infoText = getString(R.string.infoitemcreated).replace("listname", list.getName());
 				infoText = infoText.replace("username", LoginActivity.NAME);
@@ -161,27 +160,21 @@ public class CreateNewItemActivity extends BaseActivity{
 			return;
 		}
 		
-		try {
-			String message = json.getString("message");
-		
-			if(message.equals("succes")){
-				String name = "Item from nfc tag";
-				if(editTextName != null){
-					name = editTextName.getText().toString().trim();
-				}
-				Tracker t = ((GoListApplication)getApplication()).getTracker();
-				t.send(new HitBuilders.EventBuilder()
-			    .setCategory("Item")
-			    .setAction("erstellt")
-			    .setLabel("Name: " + name).build());
-				
-				Toast.makeText(getApplicationContext(), name + " created!", Toast.LENGTH_LONG).show();
-			}else{
-				updateViews(true, editTextName, editTextAmount, editTextDescription, saveItemButton, imageView);
-				Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		if(!getMessageFromJson(json).equals("succes")){
+			updateViews(true, editTextName, editTextAmount, editTextDescription, saveItemButton, imageView);
+			Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_LONG).show();
+			return;
 		}
+			
+		final String name = editTextName.getText().toString().trim();
+			
+		Tracker t = ((GoListApplication)getApplication()).getTracker();
+		t.send(new HitBuilders.EventBuilder()
+		   .setCategory("Item")
+		   .setAction("erstellt")
+		   .setLabel("Name: " + name).build());
+			
+		Toast.makeText(getApplicationContext(), name + getString(R.string.created), Toast.LENGTH_LONG).show();
+			
 	}
 }

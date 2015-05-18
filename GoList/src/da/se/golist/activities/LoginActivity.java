@@ -1,5 +1,4 @@
 package da.se.golist.activities;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -77,21 +76,15 @@ public class LoginActivity extends BaseActivity{
 	}
 	
 	@Override
-	protected void postExcecute(JSONObject json) {
-		String message = "";
-		try {
-			message = json.getString("message");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		if(message.equals("success")){
+	protected void postExcecute(JSONObject json) {		
+		if(getMessageFromJson(json).equals("success")){
 			SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 			prefs.edit().putString("name", LoginActivity.NAME).commit();
 			prefs.edit().putString("password", password).commit();
 			startMyListsActivity();
 		}else{
 			showLoginView();
-			Toast.makeText(LoginActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();			
+			Toast.makeText(LoginActivity.this, getString(R.string.errorloginfailed), Toast.LENGTH_LONG).show();			
 		}
 	}
 	
@@ -124,7 +117,7 @@ public class LoginActivity extends BaseActivity{
 					new LoadDataTask(new String[]{"password", "name"},
 							new String[]{password, LoginActivity.NAME}, "login.php").execute();
 				}else{
-					Toast.makeText(LoginActivity.this, "Please enter a name and a password!", Toast.LENGTH_LONG).show();
+					Toast.makeText(LoginActivity.this, getString(R.string.enternamepassword), Toast.LENGTH_SHORT).show();
 				}
 			}
 		});		

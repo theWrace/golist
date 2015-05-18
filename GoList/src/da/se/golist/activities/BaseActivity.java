@@ -71,12 +71,20 @@ public abstract class BaseActivity extends FragmentActivity{
 	}
 	
 	/** Read the list from Base64 string. */
-	protected Object objectFromString( String s ) throws IOException , ClassNotFoundException {
-		byte [] data = Base64Coder.decode( s );
-	    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
-	    Object o  = ois.readObject();
-	    ois.close();
-	    return o;
+	protected Object objectFromString( String s ) {		
+		try {
+			byte [] data = Base64Coder.decode( s );
+		    ObjectInputStream ois;
+			ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
+			Object o  = ois.readObject();
+			ois.close();			   
+		    return o;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	protected class LoadDataTask extends AsyncTask<String, String, JSONObject> {
@@ -115,7 +123,7 @@ public abstract class BaseActivity extends FragmentActivity{
 					sharedPref.edit().putString(uniqueName, json.toString()).commit();
 				}
 			}else{
-				Toast.makeText(getApplicationContext(), "Error: Can't connect to Server!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.connectionerror), Toast.LENGTH_SHORT).show();
 				if(sharedPref.contains(uniqueName)){
 					try {
 						json = new JSONObject(sharedPref.getString(uniqueName, ""));
@@ -145,16 +153,11 @@ public abstract class BaseActivity extends FragmentActivity{
 	
 	protected ShoppingList getListFromJson(JSONObject json) {
 		try {
-			String message = json.getString("message");
-			if (message.equals("succes") && json.has("data")) {
+			if (getMessageFromJson(json).equals("succes") && json.has("data")) {
 				JSONArray dataArray = json.getJSONArray("data");
 				return  (ShoppingList) objectFromString(dataArray.getString(0));
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -239,13 +242,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	protected ArrayList<Item> getFavoriteItems(){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if(preferences.contains("favoriteItems")){
-			try {
-				return (ArrayList<Item>) objectFromString(preferences.getString("favoriteItems", ""));
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			return (ArrayList<Item>) objectFromString(preferences.getString("favoriteItems", ""));
 		}
 		return new ArrayList<Item>();
 	}
@@ -254,13 +251,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	protected ArrayList<GoListObject> getFavoriteItemsAsGoListObjects(){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if(preferences.contains("favoriteItems")){
-			try {
-				return (ArrayList<GoListObject>) objectFromString(preferences.getString("favoriteItems", ""));
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			return (ArrayList<GoListObject>) objectFromString(preferences.getString("favoriteItems", ""));
 		}
 		return new ArrayList<GoListObject>();
 	}
@@ -320,6 +311,15 @@ public abstract class BaseActivity extends FragmentActivity{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	protected String getMessageFromJson(JSONObject json){
+		try {
+			return json.getString("message");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return "error";
 	}
 
 }

@@ -71,10 +71,10 @@ public class ManageListActivity extends BaseActivity{
 		}
 		
 		if(list == null){
-			Toast.makeText(getApplicationContext(), "Failed to load list!", Toast.LENGTH_SHORT).show();			
+			Toast.makeText(getApplicationContext(), getString(R.string.failedtoloadlist), Toast.LENGTH_SHORT).show();			
 		}else{
 			runAfterRefresh();
-			Toast.makeText(getApplicationContext(), "List updated!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.listupdated), Toast.LENGTH_SHORT).show();
 		}
 		
 		finish();

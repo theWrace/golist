@@ -60,7 +60,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 						String infoText = getString(R.string.infoinvitationaccepted);
 						infoText = infoText.replace("username", LoginActivity.NAME);
 						uploadList(list, true, infoText);
-						Toast.makeText(getApplicationContext(), "Invitation accepted!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.invitationaccepted), Toast.LENGTH_SHORT).show();
 						
 						finish();										
 					}
@@ -92,7 +92,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 						String infoText = getString(R.string.infoinvitationnotaccepted);
 						infoText = infoText.replace("username", LoginActivity.NAME);
 						uploadList(list, true, infoText);
-						Toast.makeText(getApplicationContext(), "Invitation removed!", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.invitationremoved), Toast.LENGTH_SHORT).show();
 						
 						finish();		
 					}
@@ -121,7 +121,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 			}
 		}
 		
-		Toast.makeText(getApplicationContext(), "Error: Invitation does not exist anymore!", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), getString(R.string.errorinvitationnotexisting), Toast.LENGTH_SHORT).show();
 		finish();
 		return -1;
 	}
@@ -133,7 +133,7 @@ public class AnswerInvitationActivity extends BaseActivity{
 		}
 		
 		if(list == null){
-			Toast.makeText(getApplicationContext(), "Failed to load list!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), getString(R.string.failedtoloadlist), Toast.LENGTH_SHORT).show();
 			finish();
 			return;
 		}

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -100,7 +99,7 @@ public class CreateNewListActivity extends BaseActivity{
 						e.printStackTrace();
 					}					
 				}else{
-					Toast.makeText(getApplicationContext(), "Please insert a name!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.insertname), Toast.LENGTH_LONG).show();
 				}				
 			}
 		});
@@ -125,7 +124,7 @@ public class CreateNewListActivity extends BaseActivity{
 		if(firstTaskExcecution){
 			firstTaskExcecution = false;
 			try {
-				list.setID(Integer.parseInt(json.getString("message")));
+				list.setID(Integer.parseInt(getMessageFromJson(json)));
 				String users = "";
 				for(GoListObject user : list.getUser()){
 					users += user + ", ";
@@ -139,29 +138,23 @@ public class CreateNewListActivity extends BaseActivity{
 				}
 				
 				uploadList(list, true, infoText);
-			} catch (Exception e) {
+			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
-		}else{
-			try {
-				String message = json.getString("message");
-			
-				if(message.equals("successful")){
-					Tracker t = ((GoListApplication)getApplication()).getTracker();
-					t.send(new HitBuilders.EventBuilder()
-				    .setCategory("Liste")
-				    .setAction("erstellt")
-				    .setLabel("Name: " + list.getName()).build());
+		}else{		
+			if(getMessageFromJson(json).equals("successful")){
+				Tracker t = ((GoListApplication)getApplication()).getTracker();
+				t.send(new HitBuilders.EventBuilder()
+			    .setCategory("Liste")
+			    .setAction("erstellt")
+			    .setLabel("Name: " + list.getName()).build());
 					
-					Toast.makeText(getApplicationContext(), list.getName() + " created!", Toast.LENGTH_LONG).show();
-					finish();
-				}else{
-					buttonSave.setEnabled(true);
-					Toast.makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-					updateViews(true, buttonSave, buttonAddUser);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+				Toast.makeText(getApplicationContext(), list.getName() + getString(R.string.created), Toast.LENGTH_LONG).show();
+				finish();
+			}else{
+				buttonSave.setEnabled(true);
+				Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_LONG).show();
+				updateViews(true, buttonSave, buttonAddUser);
 			}
 		}		
 	}

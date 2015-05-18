@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -58,20 +57,18 @@ public class DeleteListActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		try {
-			if(json.getString("message").contains("succes")){
-				Tracker t = ((GoListApplication)getApplication()).getTracker();
-				t.send(new HitBuilders.EventBuilder()
-			    .setCategory("Liste")
-			    .setAction("gelöscht")
-			    .setLabel("Name nicht verfügbar").build());
-				Toast.makeText(getApplicationContext(), "List deleted!", Toast.LENGTH_LONG).show();
-			}else{
-				Toast.makeText(getApplicationContext(), "Failed to delete List: " + json.getString("message"), Toast.LENGTH_LONG).show();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		if(!getMessageFromJson(json).contains("succes")){
+			Toast.makeText(getApplicationContext(), getString(R.string.errordeletelistfailed), Toast.LENGTH_SHORT).show();
+			return;
 		}
+			
+		Tracker t = ((GoListApplication)getApplication()).getTracker();
+		t.send(new HitBuilders.EventBuilder()
+		.setCategory("Liste")
+		.setAction("gelöscht")
+		.setLabel("Name nicht verfügbar").build());
+		Toast.makeText(getApplicationContext(), getString(R.string.listdeleted), Toast.LENGTH_LONG).show();			
+		
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("listdeleted", true);
 		setResult(RESULT_OK,returnIntent);

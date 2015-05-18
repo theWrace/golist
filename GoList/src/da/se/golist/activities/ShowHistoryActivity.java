@@ -34,8 +34,7 @@ public class ShowHistoryActivity extends BaseActivity{
 	@Override
 	protected void postExcecute(JSONObject json) {
 		try {
-			String message = json.getString("message");
-			if(message.equals("history loaded")){
+			if(getMessageFromJson(json).equals("history loaded")){
 				ListView listView = (ListView) findViewById(R.id.listViewHistory);
 				listView.setVerticalScrollBarEnabled(false);
 				List<String> historyList = new ArrayList<String>();

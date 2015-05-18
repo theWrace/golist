@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -42,10 +41,10 @@ public class ChangePasswordActivity extends BaseActivity{
 						buttonChangePassword.setEnabled(false);
 						new LoadDataTask(new String[]{"password", "name", "newpassword"},new String[]{editTextPassword.getText().toString(), LoginActivity.NAME, editTextNewPassword.getText().toString()}, "changepassword.php").execute();
 					}else{
-						Toast.makeText(getApplicationContext(), "Error: Password too short!", Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.errorpasswordtooshort), Toast.LENGTH_LONG).show();
 					}
 				}else{
-					Toast.makeText(getApplicationContext(), "Error: Passwords do not match!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.errorpasswordsnomatch), Toast.LENGTH_LONG).show();
 				}				
 			}
 		});		
@@ -53,17 +52,14 @@ public class ChangePasswordActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		String message = "Error";
-		try {
-			message = json.getString("message");
-			if(message.equals("succes")){
-				getPreferences(MODE_PRIVATE).edit().putString("password", editTextNewPassword.getText().toString()).commit();
-				message = "Password changed";
-				finish();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		String message = getString(R.string.error);
+		
+		if(getMessageFromJson(json).equals("succes")){
+			getPreferences(MODE_PRIVATE).edit().putString("password", editTextNewPassword.getText().toString()).commit();
+			message = getString(R.string.passwordchanged);
+			finish();
 		}
+		
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 		editTextPassword.setText("");
 		editTextRepeatNewPassword.setText("");

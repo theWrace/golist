@@ -293,16 +293,16 @@ public class ListActivity extends ReadNFCActivity{
 		if(isAdmin){
 			menuListIcons.add(new Integer[]{R.drawable.menu_icon_list, R.drawable.menu_icon_history, R.drawable.menu_icon_settings, R.drawable.menu_icon_delete});
 			
-			menuListData.add(new String[]{"List", "History", getString(R.string.changename), getString(R.string.deletelist)});
-	        menuListData.add(new String[]{"Items", getString(R.string.importitems), getString(R.string.markitemsbought), getString(R.string.markitemsunbought),
+			menuListData.add(new String[]{getString(R.string.list), getString(R.string.history), getString(R.string.changename), getString(R.string.deletelist)});
+	        menuListData.add(new String[]{getString(R.string.items), getString(R.string.importitems), getString(R.string.markitemsbought), getString(R.string.markitemsunbought),
 	        		getString(R.string.deleteboughtitems), getString(R.string.deleteallitems)});
-	        menuListData.add(new String[]{"User", getString(R.string.inviteauser), getString(R.string.showuser)});	        
+	        menuListData.add(new String[]{getString(R.string.user), getString(R.string.inviteauser), getString(R.string.showuser)});	        
 		}else{
 			menuListIcons.add(new Integer[]{R.drawable.menu_icon_list, R.drawable.menu_icon_history, R.drawable.menu_icon_delete});
 			
-			menuListData.add(new String[]{"List", "History", "Leave List"});
-	        menuListData.add(new String[]{"Items", getString(R.string.importitems), getString(R.string.markitemsbought), getString(R.string.markitemsunbought)});
-	        menuListData.add(new String[]{"User", getString(R.string.inviteauser), getString(R.string.showuser)});
+			menuListData.add(new String[]{getString(R.string.list), getString(R.string.history), getString(R.string.leavelist)});
+	        menuListData.add(new String[]{getString(R.string.items), getString(R.string.importitems), getString(R.string.markitemsbought), getString(R.string.markitemsunbought)});
+	        menuListData.add(new String[]{getString(R.string.user), getString(R.string.inviteauser), getString(R.string.showuser)});
 		}
 		
 		menuListIcons.add(new Integer[]{R.drawable.menu_icon_items, R.drawable.menu_icon_import, R.drawable.menu_icon_bought, R.drawable.menu_icon_not_bought, R.drawable.menu_icon_delete, R.drawable.menu_icon_delete});
@@ -338,7 +338,7 @@ public class ListActivity extends ReadNFCActivity{
         
         String[] resultArray = result.split(";;");
         if(resultArray.length != 4){
-        	Toast.makeText(getApplicationContext(), "Error: Incorrect Data!", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getApplicationContext(), getString(R.string.errorincorrectdata), Toast.LENGTH_SHORT).show();
         	return;
         }
         

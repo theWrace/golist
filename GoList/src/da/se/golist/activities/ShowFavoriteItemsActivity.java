@@ -47,18 +47,18 @@ public class ShowFavoriteItemsActivity extends BaseActivity{
 		alertDialogBuilder
 			.setMessage(R.string.deletefavoriteitemquestion)
 			.setCancelable(false)
-			.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog,int id) {
 					removeFavoriteItem(item);
 					favoriteItemListAdapter.updateListObjects(getFavoriteItemsAsGoListObjects());
-					Toast.makeText(ShowFavoriteItemsActivity.this, "Item removed!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(ShowFavoriteItemsActivity.this, getString(R.string.itemremoved), Toast.LENGTH_SHORT).show();
 					if(getFavoriteItemsAsGoListObjects().size() == 0){
 						textViewEmpty.setVisibility(View.VISIBLE);
 					}
 				}
 			  })
-			.setNegativeButton("No",new DialogInterface.OnClickListener() {
+			.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog,int id) {								
 					dialog.cancel();

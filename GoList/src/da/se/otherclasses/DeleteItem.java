@@ -26,7 +26,6 @@ public class DeleteItem implements ManageListFunction, Serializable{
 		infoText = infoText.replace("username", LoginActivity.NAME);		
 		infoText = infoText.replace("itemname", item.getName());
 		list.removeItem(item);
-		list.setDescription(list.getItems().size() + " Items");
 		activity.uploadList(list, false, infoText);		
 	}
 

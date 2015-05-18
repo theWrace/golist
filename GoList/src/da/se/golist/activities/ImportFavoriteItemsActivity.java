@@ -47,7 +47,7 @@ public class ImportFavoriteItemsActivity extends BaseActivity{
 			list = getListFromJson(json);
 
 			if(list == null){
-				Toast.makeText(getApplicationContext(), "Error: Failed to load list!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), getString(R.string.failedtoloadlist), Toast.LENGTH_SHORT).show();
 				finish();
 				return;
 			}

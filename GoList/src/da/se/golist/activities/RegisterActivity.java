@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -45,10 +44,10 @@ public class RegisterActivity extends BaseActivity{
 					if(editTextPassword.getText().toString().length() > 3 && editTextName.getText().toString().length() > 3){
 						new LoadDataTask(new String[]{"password", "name"},new String[]{editTextPassword.getText().toString(), editTextName.getText().toString()}, "register.php").execute();
 					}else{
-						Toast.makeText(getApplicationContext(), "Error: Name or Password too short!", Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.errornameorpasswordtooshort), Toast.LENGTH_LONG).show();
 					}
 				}else{
-					Toast.makeText(getApplicationContext(), "Error: Passwords do not match!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.errorpasswordsnomatch), Toast.LENGTH_LONG).show();
 				}
 				
 			}
@@ -64,25 +63,20 @@ public class RegisterActivity extends BaseActivity{
 	
 	@Override
 	protected void postExcecute(JSONObject json) {
-		String message = "";
-		try {
-			message = json.getString("message");
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		if(message.equals("Registration successful!")){
+		if(getMessageFromJson(json).equals("Registration successful!")){
 			Tracker t = ((GoListApplication)getApplication()).getTracker();
 			t.send(new HitBuilders.EventBuilder()
 		    .setCategory("Account")
 		    .setAction("erstellt")
 		    .setLabel("Name: " + editTextName.getText().toString()).build());
 			
-			Toast.makeText(RegisterActivity.this, "Account created!", Toast.LENGTH_LONG).show();
+			Toast.makeText(RegisterActivity.this, getString(R.string.accountcreated), Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
+		
 		updateViews(true, editTextName, editTextPassword, editTextRepeatPassword, buttonRegister);
-		Toast.makeText(RegisterActivity.this, "Error: " + message, Toast.LENGTH_LONG).show();
+		Toast.makeText(RegisterActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
 	}
 
 }

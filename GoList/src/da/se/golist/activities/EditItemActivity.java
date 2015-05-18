@@ -68,7 +68,7 @@ public class EditItemActivity extends WriteNFCActivity{
 		
 		textViewTitle.setText(item.getName());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);
-		textViewLastEdit.setText("Last edited by " + item.getAuthor() + ", " + sdf.format(item.getLastEdit()));
+		textViewLastEdit.setText(getString(R.string.lasteditby) + item.getAuthor() + ", " + sdf.format(item.getLastEdit()));
 		editTextName.setText(item.getName());
 		editTextAmount.setText(item.getAmount());
 		editTextDescription.setText(item.getDescription());

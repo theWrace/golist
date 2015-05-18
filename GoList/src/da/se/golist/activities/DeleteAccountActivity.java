@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -47,7 +46,7 @@ public class DeleteAccountActivity extends BaseActivity{
 				if(editTextPassword.getText().toString().length() > 3){
 					new LoadDataTask(new String[]{"name", "password"},new String[]{LoginActivity.NAME, editTextPassword.getText().toString()}, "deleteuser.php").execute();
 				}else{
-					Toast.makeText(getApplicationContext(), "Error: Please enter your Password!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), getString(R.string.errorenterpassword), Toast.LENGTH_LONG).show();
 				}				
 			}
 		});		
@@ -55,26 +54,23 @@ public class DeleteAccountActivity extends BaseActivity{
 
 	@Override
 	protected void postExcecute(JSONObject json) {
-		String message = "Error";
-		try {
-			message = json.getString("message");
-			if(message.equals("succes")){
-				message = "Account deleted";
-				Intent returnIntent = new Intent();
-				returnIntent.putExtra("accdeleted", true);
-				setResult(RESULT_OK,returnIntent);
-				
-				Tracker t = ((GoListApplication)getApplication()).getTracker();
-				t.send(new HitBuilders.EventBuilder()
-			    .setCategory("Account")
-			    .setAction("gelöscht")
-			    .setLabel("Name: " + LoginActivity.NAME).build());
-				
-				finish();
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		String message = getString(R.string.error);
+		
+		if(getMessageFromJson(json).equals("succes")){
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra("accdeleted", true);
+			setResult(RESULT_OK,returnIntent);
+			
+			Tracker t = ((GoListApplication)getApplication()).getTracker();
+			t.send(new HitBuilders.EventBuilder()
+		    .setCategory("Account")
+		    .setAction("gelöscht")
+		    .setLabel("Name: " + LoginActivity.NAME).build());
+
+			message =  getString(R.string.accountdeleted);
+			finish();
 		}
+		
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 		editTextPassword.setText("");
 		buttonDeleteAccount.setEnabled(true);

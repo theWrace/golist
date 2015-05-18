@@ -43,7 +43,7 @@ public class InviteUserActivity extends BaseActivity{
 		
 		TextView textViewTitleList = (TextView) findViewById(R.id.textViewTitle);
 		setTypeface("deluxe", textViewTitleList);
-		textViewTitleList.setText("Invite User");
+		textViewTitleList.setText(getString(R.string.inviteuser));
 		
 		list = (ShoppingList) getIntent().getExtras().get("list");
 		
@@ -76,7 +76,7 @@ public class InviteUserActivity extends BaseActivity{
 							infoText = infoText.replace("username2", user.get(position).getName());
 							infoText = infoText.replace("listname", list.getName());							
 							uploadList(list, true, infoText);
-							Toast.makeText(getApplicationContext(), user.get(position).getName() + " invited!", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), user.get(position).getName() + getString(R.string._invited), Toast.LENGTH_SHORT).show();
 						}
 					}, list.getID());
 							
@@ -118,16 +118,12 @@ public class InviteUserActivity extends BaseActivity{
 	@Override
 	protected void postExcecute(JSONObject json) {
 		if(itemclicked){
-			try {
-				if(json.getString("message").equals("successful")){
-					Toast.makeText(getApplicationContext(), "List updated!", Toast.LENGTH_LONG).show();		
-				}else{
-					Toast.makeText(getApplicationContext(), "Failed to update List: " + json.getString("message"), Toast.LENGTH_LONG).show();
-				}
-			} catch (JSONException e) {
-				Toast.makeText(getApplicationContext(), "Failed to update List: " + e.getMessage(), Toast.LENGTH_LONG).show();
-				e.printStackTrace();
+			String message = getString(R.string.failedtoupdatelist);
+			if(getMessageFromJson(json).equals("successful")){
+				Toast.makeText(getApplicationContext(), getString(R.string.listupdated), Toast.LENGTH_LONG).show();		
 			}
+			
+			Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}

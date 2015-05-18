@@ -1,6 +1,5 @@
 package da.se.golist.activities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -100,7 +99,8 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ListView mDrawerList = (ListView) findViewById(R.id.navList);
        
-        final String[] drawerTitles = {"Favorite Items", "Change Password", "Delete Account", "Logout"};
+        final String[] drawerTitles = {getString(R.string.favoriteitems), getString(R.string.changepassword), 
+        		getString(R.string.deleteaccount), getString(R.string.logout)};
     	final int[] drawerIcons = {R.drawable.menu_icon_favorite, R.drawable.menu_icon_settings, 
     			R.drawable.menu_icon_delete, R.drawable.menu_icon_logout};
     	
@@ -208,34 +208,38 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 	 * Alle geladenen Listen auslesen und anzeigen
 	 */
 	@Override
-	protected void postExcecute(JSONObject json) {		
+	protected void postExcecute(JSONObject json) {
+		//Liste mit Einkaufslisten leeren
+		shoppingLists.clear();
+		
+		//Einkaufslisten laden
+		loadShoppingListArrayFromJson(json, "data");
+		
+		//Einladungen laden
+		loadShoppingListArrayFromJson(json, "datainvitations");
+		
+		//Anzeige aktualisieren
+		listAdapter.updateListObjects(shoppingLists);
+		updateVisibility();
+		
+		isLoading = false;
+	}
+	
+	private void loadShoppingListArrayFromJson(JSONObject json, String name){		
 		try {
-			shoppingLists.clear();
-			
-			JSONArray dataArray = json.getJSONArray("data");
-			for (int i = 0; i < dataArray.length(); i++) {
-				GoListObject list = (GoListObject) objectFromString(dataArray.getString(i));
-				list.setDescription(((ShoppingList)list).getItems().size() + " Items");
+			JSONArray jsonArray = json.getJSONArray(name);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				GoListObject list = (GoListObject) objectFromString(jsonArray.getString(i));
+				if(name.equals("data")){
+					list.setDescription(((ShoppingList)list).getItems().size() + " Items");
+				}else{
+					list.setDescription("Invitation");
+				}
 				shoppingLists.add(list);
 			}
-			
-			JSONArray dataArrayInvitations = json.getJSONArray("datainvitations");				
-			for (int i = 0; i < dataArrayInvitations.length(); i++) {
-				shoppingLists.add((ShoppingList) objectFromString(dataArrayInvitations.getString(i)));
-				shoppingLists.get(shoppingLists.size()-1).setDescription("Invitation");
-			}
-			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-		listAdapter.updateListObjects(shoppingLists);
-		updateVisibility();
-		isLoading = false;
 	}
 	
 	@Override
