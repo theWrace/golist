@@ -32,10 +32,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 		editTextName = (EditText) loginActivity.findViewById(R.id.editTextName);
 		editTextPassword = (EditText) loginActivity.findViewById(R.id.editTextPassword);
 		
-		if(solo.waitForActivity(MyListsActivity.class, 1000)){
-			clearLoginData();
-			solo.goBackToActivity("LoginActivity");
-		}
+		loginActivity.resetSharedPreferences();		
 	}
 	
 	public void testPreconditions(){
@@ -45,7 +42,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 	}
 	
 	public void testOpenRegisterActivity(){
-		solo.clickOnButton("Create New Account");
+		solo.clickOnButton(solo.getString(R.string.newacc));
 		solo.assertCurrentActivity("Register Activity not started!", RegisterActivity.class);
 		solo.goBackToActivity("LoginActivity");
 		solo.assertCurrentActivity("Failed to go back to LoginActivity!", LoginActivity.class);
@@ -55,7 +52,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 		clearFields();
 		solo.enterText(editTextName, "name");
 		solo.enterText(editTextPassword, "password");
-		solo.clickOnButton("Login");
+		solo.clickOnButton(solo.getString(R.string.login));
 		assertTrue(solo.waitForActivity(MyListsActivity.class, 2000));
 		clearLoginData();
 		solo.goBackToActivity("LoginActivity");
@@ -66,15 +63,15 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
 		clearFields();
 		solo.enterText(editTextName, "name");
 		solo.enterText(editTextPassword, "wrongpassword");
-		solo.clickOnButton("Login");
-		assertTrue(solo.waitForText("Error: Wrong Password!"));
+		solo.clickOnButton(solo.getString(R.string.login));
+		assertTrue(solo.waitForText(solo.getString(R.string.errorloginfailed)));
 		clearFields();
 	}
 	
 	public void testFieldEmpty(){
 		clearFields();
-		solo.clickOnButton("Login");
-		assertTrue(solo.waitForText("Please enter a name and a password!"));
+		solo.clickOnButton(solo.getString(R.string.login));
+		assertTrue(solo.waitForText(solo.getString(R.string.enternamepassword)));
 	}
 	
 	private void clearLoginData(){

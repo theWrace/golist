@@ -36,24 +36,24 @@ public class RegisterActivityTest extends ActivityInstrumentationTestCase2<Regis
 		solo.enterText(editTextName, "name");
 		solo.enterText(editTextPassword, "password");
 		solo.enterText(editTextRepeatPassword, "passw");
-		solo.clickOnButton("Create Account");
-		assertTrue(solo.waitForText("Error: Passwords do not match!"));
+		solo.clickOnButton(solo.getString(R.string.register));
+		assertTrue(solo.waitForText(solo.getString(R.string.errorpasswordsnomatch)));
 		
 		clearFields();
 		
 		solo.enterText(editTextName, "na");
 		solo.enterText(editTextPassword, "password");
 		solo.enterText(editTextRepeatPassword, "password");
-		solo.clickOnButton("Create Account");
-		assertTrue(solo.waitForText("Error: Name or Password too short!"));
+		solo.clickOnButton(solo.getString(R.string.register));
+		assertTrue(solo.waitForText(solo.getString(R.string.errornameorpasswordtooshort)));
 		
 		clearFields();
 		
 		solo.enterText(editTextName, "name");
 		solo.enterText(editTextPassword, "password");
 		solo.enterText(editTextRepeatPassword, "password");
-		solo.clickOnButton("Create Account");
-		assertTrue(solo.waitForText("Error: A user with this name already exists!"));
+		solo.clickOnButton(solo.getString(R.string.register));
+		assertTrue(solo.waitForText(solo.getString(R.string.error)));
 	}
 	
 	private void clearFields(){

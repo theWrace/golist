@@ -56,6 +56,16 @@ public class LoginActivity extends BaseActivity{
 		showLoginView();
 	}	
 	
+	/**
+	 * wird zum Testen benötigt
+	 */
+	public void resetSharedPreferences(){
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		prefs.edit().remove("name").commit();
+		prefs.edit().remove("password").commit();
+		prefs.edit().putBoolean("firstStart", false).commit();
+	}
+	
 	private void startMyListsActivity(){
 		Tracker t = ((GoListApplication)getApplication()).getTracker();
 		t.send(new HitBuilders.EventBuilder()
