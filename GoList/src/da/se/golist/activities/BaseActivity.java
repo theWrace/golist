@@ -48,15 +48,25 @@ public abstract class BaseActivity extends FragmentActivity{
 	
 	protected abstract void preExcecute();
 	
-	/** Write the list to a Base64 string. */
-	protected String objectToString( Serializable o ) throws IOException {
+	/**
+	 * Macht ein serialisierbares Objekt zu einem String
+	 * @param o
+	 * @return
+	 * @throws IOException
+	 */
+	protected String objectToString(Serializable o) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream( baos );
-        oos.writeObject( o );
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(o);
         oos.close();
-        return new String( Base64Coder.encode( baos.toByteArray() ) );
+        return new String(Base64Coder.encode(baos.toByteArray()));
     }
 	
+	/**
+	 * Typeface für mehrere Views setzen
+	 * @param typeface
+	 * @param views
+	 */
 	protected void setTypeface(String typeface, View... views){
 		Typeface tf = Typeface.createFromAsset(this.getAssets(), "fonts/" + typeface + ".ttf");
 		for(View view : views){
@@ -70,12 +80,16 @@ public abstract class BaseActivity extends FragmentActivity{
 		}
 	}
 	
-	/** Read the list from Base64 string. */
-	protected Object objectFromString( String s ) {		
+	/**
+	 * Liest ein Object aus einem String
+	 * @param s
+	 * @return
+	 */
+	protected Object objectFromString(String s) {		
 		try {
-			byte [] data = Base64Coder.decode( s );
+			byte [] data = Base64Coder.decode(s);
 		    ObjectInputStream ois;
-			ois = new ObjectInputStream(new ByteArrayInputStream(  data ) );
+			ois = new ObjectInputStream(new ByteArrayInputStream(data));
 			Object o  = ois.readObject();
 			ois.close();			   
 		    return o;
@@ -142,24 +156,32 @@ public abstract class BaseActivity extends FragmentActivity{
 		}
 	}
 
+	/**
+	 * Prüft ob ein Nutzer Administrator einer Liste ist
+	 * @param list
+	 * @param name
+	 * @return
+	 */
 	protected boolean isAdmin(ShoppingList list, String name){
 		for(String admin : list.getAdmins()){
-			if(admin.equalsIgnoreCase(name)){
+			if(admin.equals(name)){
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	/**
+	 * Lädt eine ShoppingList aus einem JSONObject
+	 * @param json
+	 * @return
+	 */
 	protected ShoppingList getListFromJson(JSONObject json) {
-		try {
-			if (getMessageFromJson(json).equals("succes") && json.has("data")) {
-				JSONArray dataArray = json.getJSONArray("data");
-				return  (ShoppingList) objectFromString(dataArray.getString(0));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		if (getMessageFromJson(json).equals("succes") && json.has("data")) {
+			ArrayList<String> dataArray = getStringArrayListFromJson(json, "data");
+			return  (ShoppingList) objectFromString(dataArray.get(0));
 		}
+		
 		return null;
 	}
 	
@@ -235,7 +257,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	}
 	
 	/**
-	 * Liest Favorite Items aus Shared Preferences
+	 * Liest Favoriten aus Shared Preferences
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -247,6 +269,10 @@ public abstract class BaseActivity extends FragmentActivity{
 		return new ArrayList<Item>();
 	}
 	
+	/**
+	 * Liest Favoriten als GoListObjects aus Shared Preferences
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	protected ArrayList<GoListObject> getFavoriteItemsAsGoListObjects(){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -257,7 +283,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	}
 	
 	/**
-	 * Überorüft ob Item in Favorite Items enthalten
+	 * Überprüft ob ein Item ein Favorit ist
 	 * @param item
 	 * @return
 	 */
@@ -271,8 +297,8 @@ public abstract class BaseActivity extends FragmentActivity{
 		return false;
 	}
 	
-	/*
-	 * Fügt neues Favorite Item hinzu
+	/** 
+	 * Fügt neuen Favorit hinzu
 	 */
 	protected void addFavoriteItem(Item item){
 		ArrayList<Item> favoriteItems = getFavoriteItems();
@@ -313,13 +339,39 @@ public abstract class BaseActivity extends FragmentActivity{
 		}
 	}
 	
+	/**
+	 * Liest den String "message" aus einem JSONObject
+	 * @param json
+	 * @return
+	 */
 	protected String getMessageFromJson(JSONObject json){
 		try {
 			return json.getString("message");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return "error";
+		return getString(R.string.error);
+	}
+	
+	/**
+	 * Liest eine ArrayList mit Strings aus einem JSONObject
+	 * @param json
+	 * @param arrayName
+	 * @return
+	 */
+	protected ArrayList<String> getStringArrayListFromJson(JSONObject json, String arrayName){
+		ArrayList<String> stringArrayList = new ArrayList<String>();
+		
+		try {
+			JSONArray jsonArray = json.getJSONArray(arrayName);
+			for(int i = 0; i < jsonArray.length(); i++){
+				stringArrayList.add(jsonArray.getString(i));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return stringArrayList;
 	}
 
 }

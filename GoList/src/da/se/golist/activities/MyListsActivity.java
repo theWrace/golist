@@ -2,8 +2,6 @@ package da.se.golist.activities;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -63,7 +61,7 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 			 
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view,	int position, long id) {
-				if(shoppingLists.get(position).getDescription().equals("Invitation")){
+				if(shoppingLists.get(position).getDescription().equals(getString(R.string.invitation))){
 					Intent intent = new Intent(MyListsActivity.this, AnswerInvitationActivity.class);
 					intent.putExtra("id", ((ShoppingList) shoppingLists.get(position)).getID());
 					startActivityForResult(intent, CODE_INVITATION_ANSWERED);
@@ -125,7 +123,6 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 					break;				
 				case 3:	//Logout
 					logout();
-					break;
 				}
 				mDrawerLayout.closeDrawer(Gravity.LEFT);	
 			}
@@ -225,26 +222,20 @@ public class MyListsActivity<AnalyticsSampleApp> extends BaseActivity{
 		isLoading = false;
 	}
 	
-	private void loadShoppingListArrayFromJson(JSONObject json, String name){		
-		try {
-			JSONArray jsonArray = json.getJSONArray(name);
-			for (int i = 0; i < jsonArray.length(); i++) {
-				GoListObject list = (GoListObject) objectFromString(jsonArray.getString(i));
-				if(name.equals("data")){
-					list.setDescription(((ShoppingList)list).getItems().size() + " Items");
-				}else{
-					list.setDescription("Invitation");
-				}
-				shoppingLists.add(list);
+	private void loadShoppingListArrayFromJson(JSONObject json, String name){
+		for (String loadedListString : getStringArrayListFromJson(json, name)) {
+			GoListObject list = (GoListObject) objectFromString(loadedListString);
+			if(name.equals("data")){
+				list.setDescription(((ShoppingList)list).getItems().size() + " " + getString(R.string.items));
+			}else{
+				list.setDescription(getString(R.string.invitation));
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+			shoppingLists.add(list);
 		}
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int arg1, Intent data) {
-		//Wird nur aufgerufen wenn Account gelöscht
 		if(requestCode == CODE_ACC_DELETED && data != null && data.getBooleanExtra("accdeleted", false)){
 			logout();
 			return;

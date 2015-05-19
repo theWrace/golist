@@ -2,8 +2,6 @@ package da.se.golist.activities;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -27,7 +25,7 @@ import da.se.interfaces.AfterRefresh;
 
 public class InviteUserActivity extends BaseActivity{
 	
-	private ArrayList<GoListObject> user = new ArrayList<GoListObject>();
+	private ArrayList<GoListObject> userSearchResults = new ArrayList<GoListObject>();
 	private ArrayList<GoListObject> userInList = new ArrayList<GoListObject>();
 	private UserListAdapter listAdapter;
 	private boolean isLoading = false, itemclicked = false;
@@ -62,7 +60,7 @@ public class InviteUserActivity extends BaseActivity{
 			public void onItemClick(AdapterView<?> parent, final View view,	final int position, long id) {
 				if(list == null){	//Liste wird gerade erstellt und existiert noch nicht
 					Intent returnIntent = new Intent();
-					returnIntent.putExtra("user",user.get(position).getName());
+					returnIntent.putExtra("user",userSearchResults.get(position).getName());
 					setResult(RESULT_OK,returnIntent);
 					finish();
 				}else{
@@ -70,13 +68,13 @@ public class InviteUserActivity extends BaseActivity{
 						
 						@Override
 						public void applyChanges() {
-							list.inviteUser(new User(user.get(position).getName()));
+							list.inviteUser(new User(userSearchResults.get(position).getName()));
 							itemclicked = true;
 							String infoText = getString(R.string.infouserinvited).replace("username1", LoginActivity.NAME);
-							infoText = infoText.replace("username2", user.get(position).getName());
+							infoText = infoText.replace("username2", userSearchResults.get(position).getName());
 							infoText = infoText.replace("listname", list.getName());							
 							uploadList(list, true, infoText);
-							Toast.makeText(getApplicationContext(), user.get(position).getName() + " " + getString(R.string.invited), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), userSearchResults.get(position).getName() + " " + getString(R.string.invited), Toast.LENGTH_SHORT).show();
 						}
 					}, list.getID());
 							
@@ -84,7 +82,7 @@ public class InviteUserActivity extends BaseActivity{
 			}
 
 		});
-		listAdapter = new UserListAdapter(this, user);
+		listAdapter = new UserListAdapter(this, userSearchResults);
 		myListsView.setAdapter(listAdapter);
 		
 		searchText.addTextChangedListener(new TextWatcher() {
@@ -136,25 +134,20 @@ public class InviteUserActivity extends BaseActivity{
 			return;
 		}
 		
-		JSONArray userArray;
-		try {
-			userArray = json.getJSONArray("users");
-			
-			user.clear();
-			for (int i = 0; i < userArray.length(); i++) {
-				boolean contains = false;
-				for(GoListObject user : userInList){
-					if(user.getName().equalsIgnoreCase(userArray.getString(i))){
-						contains = true;
-						break;
-					}
-				}
-				if(!contains){
-					user.add(new User(userArray.getString(i)));
+		
+		userSearchResults.clear();
+		
+		for (String userNameSearchResult : getStringArrayListFromJson(json, "users")) {
+			boolean contains = false;
+			for(GoListObject user : userInList){
+				if(user.getName().equals(userNameSearchResult)){
+					contains = true;
+					break;
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+			if(!contains){
+				userSearchResults.add(new User(userNameSearchResult));
+			}
 		}
 		
 		listAdapter.notifyDataSetChanged();

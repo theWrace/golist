@@ -120,6 +120,7 @@
     <string name="accountcreated">Account erstellt!</string>
     <string name="itemremoved">Artikel entfernt!</string>
     <string name="saveditemontag">Artikel auf NFC Tag gespeichert!</string>
+    <string name="invitation">Einladung</string>
     
     <string-array name="category_icons">
         <item>@drawable/cheese</item>

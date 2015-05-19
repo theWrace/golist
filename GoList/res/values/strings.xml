@@ -120,6 +120,7 @@
     <string name="accountcreated">Account created!</string>
     <string name="itemremoved">Item removed!</string>
     <string name="saveditemontag">Saved Item on Tag!</string>
+    <string name="invitation">Invitation</string>
     
     <string-array name="category_icons">
         <item>@drawable/cheese</item>
